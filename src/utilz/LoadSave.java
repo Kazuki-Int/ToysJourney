@@ -58,8 +58,8 @@ public class LoadSave {
 	
 	
 	public static int[][] GetTileData() {
-		BufferedImage img = GetSpriteAtlas(TILE_DATA);
-		int[][] tileData = new int[img.getHeight()][img.getWidth()];
+//		BufferedImage img = GetSpriteAtlas(TILE_DATA);
+		int[][] tileData = new int[Game.MAP_HEIGHT][Game.MAP_WIDTH];
 		try {
 			
 			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
@@ -87,14 +87,6 @@ public class LoadSave {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-//		for (int j = 0; j < img.getHeight(); j++)
-//			for (int i = 0; i < img.getWidth(); j++) {
-//				Color color = new Color(img.getRGB(j, i));
-//				int value = color.getRed();
-//				if (value >= 48)
-//					value = 0;
-//				tileData[j][i] = value;
-//			}
 		
 		return tileData;
 	}
