@@ -4,10 +4,13 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 
 import entites.House;
 import entites.Player;
 import main.Game;
+import object.ObjectManager;
 import tiles.TileManager;
 import ui.PauseOverlay;
 
@@ -15,6 +18,7 @@ public class Playing extends State implements Statemethods {
 	private Player player;
 	private TileManager tileManager;
 	private House house;
+	private ObjectManager objectManager;
 	
 	private PauseOverlay pauseOverlay;
 	
@@ -29,7 +33,8 @@ public class Playing extends State implements Statemethods {
 	private void initClasses() {
 		tileManager = new TileManager(game);
 		house = new House(new Point(2800,1856+35));
-		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)((Game.PLAYER_WIDTH-5)*Game.SCALE), (int)((Game.PLAYER_HEIGHT)*Game.SCALE));
+		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)((Game.PLAYER_WIDTH-5)*Game.SCALE), (int)((Game.PLAYER_HEIGHT)*Game.SCALE), this);
+		objectManager = new ObjectManager(this);
 		player.loadLvlData(tileManager.getCurrentTile().getTileData());
 		pauseOverlay = new PauseOverlay(this);
 		
@@ -40,11 +45,15 @@ public class Playing extends State implements Statemethods {
 		if (!paused) {
 			tileManager.update();
 			player.update();
+			objectManager.update();
 		} else {
 			pauseOverlay.update();
 		}
+		
+		
 		tileManager.setCameravalues(player.getCameraX(), player.getCameraY());
 		house.setCameraValues(player.getCameraX(), player.getCameraY());
+		objectManager.setCameraValues(player.getCameraX(), player.getCameraY());
 
 	}
 
@@ -52,6 +61,7 @@ public class Playing extends State implements Statemethods {
 	public void draw(Graphics g) {
 		tileManager.draw(g);
 		house.render(g);
+		objectManager.draw(g);
 		player.render(g);		
 		if (paused)
 			pauseOverlay.draw(g);
@@ -76,6 +86,18 @@ public class Playing extends State implements Statemethods {
 			player.setDown(true);
 			break;
 		case KeyEvent.VK_D:
+			player.setRight(true);
+			break;
+		case KeyEvent.VK_UP:
+			player.setUp(true);
+			break;
+		case KeyEvent.VK_LEFT:
+			player.setLeft(true);
+			break;
+		case KeyEvent.VK_DOWN:
+			player.setDown(true);
+			break;
+		case KeyEvent.VK_RIGHT:
 			player.setRight(true);
 			break;
 		case KeyEvent.VK_K:
@@ -103,6 +125,22 @@ public class Playing extends State implements Statemethods {
 			player.setDown(false);
 			break;
 		case KeyEvent.VK_D:
+			player.setMoving(false);
+			player.setRight(false);
+			break;
+		case KeyEvent.VK_UP:
+			player.setMoving(false);
+			player.setUp(false);			
+			break;
+		case KeyEvent.VK_LEFT:
+			player.setMoving(false);
+			player.setLeft(false);
+			break;
+		case KeyEvent.VK_DOWN:
+			player.setMoving(false);
+			player.setDown(false);
+			break;
+		case KeyEvent.VK_RIGHT:
 			player.setMoving(false);
 			player.setRight(false);
 			break;
@@ -149,6 +187,11 @@ public class Playing extends State implements Statemethods {
 	
 	public Player getPlayer() {
 		return player;
+	}
+
+	public void checkPotionTouched(Rectangle2D.Float hitbox) {
+		objectManager.checkObjectTouched(hitbox);
+		
 	}
 
 }

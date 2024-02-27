@@ -11,6 +11,7 @@ import java.lang.runtime.TemplateRuntime;
 
 import javax.imageio.ImageIO;
 
+import gamestates.Playing;
 import main.Game;
 import tiles.TileManager;
 import utilz.LoadSave;
@@ -33,11 +34,16 @@ public class Player extends Entity {
 	private float daigonalplayerSpeed = (float)(1.0f * Game.SCALE / Math.sqrt(2));
 	
 	private int[][] lvlData;
+	
+	private Playing playing;
+	
+	public int hasKey;
 
 
 		
-	public Player(float x, float y, int width, int height) {
+	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
+		this.playing = playing;
 		loadAnimations();
 		initHitbox(x, y, width, height);
 
@@ -45,10 +51,18 @@ public class Player extends Entity {
 
 	public void update() {
 		updatePos();
+		if (moving)
+			checkPotionTouched();
+		
+		
 		updateAnimationsTick();
 		setAnimation();
 	}
 	
+	private void checkPotionTouched() {
+		playing.checkPotionTouched(hitbox);
+	}
+
 	public void render(Graphics g) {
 		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x), (int) (hitbox.y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
 		drawhitbox(g);
@@ -181,7 +195,7 @@ public class Player extends Entity {
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, lvlData)) {
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-			System.out.println(cameraX + " : " + cameraY);
+//			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}
@@ -247,5 +261,21 @@ public class Player extends Entity {
 	
 	public float getCameraY() {
 		return cameraY;
+	}
+
+	public void changHealth(int redPotionValue) {
+		System.out.println("Heal!");
+		
+	}
+
+	public void changPower(int bluePotionValue) {
+		System.out.println("Power!!!");
+		
+	}
+
+	public void pickKey() {
+		System.out.println("Pick a key!");
+		hasKey++;
+		
 	}
 }

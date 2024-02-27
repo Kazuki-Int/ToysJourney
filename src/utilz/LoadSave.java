@@ -32,6 +32,9 @@ public class LoadSave {
 	public static final String VOLUME_BUTTONS = "buttons/volume_buttons.png";
 	
 	public static final String HOUSE = "house.png";
+	
+	public static final String POTION_ATLAS = "objects/potions_sprites.png";
+	public static final String KEY_1_ATLAS = "objects/Key_1.png";
  	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

@@ -1,77 +1,40 @@
- //package utilz;
-
-//public class Constants {
-//	
-//	public static class Directions {
-//		public static final int LEFT = 0;
-//		public static final int DOWN = 1;
-//		public static final int RIGHT = 2;
-//		public static final int UP = 3;
-//	}
-	
-	// everything here will revolve around the player. 
-//	public static class PlayerConstants {
-		// value of index in each animations.
-//		public static final int IDLE_FRONT = 0;
-//		public static final int IDLE_LEFT = 1;
-//		public static final int IDLE_RIGHT = 2;
-//		public static final int IDLE_BACK = 3;
-//		public static final int RUN_FRONT = 4;
-//		public static final int RUN_LEFT = 5;
-//		public static final int RUN_RIGHT = 6;
-//		public static final int RUN_BACK = 7;
-//		public static final int ATK_FRONT = 8;
-//		public static final int ATK_LEFT = 9;
-//		public static final int ATK_RIGHT = 10;
-//		public static final int ATK_BACK = 11;
-//		public static final int DEAD_FRONT = 12;
-//		public static final int DEAD_LEFT = 13;
-//		public static final int DEAD_RIGHT = 14;
-//		public static final int DEAD_BACK = 15;
-//		public static final int DEAD = 16;
-		
-//		public static final int IDLE_FRONT = 0;
-//		public static final int IDLE_RIGHT = 1;
-//		public static final int IDLE_LEFT = 2;
-//		public static final int IDLE_BACK = 3;
-//		public static final int RUN_FRONT = 4;
-//		public static final int RUN_RIGHT = 5;
-//		public static final int RUN_LEFT = 6;
-//		public static final int RUN_BACK = 7;
-//		public static final int ATK_LEFT = 8;
-//		public static final int ATK_RIGHT = 9;
-//		public static int GetSpriteAmount(int player_action) {
-//
-//			switch(player_action) {
-//			case RUN_FRONT:
-//			case RUN_BACK:
-//			case RUN_RIGHT:
-//			case RUN_LEFT:
-//				return 6;
-//			case IDLE_BACK:
-//			case IDLE_FRONT:
-//			case IDLE_RIGHT:
-//			case IDLE_LEFT:
-//				return 12;
-//			case ATK_BACK:
-//			case ATK_FRONT:
-//			case ATK_RIGHT:
-//			case ATK_LEFT:
-//				return 7;
-//			default:
-//				return 4;
-//			}
-//		}
-//		
-//	}
-//
-//}
-
 package utilz;
 
 import main.Game;
 
 public class Constants {
+	
+	//FILM
+	public static final int ANI_SPEED = 25;
+	
+	// FILM: only potion
+	public static class ObjectConstants {
+		public static final int RED_POTION = 0;
+		public static final int BLUE_POTION = 1;
+		public static final int RED_POTION_VALUE = 15;
+		public static final int BLUE_POTION_VALUE = 10;	
+		public static final int POTION_WIDTH_DEFAULT = 12;
+		public static final int POTION_HEIGHT_DEFAULT = 16;
+		public static final int POTION_WIDTH = (int) (Game.SCALE * POTION_WIDTH_DEFAULT);
+		public static final int POTION_HEIGHT = (int) (Game.SCALE * POTION_HEIGHT_DEFAULT);
+		
+		public static final int KEY_1 = 3;
+		public static final int KEY_WIDTH_DEFAULT = (int)(50 * 0.76);
+		public static final int KEY_HEIGHT_DEFAULT = (int)(50 * 0.76);
+		public static final int KEY_WIDTH = (int) (Game.SCALE * KEY_WIDTH_DEFAULT);
+		public static final int KEY_HEIGHT = (int) (Game.SCALE * KEY_HEIGHT_DEFAULT);
+		
+		public static final int GetSpriteAmount(int object_type) {
+			switch (object_type) {
+			case RED_POTION, BLUE_POTION:
+				return 7;
+			case KEY_1:
+				return 8;
+			}
+			
+			return 1;
+		}
+	}
 	
 	public static class EnemyConstants {
 		public static final int CRABBY = 0;
@@ -114,8 +77,8 @@ public class Constants {
 	
 	public static class UI {
 		public static class Buttons {
-			public static final int B_WIDTH_DEFAULT = 140;
-			public static final int B_HEIGHT_DEFAULT = 56;
+			public static final int B_WIDTH_DEFAULT = 109; //140
+			public static final int B_HEIGHT_DEFAULT = 59; //56
 			public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * 2);
 			public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * 2); //112
 		}
