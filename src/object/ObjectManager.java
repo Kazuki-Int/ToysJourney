@@ -141,6 +141,8 @@ public class ObjectManager {
 					p.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					p.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
 					g.drawImage(potionImgs[type][p.getAniIndex()], screenX, screenY, POTION_WIDTH, POTION_HEIGHT, null);
+					p.hitbox.x = screenX;
+					p.hitbox.y = screenY;
 					g.setColor(Color.pink);
 					g.drawRect((int) (screenX), (int) (screenY), (int) p.hitbox.width, (int) p.hitbox.height);
 //					System.out.println(cameraX + " : " + cameraY);
