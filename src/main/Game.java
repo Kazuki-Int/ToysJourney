@@ -26,12 +26,12 @@ public class Game implements Runnable {
 	public final static int SCREEN_WIDTH = TILES_SIZE * TILES_IN_WIDTH; //1280
 	public final static int SCREEN_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT; //720
 
-	public final static int MAP_WIDTH = 64;
-	public final static int MAP_HEIGHT = 36;
+	public final static int MAP_WIDTH = 40;
+	public final static int MAP_HEIGHT = 40;
 	
-	public final static int PLAYER_SIZE = 50;
-	public final static int PLAYER_WIDTH = 26;
-	public final static int PLAYER_HEIGHT = 41;
+	public final static int PLAYER_SIZE = (int)(50 * 0.76);
+	public final static int PLAYER_WIDTH = (int)(31 * 0.76);
+	public final static int PLAYER_HEIGHT = (int)(42 * 0.76);
 	public final static int PLAYER_HITBOX_WIDTH = 0;
 	public final static int PLAYER_HITBOX_HEIGHT = 0;
 	
@@ -125,7 +125,7 @@ public class Game implements Runnable {
 
 			if (System.currentTimeMillis() - lastCheck >= 1000) {
 				lastCheck = System.currentTimeMillis();
-				System.out.println("FPS: " + frames + " | UPS: " + updates);
+				//System.out.println("FPS: " + frames + " | UPS: " + updates);
 				frames = 0;
 				updates = 0;
 			}

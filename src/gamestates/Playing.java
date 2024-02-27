@@ -1,9 +1,11 @@
 package gamestates;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import entites.House;
 import entites.Player;
 import main.Game;
 import tiles.TileManager;
@@ -12,12 +14,12 @@ import ui.PauseOverlay;
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private TileManager tileManager;
+	private House house;
 	
 	private PauseOverlay pauseOverlay;
 	
 	private boolean paused = false;
 	 
-	private float cameraX, cameraY;
 	
 	public Playing(Game game) {
 		super(game);
@@ -26,7 +28,8 @@ public class Playing extends State implements Statemethods {
 	
 	private void initClasses() {
 		tileManager = new TileManager(game);
-		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)(50*Game.SCALE), (int)(50*Game.SCALE));
+		house = new House(new Point(2800,1856+35));
+		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)((Game.PLAYER_WIDTH-5)*Game.SCALE), (int)((Game.PLAYER_HEIGHT)*Game.SCALE));
 		player.loadLvlData(tileManager.getCurrentTile().getTileData());
 		pauseOverlay = new PauseOverlay(this);
 		
@@ -40,15 +43,16 @@ public class Playing extends State implements Statemethods {
 		} else {
 			pauseOverlay.update();
 		}
-		tileManager.setCameravalues(cameraX, cameraY);
+		tileManager.setCameravalues(player.getCameraX(), player.getCameraY());
+		house.setCameraValues(player.getCameraX(), player.getCameraY());
 
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		tileManager.draw(g);
-		player.render(g);
-		
+		house.render(g);
+		player.render(g);		
 		if (paused)
 			pauseOverlay.draw(g);
 	}

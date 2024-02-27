@@ -11,8 +11,8 @@ public abstract class Entity {
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle2D.Float hitbox;
-	private float xDrawOffset = 14.5f * Game.SCALE;
-	private float yDrawOffset = 24f * Game.SCALE;
+	private float xDrawOffset = 9.5f * Game.SCALE;
+	private float yDrawOffset = 6 * Game.SCALE;
 	
 	public Entity(float x, float y, int width, int height) {
 		this.x = x;

@@ -19,8 +19,8 @@ public class LoadSave {
 	public static final String FRIEREN = "Frieren_Animation.png";
 	public static final String CRABBY_SPRITE = "crabby_sprite.png";
 	
-	public static final String TILE_ATLAS = "tile1.png";
-	public static final String TILE_DATA = "map.txt";
+	public static final String TILE_ATLAS = "map.png";
+	public static final String TILE_DATA = "res/map.txt";
 
 	public static final String MENU_BACKGROUND = "background/menu_background.png";
 	public static final String PAUSE_BACKGROUND = "background/pause_menu.png";
@@ -30,6 +30,8 @@ public class LoadSave {
 	public static final String SOUND_BUTTONS = "buttons/sound_button.png";
 	public static final String URM_BUTTONS = "buttons/urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "buttons/volume_buttons.png";
+	
+	public static final String HOUSE = "house.png";
  	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -63,7 +65,7 @@ public class LoadSave {
 		try {
 			
 			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
-            File file = new File("res/map.txt");
+            File file = new File(TILE_DATA);
             
             Scanner scanner = new Scanner(file);
             int col = 0, row = 0;

@@ -55,8 +55,9 @@ public class HelpMethods {
 		}	
 	 
 	public static boolean isTileWalkable(int tileId) {
-		return (tileId != 51 && tileId != 70 && tileId != 68 && tileId != 67 && tileId != 128 && tileId != 29 && tileId != 48 && tileId != 48 &&
-				tileId != 0 && tileId != 1 && tileId != 3 && tileId !=22 && tileId !=60 && tileId !=58 && tileId !=57 && tileId !=38);
+		return (tileId != 94 && tileId != 95 && (tileId < 51 || tileId > 53) && tileId != 108 && tileId != 85 && tileId != 74 && 
+				tileId != 62 && tileId != 42 && tileId != 44 && tileId != 45 && tileId != 58 && tileId != 70 && tileId != 82 && 
+				tileId != 83 && tileId != 72 && tileId != 60 && tileId != 34 && tileId != 46 && tileId != 55);
 	}
 	
 	

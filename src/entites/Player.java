@@ -19,16 +19,18 @@ import utilz.HelpMethods;
 public class Player extends Entity {
 
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 20, atkSpeed = 35; // 15
+	private int aniTick, aniIndex, aniSpeed = 25, atkSpeed = 20; // 15
 	private int playerAction = IDLE_FRONT;
-	private float cameraX = (float) ((Game.MAP_WIDTH/2)-0.75) * Game.TILES_SIZE;
-	private float cameraY = (float) ((Game.MAP_HEIGHT/2)-0.75) * Game.TILES_SIZE;
+	private float cameraX = (float) (25 * Game.TILES_SIZE);
+	private float cameraY = (float) (25 * Game.TILES_SIZE);
+//	private float cameraX = 0;
+//	private float cameraY =0;
 	private int playerDir = -1; // default at -1 (IDLE)
 	private boolean left, up, right, down;
 	private boolean moving = false, attacking = false;
 	
 	private float normalplayerSpeed = 1.0f * Game.SCALE;
-	private float daigonalplayerSpeed = (float)(1.0f * Math.sqrt(Game.SCALE));
+	private float daigonalplayerSpeed = (float)(1.0f * Game.SCALE / Math.sqrt(2));
 	
 	private int[][] lvlData;
 
@@ -37,7 +39,7 @@ public class Player extends Entity {
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		loadAnimations();
-		initHitbox(x, y, (int)(20 * Game.SCALE), (int)(25 * Game.SCALE));
+		initHitbox(x, y, width, height);
 
 	}
 
@@ -48,7 +50,7 @@ public class Player extends Entity {
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x), (int) (hitbox.y), (int)(50*Game.SCALE), (int)(50*Game.SCALE), null); //size 64 == 16
+		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x), (int) (hitbox.y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
 		drawhitbox(g);
 	}
 	
@@ -133,6 +135,9 @@ public class Player extends Entity {
 		if (!left & !right & !down & !up & !down)
 			return;
 		
+		if (left && right || up && down)
+			return;
+			
 		float xDelta = 0, yDelta = 0;
 		
 		if (left && !right) {
@@ -176,6 +181,7 @@ public class Player extends Entity {
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, lvlData)) {
 			cameraX += -xDelta;
 			cameraY += -yDelta;
+			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}
