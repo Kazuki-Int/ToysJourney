@@ -22,7 +22,7 @@ public class LoadSave {
 	public static final String TILE_ATLAS = "map.png";
 	public static final String TILE_DATA = "res/map.txt";
 
-	public static final String MENU_BACKGROUND = "background/menu_background.png";
+	public static final String GAME_NAME = "background/game_name.png";
 	public static final String PAUSE_BACKGROUND = "background/pause_menu.png";
 	public static final String MENU_BACKGROUND_IMG = "background/animation_background.png";
 	
