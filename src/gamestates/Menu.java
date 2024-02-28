@@ -41,9 +41,9 @@ private void initClasses() {
 	}
 
 	private void loadButtons() {
-		buttons[0] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (180 * Game.SCALE), 0, Gamestate.PLAYING); //150
-		buttons[1] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (250 * Game.SCALE), 1, Gamestate.OPTIONS); //220
-		buttons[2] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (320 * Game.SCALE), 2, Gamestate.QUIT); //290
+		buttons[0] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (175 * Game.SCALE), 0, Gamestate.PLAYING); //150
+		buttons[1] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (245 * Game.SCALE), 1, Gamestate.OPTIONS); //220
+		buttons[2] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (315 * Game.SCALE), 2, Gamestate.QUIT); //290
 	}
 
 	@Override

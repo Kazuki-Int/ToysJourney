@@ -77,14 +77,14 @@ public class Constants {
 	
 	public static class UI {
 		public static class Buttons {
-			public static final int B_WIDTH_DEFAULT = 109; //140
+			public static final int B_WIDTH_DEFAULT = 126; //140
 			public static final int B_HEIGHT_DEFAULT = 59; //56
 			public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * 2);
 			public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * 2); //112
 		}
 		
 		public static class PauseButtons {
-			public static final int SOUND_SIZE_DEFAULT = 42;
+			public static final int SOUND_SIZE_DEFAULT = 56;
 			public static final int SOUND_SIZE = (int) (SOUND_SIZE_DEFAULT * Game.SCALE);
 		}
 		
@@ -94,8 +94,8 @@ public class Constants {
 		}
 		
 		public static class VolumeButtons {
-			public static final int VOLUME_DEFAULT_WIDTH = 28;
-			public static final int VOLUME_DEFAULT_HEIGHT = 44;
+			public static final int VOLUME_DEFAULT_WIDTH = 45;
+			public static final int VOLUME_DEFAULT_HEIGHT = 45;
 			public static final int SLIDER_DEFAULT_WIDTH = 215;
 			
 			public static final int VOLUME_WIDTH = (int) (VOLUME_DEFAULT_WIDTH * Game.SCALE);

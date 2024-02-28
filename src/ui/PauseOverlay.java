@@ -51,7 +51,7 @@ public class PauseOverlay {
 	}
 
 	private void createSoundButtons() {
-		int soundX = (int) (450 * Game.SCALE);
+		int soundX = (int) (440 * Game.SCALE);
 		int musicY = (int) (140 * Game.SCALE);
 		int sfxY = (int) (186 * Game.SCALE);
 		musicButton = new SoundButton(soundX, musicY, SOUND_SIZE, SOUND_SIZE);
