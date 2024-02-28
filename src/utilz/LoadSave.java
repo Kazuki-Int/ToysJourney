@@ -1,6 +1,5 @@
 package utilz;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import entites.Crabby;
 import main.Game;
+import static utilz.Constants.EnemyConstants.CRABBY;
 
 public class LoadSave {
 	
@@ -21,10 +21,11 @@ public class LoadSave {
 	
 	public static final String TILE_ATLAS = "map.png";
 	public static final String TILE_DATA = "res/map.txt";
+	public static final String ENEMY_DATA = "res/map_enemy.txt";
 
 	public static final String GAME_NAME = "background/game_name.png";
 	public static final String PAUSE_BACKGROUND = "background/pause_menu.png";
-	public static final String MENU_BACKGROUND_IMG = "background/animation_background.png";
+	public static final String MENU_BACKGROUND_IMG = "background/animation_background2.png";
 	
 	public static final String MENU_BUTTONS = "buttons/button_atlas.png";
 	public static final String SOUND_BUTTONS = "buttons/sound_button.png";
@@ -56,14 +57,43 @@ public class LoadSave {
 		return img;
 	}
 	
-//	public static ArrayList<Crabby> GetCrabs() {
-//		BufferedImage img = GetSpriteAtlas(TILE_DATA);
-//		ArrayList<Crabby> list = new ArrayList<>();
-//	}
+	public static ArrayList<Crabby> GetCrabs() {
+		ArrayList<Crabby> list = new ArrayList<>();
+		try {
+			
+			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
+            File file = new File(ENEMY_DATA);
+            
+            Scanner scanner = new Scanner(file);
+            int col = 0, row = 0;
+            // Loop through each line in the file
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+
+                String[] numbers = line.split(" ");
+
+                for (String number : numbers) {
+                	int index = Integer.parseInt(number);
+                    if (index == CRABBY) {
+                    	System.out.println(col+" "+row);
+                    	list.add(new Crabby(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
+                    }
+                    col++;
+                }
+                col = 0;
+                row++;
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+		
+		return list;
+	}
 	
 	
 	public static int[][] GetTileData() {
-//		BufferedImage img = GetSpriteAtlas(TILE_DATA);
 		int[][] tileData = new int[Game.MAP_HEIGHT][Game.MAP_WIDTH];
 		try {
 			
@@ -95,4 +125,5 @@ public class LoadSave {
 		
 		return tileData;
 	}
+	
 }

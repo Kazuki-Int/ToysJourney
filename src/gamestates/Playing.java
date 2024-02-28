@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 
+import entites.EnemyManager;
 import entites.House;
 import entites.Player;
 import main.Game;
@@ -17,6 +18,7 @@ import ui.PauseOverlay;
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private TileManager tileManager;
+	private EnemyManager enemyManager;
 	private House house;
 	private ObjectManager objectManager;
 	
@@ -32,6 +34,7 @@ public class Playing extends State implements Statemethods {
 	
 	private void initClasses() {
 		tileManager = new TileManager(game);
+		enemyManager = new EnemyManager(this);
 		house = new House(new Point(2800,1856+35));
 		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)((Game.PLAYER_WIDTH-5)*Game.SCALE), (int)((Game.PLAYER_HEIGHT)*Game.SCALE), this);
 		objectManager = new ObjectManager(this);
@@ -45,6 +48,7 @@ public class Playing extends State implements Statemethods {
 		if (!paused) {
 			tileManager.update();
 			player.update();
+			enemyManager.update();
 			objectManager.update();
 		} else {
 			pauseOverlay.update();
@@ -54,7 +58,8 @@ public class Playing extends State implements Statemethods {
 		tileManager.setCameravalues(player.getCameraX(), player.getCameraY());
 		house.setCameraValues(player.getCameraX(), player.getCameraY());
 		objectManager.setCameraValues(player.getCameraX(), player.getCameraY());
-
+		enemyManager.setCameraValues(player.getCameraX(), player.getCameraY());
+		
 	}
 
 	@Override
@@ -63,6 +68,8 @@ public class Playing extends State implements Statemethods {
 		house.render(g);
 		objectManager.draw(g);
 		player.render(g);		
+		enemyManager.draw(g);
+		
 		if (paused)
 			pauseOverlay.draw(g);
 	}

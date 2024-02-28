@@ -45,6 +45,15 @@ public class ObjectManager {
 				}
 			}
 		}
+		
+		for (Key k : keys) {
+			if (k.isActive()) {
+				if (hitbox.intersects(k.getHitbox())) {
+					k.setActive(false);
+					applyKeyToPlayer(k);
+				}
+			}
+		}
 	}
 	
 	public void applyPotionToPlayer(Potion p) {
@@ -56,7 +65,6 @@ public class ObjectManager {
 	}
 	
 	public void applyKeyToPlayer(Key k) {
-		
 		playing.getPlayer().pickKey();
 
 		
@@ -120,6 +128,10 @@ public class ObjectManager {
 					k.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					k.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
 					g.drawImage(key1_Imgs[type][k.getAniIndex()], screenX, screenY, KEY_WIDTH, KEY_HEIGHT, null);
+					k.hitbox.x = screenX;
+					k.hitbox.y = screenY;
+					g.setColor(Color.pink);
+					g.drawRect((int) (screenX), (int) (screenY), (int) k.hitbox.width, (int) k.hitbox.height);
 //					System.out.println(cameraX + " : " + cameraY);
 				}
 			}

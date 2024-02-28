@@ -11,7 +11,7 @@ public class GameWindow {
 
 	public GameWindow(GamePanel gamePanel) {
 
-		jframe = new JFrame("ToysJourney");
+		jframe = new JFrame("Aureole");
 
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.add(gamePanel);
@@ -31,6 +31,7 @@ public class GameWindow {
 				// TODO Auto-generated method stub
 				
 			}
+			
 		});
 
 	}

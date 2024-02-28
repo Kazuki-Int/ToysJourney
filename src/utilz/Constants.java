@@ -37,7 +37,7 @@ public class Constants {
 	}
 	
 	public static class EnemyConstants {
-		public static final int CRABBY = 0;
+		public static final int CRABBY = 1;
 		
 		public static final int IDLE = 0;
 		public static final int RUNNING = 1;

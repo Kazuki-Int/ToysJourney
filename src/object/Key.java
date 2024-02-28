@@ -9,6 +9,7 @@ public class Key extends GameObject {
 		super(x, y, objType);
 		doAnimation = true;
 		// blue_potion_size
+		initHitbox(50f, 50f); 
 //		xDrawOffset = (int) (3 * Game.SCALE); // 3 pix to the left
 //		yDrawOffset = (int) (2 * Game.SCALE); // 2 pix to the top
 		
