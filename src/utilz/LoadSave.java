@@ -41,6 +41,8 @@ public class LoadSave {
 	
 	//OBJECT
 	public static final String HOUSE = "house.png";
+	public static final String HOUSE_TILE_ATLAS = "1stfloorTileset.png";
+	public static final String HOUSE_TILE_DATA = "res/housemap.txt";
 	public static final String POTION_ATLAS = "objects/potions_sprites.png";
 	public static final String KEY_1_ATLAS = "objects/Key_1.png";
  	
@@ -98,12 +100,12 @@ public class LoadSave {
 	}
 	
 	
-	public static int[][] GetTileData() {
-		int[][] tileData = new int[Game.MAP_HEIGHT][Game.MAP_WIDTH];
+	public static int[][] GetTileData(String fileName, int width, int height) {
+		int[][] tileData = new int[height][width];
 		try {
 			
-			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
-            File file = new File(TILE_DATA);
+			InputStream is = LoadSave.class.getResourceAsStream(fileName);
+            File file = new File(fileName);
             
             Scanner scanner = new Scanner(file);
             int col = 0, row = 0;

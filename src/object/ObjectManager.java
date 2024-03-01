@@ -154,7 +154,7 @@ public class ObjectManager {
 				int screenX = (int) (p.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
 				int screenY = (int) (p.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
 				if (p.getObjType() == RED_POTION)
-				System.out.println(screenX+ " "+screenY);
+//				System.out.println(screenX+ " "+screenY);
 				p.hitbox.x = screenX;
 				p.hitbox.y = screenY;
 				if (p.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 

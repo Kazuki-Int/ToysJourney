@@ -9,10 +9,11 @@ import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 
 import entites.EnemyManager;
-import entites.House;
+import entites.BuildingManager;
 import entites.Player;
 import main.Game;
 import object.ObjectManager;
+import tiles.Doorway;
 import tiles.TileManager;
 import ui.GameOverOverlay;
 import ui.PauseOverlay;
@@ -25,10 +26,10 @@ public class Playing extends State implements Statemethods {
 	private PauseOverlay pauseOverlay;
 	private GameOverOverlay gameOverOverlay;
 	
-	private House house;
+	private BuildingManager house;
 	private ObjectManager objectManager;
 	
-	
+	private boolean doorwayJustPassed;
 	
 	private boolean paused = false;
 	
@@ -41,16 +42,19 @@ public class Playing extends State implements Statemethods {
 	}
 	
 	private void initClasses() {
-		tileManager = new TileManager(game);
+		tileManager = new TileManager(this);
 		enemyManager = new EnemyManager(this);
-		house = new House(new Point(2800,1856+35));
-		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)((Game.PLAYER_WIDTH-5)*Game.SCALE), (int)((Game.PLAYER_HEIGHT)*Game.SCALE), this);
+		player = new Player((Game.SCREEN_WIDTH/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (Game.SCREEN_HEIGHT/2) - (Game.PLAYER_SIZE * Game.SCALE/2), (int)((Game.PLAYER_WIDTH-5)*Game.SCALE), (int)((Game.PLAYER_HEIGHT+7)*Game.SCALE), this);
 		objectManager = new ObjectManager(this);
 		player.loadLvlData(tileManager.getCurrentTile().getTileData());
 		enemyManager.loadLvlData(tileManager.getCurrentTile().getTileData());
 		pauseOverlay = new PauseOverlay(this);
 		gameOverOverlay = new GameOverOverlay(this);
 		
+	}
+	
+	public TileManager getTileManager() {
+		return tileManager;
 	}
 	
 	@Override
@@ -60,24 +64,35 @@ public class Playing extends State implements Statemethods {
 			player.update();
 			enemyManager.update(player);
 			objectManager.update();
+			tileManager.setCameravalues(player.getCameraX(), player.getCameraY());
+			checkForDoorway(); // added
+			objectManager.setCameraValues(player.getCameraX(), player.getCameraY());
+			enemyManager.setCameraValues(player.getCameraX(), player.getCameraY());
 		} else {
 			pauseOverlay.update();
 		}
-		
-		
-		tileManager.setCameravalues(player.getCameraX(), player.getCameraY());
-		house.setCameraValues(player.getCameraX(), player.getCameraY());
-		objectManager.setCameraValues(player.getCameraX(), player.getCameraY());
-		enemyManager.setCameraValues(player.getCameraX(), player.getCameraY());
-		
+	}
+	
+	private void checkForDoorway() { // added
+        Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
+//        System.out.println(player.getHitbox().x);
+        if (doorwayPlayerIsOn != null) {
+        	if (!doorwayJustPassed)
+            	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo );
+        } else {
+        	doorwayJustPassed = false;
+        }
+    }
+	
+	public void setDoorwayJustPassed(boolean doorwayJustPassed) { // added
+		this.doorwayJustPassed = doorwayJustPassed;
 	}
 
 	@Override
 	public void draw(Graphics g) {
-//		BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
-//		g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
+		BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
+		g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
 		tileManager.draw(g);
-		house.render(g);
 		objectManager.draw(g);
 		player.render(g);		
 		enemyManager.draw(g);
@@ -188,9 +203,9 @@ public class Playing extends State implements Statemethods {
 				player.setMoving(false);
 				player.setRight(false);
 				break;
-			case KeyEvent.VK_K:
-				player.setAttack(false);
-				break;
+//			case KeyEvent.VK_K:
+//				player.setAttack(false);
+//				break;
 			}
 
 	}

@@ -24,10 +24,10 @@ public class Player extends Entity {
 	private float spawnPosX, spawnPosY;
 
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 25, atkSpeed = 20; // 15
+	private int aniTick, aniIndex, aniSpeed = 25, atkSpeed = 12; // 15
 	private int playerAction = IDLE_FRONT;
-	private float cameraX = (float) (25 * Game.TILES_SIZE);
-	private float cameraY = (float) (25 * Game.TILES_SIZE);
+	private float cameraX;
+	private float cameraY;
 	private int playerDir = -1; // default at -1 (IDLE)
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down;
@@ -70,10 +70,22 @@ public class Player extends Entity {
 		originX = x + 19;
 		originY = y + 12;
 		this.playing = playing;
+		calcStartCameraValues();
 		loadAnimations();
 		initHitbox(originX, originY, width, height);
 		initAttackBox();
 
+	}
+	
+	public void calcStartCameraValues() {
+		cameraX = playing.getTileManager().getCurrentTile().getArrayWidth() / 2 * Game.TILES_SIZE;
+		cameraY = playing.getTileManager().getCurrentTile().getArrayHeight() / 2 * Game.TILES_SIZE;
+//		System.out.println("check");
+	}
+
+	public void setCameraValues(float cameraX, float cameraY) {
+		this.cameraX = cameraX;
+		this.cameraY = cameraY;
 	}
 
 	private void initAttackBox() {
@@ -181,7 +193,7 @@ public class Player extends Entity {
 			aniIndex++;
 			if (aniIndex >= GetSpriteAmount(playerAction)) {
 				aniIndex = 0;
-//				attacking = false;
+				attacking = false;
 				attackChecked = false;
 			}	
 		}
@@ -217,7 +229,6 @@ public class Player extends Entity {
 		} else if (attacking && playerDir == LEFT) {
 			playerAction = ATK_LEFT;
 		}
-		
 		
 		if (startAni != playerAction)
 			resetAnitick();
@@ -276,10 +287,10 @@ public class Player extends Entity {
 			}	
 		}
 		
-		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, lvlData)) {
+		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-//			System.out.println(cameraX + " : " + cameraY);
+			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}

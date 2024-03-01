@@ -96,7 +96,7 @@ public class EnemyManager {
 		if (s.walkDir == RIGHT) 
 			xDelta -= s.velocityX;
 		
-		if (HelpMethods.CanWalkHere(s.hitbox ,s.x - xDelta, s.y - yDelta, lvlData)) {
+		if (HelpMethods.CanWalkHere(s.hitbox ,s.x - xDelta, s.y - yDelta, playing.getTileManager().getCurrentTile())) {
 			s.x += -xDelta;
 			s.y += -yDelta;
 		}
