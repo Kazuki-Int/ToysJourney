@@ -23,8 +23,8 @@ import static utilz.Constants.ObjectConstants.POTION_WIDTH;
 public class EnemyManager {
 
 	private Playing playing;
-	private BufferedImage[][] crabbyArr;
-	private ArrayList<Crabby> crabbies = new ArrayList<>();
+	private BufferedImage[][] slimeArr;
+	private ArrayList<Slime> slimies = new ArrayList<>();
 	private int[][] lvlData;
 
 	private float cameraX, cameraY;
@@ -37,19 +37,19 @@ public class EnemyManager {
 	}
 	
 	private void addEnemies() {
-		crabbies = LoadSave.GetCrabs();
+		slimies = LoadSave.GetSlimes();
 //		System.out.println("size of crab: " + crabbies.size());
 		
 	}
 
 	public void update(Player player) {
-		for (Crabby c : crabbies)
-			if (c.isActive())
-				c.update(player);
+		for (Slime s : slimies)
+			if (s.isActive())
+				s.update(player);
 	}
 	
 	public void draw(Graphics g) {
-		drawCrabs(g);
+		drawSlimes(g);
 		
 	}
 	
@@ -62,85 +62,85 @@ public class EnemyManager {
 		this.cameraY = y;
 	}
 	
-	private void changeWalkDir(Crabby c) {
+	private void changeWalkDir(Slime s) {
 		int walkDis = Game.TILES_SIZE;
-		c.actionCounter ++;
-		if (c.actionCounter > 0*walkDis && c.actionCounter <= 2*walkDis)  {
-			c.walkDir = UP;
+		s.actionCounter ++;
+		if (s.actionCounter > 0*walkDis && s.actionCounter <= 2*walkDis)  {
+			s.walkDir = UP;
 		}
-		if (c.actionCounter > 2*walkDis && c.actionCounter <= 6*walkDis) {
-			c.walkDir = LEFT;
+		if (s.actionCounter > 2*walkDis && s.actionCounter <= 6*walkDis) {
+			s.walkDir = LEFT;
 		}
-		if (c.actionCounter > 6*walkDis && c.actionCounter <= 8*walkDis) {
-			c.walkDir = DOWN;
+		if (s.actionCounter > 6*walkDis && s.actionCounter <= 8*walkDis) {
+			s.walkDir = DOWN;
 		}
-		if (c.actionCounter > 8*walkDis && c.actionCounter <= 12*walkDis) {
-			c.walkDir = RIGHT;
+		if (s.actionCounter > 8*walkDis && s.actionCounter <= 12*walkDis) {
+			s.walkDir = RIGHT;
 		}
-		if (c.actionCounter > 12*walkDis) {
-			c.actionCounter = 0;
+		if (s.actionCounter > 12*walkDis) {
+			s.actionCounter = 0;
 		}
 		
 	}
 	
-	private void updateCrabs(Crabby c) {
-		changeWalkDir(c);
+	private void updateSlimes(Slime s) {
+		changeWalkDir(s);
 		
 		float xDelta = 0, yDelta = 0;
-		if (c.walkDir == UP)  
-			yDelta += c.velocityY;
-		if (c.walkDir == DOWN)
-			yDelta -= c.velocityY;
-		if (c.walkDir == LEFT) 
-			xDelta += c.velocityX;
-		if (c.walkDir == RIGHT) 
-			xDelta -= c.velocityX;
+		if (s.walkDir == UP)  
+			yDelta += s.velocityY;
+		if (s.walkDir == DOWN)
+			yDelta -= s.velocityY;
+		if (s.walkDir == LEFT) 
+			xDelta += s.velocityX;
+		if (s.walkDir == RIGHT) 
+			xDelta -= s.velocityX;
 		
-		if (HelpMethods.CanWalkHere(c.hitbox ,c.x - xDelta, c.y - yDelta, lvlData)) {
-			c.x += -xDelta;
-			c.y += -yDelta;
+		if (HelpMethods.CanWalkHere(s.hitbox ,s.x - xDelta, s.y - yDelta, lvlData)) {
+			s.x += -xDelta;
+			s.y += -yDelta;
 		}
 	}
 	
-	private void drawCrabs(Graphics g) {
-		for (Crabby c : crabbies) 
-			if (c.isActive()) {
-				int screenX = (int) (c.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
-				int screenY = (int) (c.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
+	private void drawSlimes(Graphics g) {
+		for (Slime s : slimies) 
+			if (s.isActive()) {
+				int screenX = (int) (s.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
+				int screenY = (int) (s.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
 				
-				g.drawImage(crabbyArr[c.getEnemyState()][c.getAniIndex()], screenX, screenY, CRABBY_WIDTH, CRABBY_HEIGHT, null);
-				c.hitbox.x = screenX + CRABBY_WIDTH/2 - c.hitbox.width/2;
-				c.hitbox.y = screenY + CRABBY_HEIGHT/2 - c.hitbox.height/2;
-				updateCrabs(c);
+				g.drawImage(slimeArr[s.getEnemyState()][s.getAniIndex()], screenX, screenY, SLIME_WIDTH, SLIME_HEIGHT, null);
+				s.hitbox.x = screenX + SLIME_WIDTH/2 - s.hitbox.width/2;
+				s.hitbox.y = screenY + SLIME_HEIGHT/2 - s.hitbox.height/2;
+				updateSlimes(s);
 				g.setColor(Color.pink);
-				g.drawRect((int) (c.hitbox.x), (int) (c.hitbox.y), (int) (c.hitbox.width), (int) (c.hitbox.height));
-				c.drawAttackBox(g);
+				g.drawRect((int) (s.hitbox.x), (int) (s.hitbox.y), (int) (s.hitbox.width), (int) (s.hitbox.height));
+				s.drawAttackBox(g);
 			
 			}
 
 	}
 	
 	public void checkEnemyHit(Rectangle2D.Float attackBox) {
-		for (Crabby c : crabbies) 
-			if (c.isActive())
-				if (attackBox.intersects(c.getHitbox())) {
-					c.hurt(10);
+		for (Slime s : slimies) 
+			if (s.isActive())
+				if (attackBox.intersects(s.getHitbox())) {
+					s.hurt(10);
 					return;
 				}
 	}
 
 	private void loadEnemyImgs() {
-		crabbyArr = new BufferedImage[5][9];
-		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.CRABBY_SPRITE);
-		for (int j = 0; j < crabbyArr.length; j++)
-			for (int i = 0; i < crabbyArr[j].length; i++)
-				crabbyArr[j][i] = temp.getSubimage(i * CRABBY_WIDTH_DEFAULT, j * CRABBY_HEIGHT_DEFAULT, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
+		slimeArr = new BufferedImage[5][6];
+		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.SLIME_SPRITE);
+		for (int j = 0; j < slimeArr.length; j++)
+			for (int i = 0; i < slimeArr[j].length; i++)
+				slimeArr[j][i] = temp.getSubimage(i * SLIME_WIDTH_DEFAULT, j * SLIME_HEIGHT_DEFAULT, SLIME_WIDTH_DEFAULT, SLIME_HEIGHT_DEFAULT);
 		
 	}
 	
 	public void resetAllEnemies() {
-		for (Crabby c : crabbies)
-			c.resetEnemy();
+		for (Slime s : slimies)
+			s.resetEnemy();
 	}
 	
 }

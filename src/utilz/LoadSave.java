@@ -10,14 +10,15 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import entites.Crabby;
+import entites.Slime;
 import main.Game;
-import static utilz.Constants.EnemyConstants.CRABBY;
+import static utilz.Constants.EnemyConstants.SLIME;
 
 public class LoadSave {
 	
 	public static final String FRIEREN = "Frieren_Animation.png";
 	public static final String CRABBY_SPRITE = "crabby_sprite.png";
+	public static final String SLIME_SPRITE = "slime_sprite.png";
 	
 	//MAPDATA & ENEMY
 	public static final String TILE_ATLAS = "map.png";
@@ -29,6 +30,7 @@ public class LoadSave {
 	public static final String PAUSE_BACKGROUND = "background/pause_menu.png";
 	public static final String MENU_BACKGROUND_IMG = "background/animation_background2.png";
 	public static final String FRIEND_BACKGROUND = "background/friend_background.png";
+	public static final String GAME_BACKGROUND = "background/masterpiece_background.png";
 	public static final String STATUS_BAR = "background/health_power_bar.png";
 	
 	//BUTTON
@@ -62,8 +64,8 @@ public class LoadSave {
 		return img;
 	}
 	
-	public static ArrayList<Crabby> GetCrabs() {
-		ArrayList<Crabby> list = new ArrayList<>();
+	public static ArrayList<Slime> GetSlimes() {
+		ArrayList<Slime> list = new ArrayList<>();
 		try {
 			
 			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
@@ -79,8 +81,8 @@ public class LoadSave {
 
                 for (String number : numbers) {
                 	int index = Integer.parseInt(number);
-                    if (index == CRABBY) 
-                    	list.add(new Crabby(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
+                    if (index == SLIME) 
+                    	list.add(new Slime(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
                     col++;
                 }
                 col = 0;

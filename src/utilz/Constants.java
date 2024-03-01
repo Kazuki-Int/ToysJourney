@@ -37,13 +37,15 @@ public class Constants {
 	}
 	
 	public static class EnemyConstants {
-		public static final int CRABBY = 1;
 		
 		public static final int IDLE = 0;
 		public static final int RUNNING = 1;
 		public static final int ATTACK = 2;
 		public static final int HIT = 3;
 		public static final int DEAD = 4;
+		
+		//CRABBY
+		public static final int CRABBY = 1;
 		
 		public static final int CRABBY_WIDTH_DEFAULT = 72;
 		public static final int CRABBY_HEIGHT_DEFAULT = 32;
@@ -53,6 +55,19 @@ public class Constants {
 		
 		public static final int CRABBY_DRAWOFFSET_X = (int) (26 * Game.SCALE);
 		public static final int CRABBY_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
+		
+		//STRAWBERRY SLIME
+		public static final int SLIME = 2;
+		
+		public static final int SLIME_WIDTH_DEFAULT = 50;
+		public static final int SLIME_HEIGHT_DEFAULT = 50;
+		
+		public static final int SLIME_WIDTH = (int) (SLIME_WIDTH_DEFAULT * Game.SCALE);
+		public static final int SLIME_HEIGHT = (int) (SLIME_HEIGHT_DEFAULT * Game.SCALE);
+		
+		public static final int SLIME_DRAWOFFSET_X = (int) (10 * Game.SCALE);
+		public static final int SLIME_DRAWOFFSET_Y = (int) (10 * Game.SCALE);
+
 		
 		public static int getSpriteAmount(int enemy_type, int enemy_state) {
 			
@@ -70,6 +85,19 @@ public class Constants {
 				case DEAD:
 					return 5;
 				}
+			case SLIME:
+				switch (enemy_state) {
+				case IDLE: 
+					return 6;
+				case RUNNING:
+					return 6;
+				case ATTACK:
+					return 6;
+				case HIT:
+					return 6;
+				case DEAD:
+					return 6;
+				}
 			}
 			
 			return 0;
@@ -80,6 +108,8 @@ public class Constants {
 			switch (enemy_type) {
 			case CRABBY:
 				return 10;
+			case SLIME:
+				return 20;
 			default:
 				return 1;
 			}
@@ -89,6 +119,8 @@ public class Constants {
 			switch (enemy_type) {
 			case CRABBY:
 				return 15;
+			case SLIME:
+				return 20;
 			default:
 				return 0;
 			}

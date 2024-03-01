@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import main.Game;
 
-public class Crabby extends Enemy {
+public class Slime extends Enemy {
 	
 	//AttackBox
 //	private Rectangle2D.Float attackBox;
@@ -21,8 +21,8 @@ public class Crabby extends Enemy {
 	public int walkDir = -1;
 	public int actionCounter = 0;
 
-	public Crabby(float x, float y) {
-		super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
+	public Slime(float x, float y) {
+		super(x, y, SLIME_WIDTH, SLIME_HEIGHT, SLIME);
 		this.originX = x;
 		this.originY = y;
 		initHitbox(x, y, (int) (25 * Game.SCALE), (int) (25 * Game.SCALE));

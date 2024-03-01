@@ -11,6 +11,7 @@ import main.Game;
 import utilz.LoadSave;
 
 import static utilz.Constants.ObjectConstants.*;
+import static utilz.Constants.PlayerConstants.IDLE_FRONT;
 
 
 public class ObjectManager {
@@ -33,10 +34,19 @@ public class ObjectManager {
 		potions.add(new Potion(31*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2 - (int) (2 * Game.SCALE), BLUE_POTION)); // BLUE
 		
 		keys = new ArrayList<>();
-		keys.add(new Key(25*Game.TILES_SIZE + KEY_WIDTH/2, 25*Game.TILES_SIZE + KEY_HEIGHT/2, KEY_1));
+		keys.add(new Key(20*Game.TILES_SIZE + KEY_WIDTH/2, 25*Game.TILES_SIZE + KEY_HEIGHT/2, KEY_1));
 	}
 
 	public void checkObjectTouched(Rectangle2D.Float hitbox) {
+		for (Key k : keys) {
+			if (k.isActive()) {
+				if (hitbox.intersects(k.getHitbox())) {
+					k.setActive(false);
+					applyKeyToPlayer(k);
+				}
+			}
+		}
+		
 		for (Potion p : potions) {
 			if (p.isActive()) {
 				if (hitbox.intersects(p.getHitbox())) {
@@ -46,14 +56,7 @@ public class ObjectManager {
 			}
 		}
 		
-		for (Key k : keys) {
-			if (k.isActive()) {
-				if (hitbox.intersects(k.getHitbox())) {
-					k.setActive(false);
-					applyKeyToPlayer(k);
-				}
-			}
-		}
+
 	}
 	
 	public void applyPotionToPlayer(Potion p) {
@@ -99,8 +102,7 @@ public class ObjectManager {
 		for (Key k: keys)
 			if (k.isActive())
 				k.update();
-		
-
+	
 	}
 	
 	public void setCameraValues(float x, float y) {
@@ -122,14 +124,15 @@ public class ObjectManager {
 				int screenX = (int) (k.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
 				int screenY = (int) (k.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
 //				System.out.println(cameraX);
-				
+									
+				k.hitbox.x = screenX;
+				k.hitbox.y = screenY;
 				if (k.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					k.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					k.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					k.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
 					g.drawImage(key1_Imgs[type][k.getAniIndex()], screenX, screenY, KEY_WIDTH, KEY_HEIGHT, null);
-					k.hitbox.x = screenX;
-					k.hitbox.y = screenY;
+
 					g.setColor(Color.pink);
 					g.drawRect((int) (screenX), (int) (screenY), (int) k.hitbox.width, (int) k.hitbox.height);
 //					System.out.println(cameraX + " : " + cameraY);
@@ -150,19 +153,30 @@ public class ObjectManager {
 				
 				int screenX = (int) (p.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
 				int screenY = (int) (p.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
-//				System.out.println(cameraX);
-				
+				if (p.getObjType() == RED_POTION)
+				System.out.println(screenX+ " "+screenY);
+				p.hitbox.x = screenX;
+				p.hitbox.y = screenY;
 				if (p.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					p.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					p.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					p.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
 					g.drawImage(potionImgs[type][p.getAniIndex()], screenX, screenY, POTION_WIDTH, POTION_HEIGHT, null);
-					p.hitbox.x = screenX;
-					p.hitbox.y = screenY;
+
 					g.setColor(Color.pink);
 					g.drawRect((int) (screenX), (int) (screenY), (int) p.hitbox.width, (int) p.hitbox.height);
 //					System.out.println(cameraX + " : " + cameraY);
 				}
 			}
 	}
+	
+	public void resetAllObject() {
+		for (Potion p: potions)
+			p.reset();
+		
+		for (Key k: keys)
+			k.reset();
+		
+	}
+
 }

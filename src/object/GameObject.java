@@ -30,11 +30,6 @@ public class GameObject {
 			if (aniIndex >= GetSpriteAmount(objType)) {
 				aniIndex = 0;
 				
-				// FILM: obj don't have animation
-//				if (objType == BARREL || oblType == BOX) {
-//					doAnimation = false;
-//					active = false;
-//				}
 			}
 		}
 	}
@@ -43,13 +38,6 @@ public class GameObject {
 		aniIndex = 0;
 		aniTick = 0;
 		active = true;
-		
-		// FILM: obj don't have animation
-//		if (objType == BARREL || oblType == BOX) {
-//			doAnimation = false;
-//			active = false;
-//		}
-//		else
 		doAnimation = true;
 	}
 	

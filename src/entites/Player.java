@@ -67,17 +67,17 @@ public class Player extends Entity {
 		
 	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
-		originX = x;
-		originY = y;
+		originX = x + 19;
+		originY = y + 12;
 		this.playing = playing;
 		loadAnimations();
-		initHitbox(x, y, width, height);
+		initHitbox(originX, originY, width, height);
 		initAttackBox();
 
 	}
 
 	private void initAttackBox() {
-		attackBox = new Rectangle2D.Float(hitbox.x + (hitbox.width/2), hitbox.y + hitbox.height + (int) (Game.SCALE * 10), (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
+		attackBox = new Rectangle2D.Float(hitbox.x + (hitbox.width/2) - 19, hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 19, (int) (19 * Game.SCALE), (int) (30 * Game.SCALE));
 		
 	}
 
@@ -112,18 +112,28 @@ public class Player extends Entity {
 
 	private void updateAttackBox() {
 		if (right) {
-			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 11);
-			attackBox.y = hitbox.y + (hitbox.height/2);
+			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 11) - 21;
+			attackBox.y = hitbox.y + (hitbox.height/2) - 19;
 		} else if (left) {
-			attackBox.x = hitbox.x - (int) (Game.SCALE * 12);
-			attackBox.y = hitbox.y + (hitbox.height/2);
+			attackBox.x = hitbox.x - (int) (Game.SCALE * 12) - 37;
+			attackBox.y = hitbox.y + (hitbox.height/2) - 19;
 		} else if (up) {
-			attackBox.x = hitbox.x + (hitbox.width/2);
-			attackBox.y = hitbox.y - (int) (Game.SCALE * 10);
+			attackBox.x = hitbox.x + (hitbox.width/2) - 19;
+			attackBox.y = hitbox.y - (int) (Game.SCALE * 10) - 40;
 		} else if (down) {
-			attackBox.x = hitbox.x + (hitbox.width/2);
-			attackBox.y = hitbox.y + hitbox.height + (int) (Game.SCALE * 10);
+			attackBox.x = hitbox.x + (hitbox.width/2) - 19;
+			attackBox.y = hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 19;
 		}
+		
+		if ((up || down) && (attackBox.width > attackBox.height)) {
+			attackBox.width = 19 * Game.SCALE;
+			attackBox.height = 30 * Game.SCALE;
+		}
+		else if ((left || right) && (attackBox.width < attackBox.height)) {
+			attackBox.width = 30 * Game.SCALE;
+			attackBox.height = 19 * Game.SCALE;
+		}
+			
 		
 	}
 
@@ -137,7 +147,7 @@ public class Player extends Entity {
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x), (int) (hitbox.y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
+		g.drawImage(animations[playerAction][aniIndex], (int) (x), (int) (y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
 		drawhitbox(g);
 		drawAttackBox(g);
 		drawUI(g);
@@ -145,7 +155,7 @@ public class Player extends Entity {
 	
 	private void drawAttackBox(Graphics g) {
 		g.setColor(Color.red);
-		g.drawRect((int) (attackBox.x), (int) (attackBox.y - (yDrawOffset/2)), (int) attackBox.width, (int) attackBox.height);
+		g.drawRect((int) (attackBox.x), (int) (attackBox.y), (int) attackBox.width, (int) attackBox.height);
 		
 	}
 
@@ -386,6 +396,7 @@ public class Player extends Entity {
 		resetDirBooleans();
 		attacking = false;
 		moving = false;
+		hasKey = false;
 		playerAction = IDLE_FRONT;
 		currentHealth = maxHealth;
 		

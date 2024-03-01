@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
+import java.awt.image.BufferedImage;
 
 import entites.EnemyManager;
 import entites.House;
@@ -15,6 +16,7 @@ import object.ObjectManager;
 import tiles.TileManager;
 import ui.GameOverOverlay;
 import ui.PauseOverlay;
+import utilz.LoadSave;
 
 public class Playing extends State implements Statemethods {
 	private Player player;
@@ -72,6 +74,8 @@ public class Playing extends State implements Statemethods {
 
 	@Override
 	public void draw(Graphics g) {
+//		BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
+//		g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
 		tileManager.draw(g);
 		house.render(g);
 		objectManager.draw(g);
@@ -90,6 +94,7 @@ public class Playing extends State implements Statemethods {
 		paused = false;
 		player.resetAll();
 		enemyManager.resetAllEnemies();
+		objectManager.resetAllObject();
 	}
 	
 	public void setGameOver(boolean gameOver) {

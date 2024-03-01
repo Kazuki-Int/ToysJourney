@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
