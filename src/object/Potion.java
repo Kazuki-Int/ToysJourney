@@ -1,6 +1,7 @@
 package object;
 
 import main.Game;
+import static utilz.Constants.ObjectConstants.*;
 
 public class Potion extends GameObject {
 
@@ -8,7 +9,7 @@ public class Potion extends GameObject {
 		super(x, y, objType);
 		doAnimation = true;
 		// blue_potion_size
-		initHitbox(12f, 16f); 
+		initHitbox(POTION_WIDTH, POTION_HEIGHT); 
 
 		xDrawOffset = (int) (3 * Game.SCALE); // 3 pix to the left
 		yDrawOffset = (int) (2 * Game.SCALE); // 2 pix to the top

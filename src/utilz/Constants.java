@@ -11,7 +11,7 @@ public class Constants {
 	public static class ObjectConstants {
 		public static final int RED_POTION = 0;
 		public static final int BLUE_POTION = 1;
-		public static final int RED_POTION_VALUE = 15;
+		public static final int RED_POTION_VALUE = 100;
 		public static final int BLUE_POTION_VALUE = 10;	
 		public static final int POTION_WIDTH_DEFAULT = 12;
 		public static final int POTION_HEIGHT_DEFAULT = 16;
@@ -51,6 +51,9 @@ public class Constants {
 		public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
 		public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
 		
+		public static final int CRABBY_DRAWOFFSET_X = (int) (26 * Game.SCALE);
+		public static final int CRABBY_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
+		
 		public static int getSpriteAmount(int enemy_type, int enemy_state) {
 			
 			switch (enemy_type) {
@@ -73,6 +76,25 @@ public class Constants {
 			
 		}
 		
+		public static int GetMaxHealth(int enemy_type) {
+			switch (enemy_type) {
+			case CRABBY:
+				return 10;
+			default:
+				return 1;
+			}
+		}
+		
+		public static int GetEnemyDmg(int enemy_type) {
+			switch (enemy_type) {
+			case CRABBY:
+				return 15;
+			default:
+				return 0;
+			}
+		
+		}
+	
 	}
 	
 	public static class UI {
@@ -121,8 +143,10 @@ public class Constants {
 		public static final int RUN_RIGHT = 5;
 		public static final int RUN_LEFT = 6;
 		public static final int RUN_BACK = 7;
-		public static final int ATK_RIGHT = 8;
-		public static final int ATK_LEFT = 9;
+		public static final int ATK_FRONT = 8;
+		public static final int ATK_RIGHT = 9;
+		public static final int ATK_LEFT = 10;
+		public static final int ATK_BACK = 11;
 		
 		public static int GetSpriteAmount(int player_action) {
 			
@@ -143,9 +167,13 @@ public class Constants {
 				return 6;
 			case RUN_BACK:
 				return 6;
+			case ATK_FRONT:
+				return 8;
 			case ATK_RIGHT:
 				return 8;
 			case ATK_LEFT:
+				return 8;
+			case ATK_BACK:
 				return 8;
 			default:
 				return 0;

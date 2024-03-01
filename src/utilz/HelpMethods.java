@@ -60,5 +60,21 @@ public class HelpMethods {
 				tileId != 83 && tileId != 72 && tileId != 60 && tileId != 34 && tileId != 46 && tileId != 55);
 	}
 	
+//	public static boolean IsSightClear(Rectangle2D.Float firstHitbox, 
+//			Rectangle2D.Float secondHitbox, int xTile, int yTile) {
+//		int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE); 
+//		int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
+//		int firstYTile = (int) (firstHitbox.y / Game.TILES_SIZE); 
+//		int secondYTile = (int) (secondHitbox.y / Game.TILES_SIZE);
+//		
+//		if (firstXTile > secondXTile) {
+//			for (int i = 0; i < firstXTile - secondXTile; i++)
+//				if (IsSolid)
+//		}
+//		
+//		return false;
+//		
+//	}
+	
 	
 }

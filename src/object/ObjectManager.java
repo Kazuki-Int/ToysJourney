@@ -29,7 +29,7 @@ public class ObjectManager {
 		loadImgs();
 		
 		potions = new ArrayList<>();
-//		potions.add(new Potion(32*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2, RED_POTION)); // RED
+		potions.add(new Potion(30*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2, RED_POTION)); // RED
 		potions.add(new Potion(31*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2 - (int) (2 * Game.SCALE), BLUE_POTION)); // BLUE
 		
 		keys = new ArrayList<>();
@@ -134,6 +134,10 @@ public class ObjectManager {
 					g.drawRect((int) (screenX), (int) (screenY), (int) k.hitbox.width, (int) k.hitbox.height);
 //					System.out.println(cameraX + " : " + cameraY);
 				}
+			}
+			else {
+				int type = 0;
+				g.drawImage(key1_Imgs[type][0], 24*Game.TILES_SIZE, 35, KEY_WIDTH, KEY_HEIGHT, null);
 			}
 	}
 

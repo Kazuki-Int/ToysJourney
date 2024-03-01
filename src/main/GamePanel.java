@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
+import utilz.LoadSave;
 
 
 // class of game's display
@@ -15,6 +16,7 @@ public class GamePanel extends JPanel {
 
 	private MouseInputs mouseInputs;
 	private Game game;
+	private boolean temp = true;
 	
 	public GamePanel(Game game) {
 		mouseInputs = new MouseInputs(this);

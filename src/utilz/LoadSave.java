@@ -1,4 +1,4 @@
-package utilz;
+  package utilz;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,21 +19,26 @@ public class LoadSave {
 	public static final String FRIEREN = "Frieren_Animation.png";
 	public static final String CRABBY_SPRITE = "crabby_sprite.png";
 	
+	//MAPDATA & ENEMY
 	public static final String TILE_ATLAS = "map.png";
 	public static final String TILE_DATA = "res/map.txt";
 	public static final String ENEMY_DATA = "res/map_enemy.txt";
-
+	
+	//BACKGROUND & UI
 	public static final String GAME_NAME = "background/game_name.png";
 	public static final String PAUSE_BACKGROUND = "background/pause_menu.png";
 	public static final String MENU_BACKGROUND_IMG = "background/animation_background2.png";
+	public static final String FRIEND_BACKGROUND = "background/friend_background.png";
+	public static final String STATUS_BAR = "background/health_power_bar.png";
 	
+	//BUTTON
 	public static final String MENU_BUTTONS = "buttons/button_atlas.png";
 	public static final String SOUND_BUTTONS = "buttons/sound_button.png";
 	public static final String URM_BUTTONS = "buttons/urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "buttons/volume_button.png";
 	
+	//OBJECT
 	public static final String HOUSE = "house.png";
-	
 	public static final String POTION_ATLAS = "objects/potions_sprites.png";
 	public static final String KEY_1_ATLAS = "objects/Key_1.png";
  	
@@ -74,10 +79,8 @@ public class LoadSave {
 
                 for (String number : numbers) {
                 	int index = Integer.parseInt(number);
-                    if (index == CRABBY) {
-                    	System.out.println(col+" "+row);
+                    if (index == CRABBY) 
                     	list.add(new Crabby(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
-                    }
                     col++;
                 }
                 col = 0;
