@@ -129,7 +129,10 @@ public class EnemyManager {
 		for (Slime s : slimies) 
 			if (s.isActive())
 				if (attackBox.intersects(s.getHitbox())) {
-					s.hurt(10);
+					if (playing.getPlayer().attacking)
+						s.hurt(10);
+					else if (playing.getPlayer().powerAttackActive)
+						s.hurt(20);
 					return;
 				}
 	}

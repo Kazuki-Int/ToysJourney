@@ -14,16 +14,10 @@ public class Container extends GameObject {
 		
 		if (objType == BOX) {
 			
-			initHitbox(23, 25);
-			xDrawOffset = (int) (7 * Game.SCALE);
-			yDrawOffset = (int) (12 * Game.SCALE);
+			initHitbox(45, 43);
 		} else {	
-			
-			initHitbox(CONTAINER_WIDTH, CONTAINER_HEIGHT);
-			xDrawOffset = (int) (8 * Game.SCALE);
-			yDrawOffset = (int) (5 * Game.SCALE);
+			initHitbox(45, 45);
 		}
-		
 	}
 	
 	public void update() {

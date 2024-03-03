@@ -42,7 +42,7 @@ public class GameOptions extends State implements Statemethods {
 		bgW = (int) (optionsBackgroundImg.getWidth() * Game.SCALE);
 		bgH = (int) (optionsBackgroundImg.getHeight() * Game.SCALE);
 		bgX = Game.SCREEN_WIDTH / 2 - bgW / 2;
-		bgY = (int) (33 * Game.SCALE);
+		bgY = (int) (18 * Game.SCALE);
 	}
 
 	@Override

@@ -11,21 +11,21 @@ public class Constants {
 		public static final int BLUE_POTION = 1;
 		public static final int RED_POTION_VALUE = 100;
 		public static final int BLUE_POTION_VALUE = 10;	
-		public static final int POTION_WIDTH_DEFAULT = 12;
-		public static final int POTION_HEIGHT_DEFAULT = 16;
+		public static final int POTION_WIDTH_DEFAULT = 20;
+		public static final int POTION_HEIGHT_DEFAULT = 20;
 		public static final int POTION_WIDTH = (int) (Game.SCALE * POTION_WIDTH_DEFAULT);
 		public static final int POTION_HEIGHT = (int) (Game.SCALE * POTION_HEIGHT_DEFAULT);
 		
 		public static final int BARREL = 2;
 		public static final int BOX = 3;
-		public static final int CONTAINER_WIDTH_DEFAULT = 23;
-		public static final int CONTAINER_HEIGHT_DEFAULT = 25;
+		public static final int CONTAINER_WIDTH_DEFAULT = (int) (40*0.76);
+		public static final int CONTAINER_HEIGHT_DEFAULT = (int) (40*0.76);
 		public static final int CONTAINER_WIDTH = (int) (Game.SCALE * CONTAINER_WIDTH_DEFAULT);
 		public static final int CONTAINER_HEIGHT = (int) (Game.SCALE * CONTAINER_HEIGHT_DEFAULT);
 		
 		public static final int KEY_1 = 4;
-		public static final int KEY_WIDTH_DEFAULT = (int)(50 * 0.76);
-		public static final int KEY_HEIGHT_DEFAULT = (int)(50 * 0.76);
+		public static final int KEY_WIDTH_DEFAULT = (int)(35 * 0.76);
+		public static final int KEY_HEIGHT_DEFAULT = (int)(35 * 0.76);
 		public static final int KEY_WIDTH = (int) (Game.SCALE * KEY_WIDTH_DEFAULT);
 		public static final int KEY_HEIGHT = (int) (Game.SCALE * KEY_HEIGHT_DEFAULT);
 		
@@ -180,15 +180,19 @@ public class Constants {
 		public static final int RUN_RIGHT = 5;
 		public static final int RUN_LEFT = 6;
 		public static final int RUN_BACK = 7;
-		public static final int ATK_FRONT = 8;
-		public static final int ATK_RIGHT = 9;
-		public static final int ATK_LEFT = 10;
-		public static final int ATK_BACK = 11;
+		public static final int POWERATK_FRONT = 8;
+		public static final int POWERATK_RIGHT = 9;
+		public static final int POWERATK_LEFT = 10;
+		public static final int POWERATK_BACK = 11;
 		public static final int HIT_FRONT = 12;
 		public static final int HIT_RIGHT = 13;
 		public static final int HIT_LEFT = 14;
 		public static final int HIT_BACK = 15;
 		public static final int DEAD = 16;
+		public static final int ATK_FRONT = 17;
+		public static final int ATK_RIGHT = 18;
+		public static final int ATK_LEFT = 19;
+		public static final int ATK_BACK = 20;
 		
 		
 		public static int GetSpriteAmount(int player_action) {
@@ -210,14 +214,14 @@ public class Constants {
 				return 6;
 			case RUN_BACK:
 				return 6;
-			case ATK_FRONT:
-				return 4;
-			case ATK_RIGHT:
-				return 4;
-			case ATK_LEFT:
-				return 4;
-			case ATK_BACK:
-				return 4;
+			case ATK_FRONT, POWERATK_FRONT:
+				return 5;
+			case ATK_RIGHT, POWERATK_RIGHT:
+				return 5;
+			case ATK_LEFT, POWERATK_LEFT:
+				return 5;
+			case ATK_BACK, POWERATK_BACK:
+				return 5;
 			case HIT_FRONT:
 				return 6;
 			case HIT_RIGHT:

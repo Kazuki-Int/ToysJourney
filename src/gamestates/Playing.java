@@ -178,8 +178,11 @@ public class Playing extends State implements Statemethods {
 			case KeyEvent.VK_RIGHT:
 				player.setRight(true);
 				break;
-			case KeyEvent.VK_K:
+			case KeyEvent.VK_J:
 				player.setAttack(true);
+				break;
+			case KeyEvent.VK_K:
+				player.powerAttack();
 				break;
 			case KeyEvent.VK_ESCAPE:
 				paused = !paused;

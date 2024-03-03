@@ -38,7 +38,7 @@ public class ObjectManager {
 		container.add(new Container(30*Game.TILES_SIZE, 20*Game.TILES_SIZE, BARREL));
 		container.add(new Container(32*Game.TILES_SIZE, 20*Game.TILES_SIZE, BOX));
 		
-		keys.add(new Key(20*Game.TILES_SIZE + KEY_WIDTH/2, 25*Game.TILES_SIZE + KEY_HEIGHT/2, KEY_1));
+//		keys.add(new Key(20*Game.TILES_SIZE + KEY_WIDTH/2, 25*Game.TILES_SIZE + KEY_HEIGHT/2, KEY_1));
 	}
 
 	public void checkObjectTouched(Rectangle2D.Float hitbox) {
@@ -67,7 +67,10 @@ public class ObjectManager {
 			if (c.isActive()) {
 				if (attackbox.intersects(c.getHitbox())) {
 					c.setAnimation(true);
-					potions.add(new Potion((int) (c.worldX + CONTAINER_WIDTH/3), (int) (c.worldY + CONTAINER_HEIGHT/3), RED_POTION));
+					if (c.objType == BOX)
+						potions.add(new Potion((int) (c.worldX + CONTAINER_WIDTH/3), (int) (c.worldY + CONTAINER_HEIGHT/3), RED_POTION));
+					else if (c.objType == BARREL)
+						keys.add(new Key(c.worldX, c.worldY, KEY_1));
 					return;
 				}
 			}
@@ -76,8 +79,6 @@ public class ObjectManager {
 	public void applyPotionToPlayer(Potion p) {
 		if (p.getObjType() == RED_POTION)
 			playing.getPlayer().changHealth(RED_POTION_VALUE);
-		else
-			playing.getPlayer().changPower(BLUE_POTION_VALUE);
 		
 	}
 	
@@ -92,7 +93,7 @@ public class ObjectManager {
 		potionImgs = new BufferedImage[2][7];
 		for (int j=0;j<potionImgs.length;j++) {
 			for (int i=0;i<potionImgs[j].length;i++) {
-				potionImgs[j][i] = potionSprite.getSubimage(12*i, 16*j, 12, 16);
+				potionImgs[j][i] = potionSprite.getSubimage(32*i, 32*j, 32, 32);
 			}
 		}
 		
@@ -100,7 +101,7 @@ public class ObjectManager {
 		containerImgs = new BufferedImage[2][8];
 		for (int j=0;j<containerImgs.length;j++) {
 			for (int i=0;i<containerImgs[j].length;i++) {
-				containerImgs[j][i] = containerSprite.getSubimage(40*i, 30*j, 40, 30);
+				containerImgs[j][i] = containerSprite.getSubimage(32*i, 32*j, 32, 32);
 			}
 		}
 		
@@ -151,15 +152,15 @@ public class ObjectManager {
 				
 				int screenX = (int) (c.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(CONTAINER_WIDTH/2)));
 				int screenY = (int) (c.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(CONTAINER_HEIGHT/2)));
-				c.hitbox.x = screenX;
-				c.hitbox.y = screenY;
+				c.hitbox.x = screenX + 8;
+				c.hitbox.y = screenY + 12;
 				if (c.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					c.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					c.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					c.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(containerImgs[type][c.getAniIndex()], screenX, screenY, (int) (Game.SCALE*40), (int) (Game.SCALE*30), null);
+					g.drawImage(containerImgs[type][c.getAniIndex()], screenX, screenY, CONTAINER_WIDTH, CONTAINER_HEIGHT, null);
 					g.setColor(Color.pink);
-					g.drawRect((int) (screenX), (int) (screenY), (int) c.hitbox.width, (int) c.hitbox.height);
+					g.drawRect((int) (c.hitbox.x), (int) (c.hitbox.y), (int) c.hitbox.width, (int) c.hitbox.height);
 				}
 			}
 		
@@ -174,17 +175,16 @@ public class ObjectManager {
 				
 				int screenX = (int) (p.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
 				int screenY = (int) (p.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
-				p.hitbox.x = screenX;
+				p.hitbox.x = screenX - 10;
 				p.hitbox.y = screenY;
 				if (p.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					p.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					p.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					p.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(potionImgs[type][p.getAniIndex()], screenX, screenY, POTION_WIDTH, POTION_HEIGHT, null);
+					g.drawImage(potionImgs[type][p.getAniIndex()], screenX-10, screenY, POTION_WIDTH, POTION_HEIGHT, null);
 
 					g.setColor(Color.pink);
-					g.drawRect((int) (screenX), (int) (screenY), (int) p.hitbox.width, (int) p.hitbox.height);
-//					System.out.println(cameraX + " : " + cameraY);
+					g.drawRect((int) (p.hitbox.x), (int) (p.hitbox.y), (int) p.hitbox.width, (int) p.hitbox.height);
 				}
 			}
 	}
@@ -198,27 +198,27 @@ public class ObjectManager {
 				int screenY = (int) (k.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
 //				System.out.println(cameraX);
 									
-				k.hitbox.x = screenX;
-				k.hitbox.y = screenY;
+				k.hitbox.x = screenX + 6;
+				k.hitbox.y = screenY + 6;
 				if (k.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					k.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					k.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					k.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(key1_Imgs[type][k.getAniIndex()], screenX - (int)(k.xDrawOffset*Game.SCALE/2), screenY- (int)(k.yDrawOffset*Game.SCALE/2), KEY_WIDTH, KEY_HEIGHT, null);
+					g.drawImage(key1_Imgs[type][k.getAniIndex()], screenX, screenY + 8, KEY_WIDTH, KEY_HEIGHT, null);
 
 					g.setColor(Color.pink);
 					g.drawRect((int) (k.hitbox.x), (int) (k.hitbox.y), (int) k.hitbox.width, (int) k.hitbox.height);
-//					System.out.println(cameraX + " : " + cameraY);
 				}
 			}
 			else {
 				int type = 0;
-				g.drawImage(key1_Imgs[type][0], 24*Game.TILES_SIZE, 35, KEY_WIDTH, KEY_HEIGHT, null);
+				g.drawImage(key1_Imgs[type][0], 24*Game.TILES_SIZE, 35, (int) (KEY_WIDTH*Game.SCALE), (int) (KEY_HEIGHT*Game.SCALE), null);
 			}
 	}
 	
 	public void resetAllObject() {
 		potions.clear();
+		keys.clear();
 
 		for (Potion p: potions) 
 			p.reset();
