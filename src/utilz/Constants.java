@@ -4,10 +4,8 @@ import main.Game;
 
 public class Constants {
 	
-	//FILM
 	public static final int ANI_SPEED = 25;
 	
-	// FILM: only potion
 	public static class ObjectConstants {
 		public static final int RED_POTION = 0;
 		public static final int BLUE_POTION = 1;
@@ -18,7 +16,14 @@ public class Constants {
 		public static final int POTION_WIDTH = (int) (Game.SCALE * POTION_WIDTH_DEFAULT);
 		public static final int POTION_HEIGHT = (int) (Game.SCALE * POTION_HEIGHT_DEFAULT);
 		
-		public static final int KEY_1 = 3;
+		public static final int BARREL = 2;
+		public static final int BOX = 3;
+		public static final int CONTAINER_WIDTH_DEFAULT = 23;
+		public static final int CONTAINER_HEIGHT_DEFAULT = 25;
+		public static final int CONTAINER_WIDTH = (int) (Game.SCALE * CONTAINER_WIDTH_DEFAULT);
+		public static final int CONTAINER_HEIGHT = (int) (Game.SCALE * CONTAINER_HEIGHT_DEFAULT);
+		
+		public static final int KEY_1 = 4;
 		public static final int KEY_WIDTH_DEFAULT = (int)(50 * 0.76);
 		public static final int KEY_HEIGHT_DEFAULT = (int)(50 * 0.76);
 		public static final int KEY_WIDTH = (int) (Game.SCALE * KEY_WIDTH_DEFAULT);
@@ -28,7 +33,7 @@ public class Constants {
 			switch (object_type) {
 			case RED_POTION, BLUE_POTION:
 				return 7;
-			case KEY_1:
+			case BARREL, BOX, KEY_1:
 				return 8;
 			}
 			
@@ -59,14 +64,14 @@ public class Constants {
 		//STRAWBERRY SLIME
 		public static final int SLIME = 2;
 		
-		public static final int SLIME_WIDTH_DEFAULT = 50;
-		public static final int SLIME_HEIGHT_DEFAULT = 50;
+		public static final int SLIME_WIDTH_DEFAULT = (int) (27 * 0.76);
+		public static final int SLIME_HEIGHT_DEFAULT = (int) (24 * 0.76);
 		
 		public static final int SLIME_WIDTH = (int) (SLIME_WIDTH_DEFAULT * Game.SCALE);
 		public static final int SLIME_HEIGHT = (int) (SLIME_HEIGHT_DEFAULT * Game.SCALE);
 		
-		public static final int SLIME_DRAWOFFSET_X = (int) (10 * Game.SCALE);
-		public static final int SLIME_DRAWOFFSET_Y = (int) (10 * Game.SCALE);
+		public static final int SLIME_DRAWOFFSET_X = (int) (12 * Game.SCALE);
+		public static final int SLIME_DRAWOFFSET_Y = (int) (13.5 * Game.SCALE);
 
 		
 		public static int getSpriteAmount(int enemy_type, int enemy_state) {
@@ -179,6 +184,12 @@ public class Constants {
 		public static final int ATK_RIGHT = 9;
 		public static final int ATK_LEFT = 10;
 		public static final int ATK_BACK = 11;
+		public static final int HIT_FRONT = 12;
+		public static final int HIT_RIGHT = 13;
+		public static final int HIT_LEFT = 14;
+		public static final int HIT_BACK = 15;
+		public static final int DEAD = 16;
+		
 		
 		public static int GetSpriteAmount(int player_action) {
 			
@@ -200,12 +211,22 @@ public class Constants {
 			case RUN_BACK:
 				return 6;
 			case ATK_FRONT:
-				return 8;
+				return 4;
 			case ATK_RIGHT:
-				return 8;
+				return 4;
 			case ATK_LEFT:
-				return 8;
+				return 4;
 			case ATK_BACK:
+				return 4;
+			case HIT_FRONT:
+				return 6;
+			case HIT_RIGHT:
+				return 6;
+			case HIT_LEFT:
+				return 6;
+			case HIT_BACK:
+				return 6;
+			case DEAD:
 				return 8;
 			default:
 				return 0;

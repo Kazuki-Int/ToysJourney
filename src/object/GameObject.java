@@ -29,7 +29,10 @@ public class GameObject {
 			aniIndex++;
 			if (aniIndex >= GetSpriteAmount(objType)) {
 				aniIndex = 0;
-				
+				if (objType == BARREL || objType == BOX) {
+					doAnimation = false;
+					active = false;
+				}
 			}
 		}
 	}
@@ -38,7 +41,11 @@ public class GameObject {
 		aniIndex = 0;
 		aniTick = 0;
 		active = true;
-		doAnimation = true;
+		
+		if (objType == BARREL || objType == BOX) 
+			doAnimation = false;
+		else
+			doAnimation = true;
 	}
 	
 	protected void initHitbox(float width, float height) {
@@ -63,6 +70,10 @@ public class GameObject {
 		this.active = active;
 	}
 
+	public void setAnimation(boolean doAnimation) {
+		this.doAnimation = doAnimation;
+	}
+	
 	public int getxDrawOffset() {
 		return xDrawOffset;
 	}

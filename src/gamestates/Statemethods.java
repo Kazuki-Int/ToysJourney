@@ -21,4 +21,5 @@ public interface Statemethods {
 
 	public void keyReleased(KeyEvent e);
 
+
 }

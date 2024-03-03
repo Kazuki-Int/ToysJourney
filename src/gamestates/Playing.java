@@ -31,10 +31,12 @@ public class Playing extends State implements Statemethods {
 	
 	private boolean doorwayJustPassed;
 	
-	private boolean paused = false;
+	public boolean paused = false;
 	
 	private boolean gameOver;
+	private boolean playerDying;
 	 
+	
 	
 	public Playing(Game game) {
 		super(game);
@@ -59,7 +61,13 @@ public class Playing extends State implements Statemethods {
 	
 	@Override
 	public void update() {
-		if (!paused && !gameOver) {
+		if (paused) {
+			pauseOverlay.update();
+		} else if (gameOver) {
+			gameOverOverlay.update();
+		} else if (playerDying) {
+			player.update();
+		} else {
 			tileManager.update();
 			player.update();
 			enemyManager.update(player);
@@ -68,17 +76,18 @@ public class Playing extends State implements Statemethods {
 			checkForDoorway(); // added
 			objectManager.setCameraValues(player.getCameraX(), player.getCameraY());
 			enemyManager.setCameraValues(player.getCameraX(), player.getCameraY());
-		} else {
-			pauseOverlay.update();
 		}
 	}
 	
 	private void checkForDoorway() { // added
         Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
 //        System.out.println(player.getHitbox().x);
-        if (doorwayPlayerIsOn != null) {
-        	if (!doorwayJustPassed)
+        if (doorwayPlayerIsOn != null && player.hasKey) {
+        	if (!doorwayJustPassed) {
             	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo );
+            	System.out.println(getTileManager().getCurrentTile());
+        		getGame().getAudioPlayer().setTileSong(getTileManager().getCurrentTile());
+        	}
         } else {
         	doorwayJustPassed = false;
         }
@@ -93,9 +102,9 @@ public class Playing extends State implements Statemethods {
 		BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
 		g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
 		tileManager.draw(g);
+		enemyManager.draw(g, paused, gameOver);
 		objectManager.draw(g);
-		player.render(g);		
-		enemyManager.draw(g);
+		player.render(g);
 		
 		if (paused)
 			pauseOverlay.draw(g);
@@ -107,6 +116,7 @@ public class Playing extends State implements Statemethods {
 		//TODO: reset playing, enemy, tile etc.
 		gameOver = false;
 		paused = false;
+		playerDying = false;
 		player.resetAll();
 		enemyManager.resetAllEnemies();
 		objectManager.resetAllObject();
@@ -118,6 +128,16 @@ public class Playing extends State implements Statemethods {
 	
 	public void checkEnemyHit(Rectangle2D.Float attackBox) {
 		enemyManager.checkEnemyHit(attackBox);
+		
+	}
+	
+	public void checkObjectHit(Float attackBox) {
+		objectManager.checkObjectHit(attackBox);
+		
+	}
+	
+	public void checkPotionTouched(Rectangle2D.Float hitbox) {
+		objectManager.checkObjectTouched(hitbox);
 		
 	}
 
@@ -219,25 +239,29 @@ public class Playing extends State implements Statemethods {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (!gameOver)
+		if (!gameOver) {
 			if (paused) 
 				pauseOverlay.mousePressed(e);
-		
+		} else 
+			gameOverOverlay.mousePressed(e);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (!gameOver)
+		if (!gameOver) {
 			if (paused)
-				pauseOverlay.mouseReleased(e);		
+				pauseOverlay.mouseReleased(e);	
+		} else 
+			gameOverOverlay.mouseReleased(e);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (!gameOver)
+		if (!gameOver) {
 			if (paused)
 				pauseOverlay.mouseMoved(e); 
-		
+		} else 
+			gameOverOverlay.mouseMoved(e);
 	}
 	
 	public void unpauseGame() {
@@ -252,8 +276,8 @@ public class Playing extends State implements Statemethods {
 		return player;
 	}
 
-	public void checkPotionTouched(Rectangle2D.Float hitbox) {
-		objectManager.checkObjectTouched(hitbox);
+	public void setPlayerDying(boolean playerDying) {
+		this.playerDying = playerDying;
 		
 	}
 

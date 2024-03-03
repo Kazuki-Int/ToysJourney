@@ -9,8 +9,9 @@ public class Key extends GameObject {
 	public Key(int x, int y, int objType) {
 		super(x, y, objType);
 		doAnimation = true;
-		
-		initHitbox(KEY_WIDTH, KEY_HEIGHT); 
+		initHitbox(18*Game.SCALE, 28*Game.SCALE);
+		xDrawOffset = 18;
+		yDrawOffset = 10;
 		
 	}
 	

@@ -32,6 +32,9 @@ public class LoadSave {
 	public static final String FRIEND_BACKGROUND = "background/friend_background.png";
 	public static final String GAME_BACKGROUND = "background/masterpiece_background.png";
 	public static final String STATUS_BAR = "background/health_power_bar.png";
+	public static final String DEATH_SCREEN = "background/death_menu.png";
+	public static final String OPTIONS_MENU = "background/options_background.png";
+
 	
 	//BUTTON
 	public static final String MENU_BUTTONS = "buttons/button_atlas.png";
@@ -44,7 +47,8 @@ public class LoadSave {
 	public static final String HOUSE_TILE_ATLAS = "1stfloorTileset.png";
 	public static final String HOUSE_TILE_DATA = "res/housemap.txt";
 	public static final String POTION_ATLAS = "objects/potions_sprites.png";
-	public static final String KEY_1_ATLAS = "objects/Key_1.png";
+	public static final String CONTAINER_ATLAS = "objects/objects_sprites.png";
+	public static final String KEYHOUSE1_ATLAS = "objects/KeyHouse1.png";
  	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

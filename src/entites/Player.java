@@ -2,40 +2,30 @@ package entites;
 
 import static utilz.Constants.Directions.*;
 import static utilz.Constants.PlayerConstants.*;
+import static utilz.Constants.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.runtime.TemplateRuntime;
 
-import javax.imageio.ImageIO;
-
+import audio.AudioPlayer;
 import gamestates.Playing;
 import main.Game;
-import tiles.TileManager;
+import tiles.Doorway;
 import utilz.LoadSave;
 import utilz.HelpMethods;
 
 public class Player extends Entity {
-	
-	private float spawnPosX, spawnPosY;
-
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 25, atkSpeed = 12; // 15
-	private int playerAction = IDLE_FRONT;
 	private float cameraX;
 	private float cameraY;
 	private int playerDir = -1; // default at -1 (IDLE)
-	private boolean moving = false, attacking = false;
+	private boolean moving = false;
+	public boolean attacking = false;
 	private boolean left, up, right, down;
-	private float normalplayerSpeed = 1.0f * Game.SCALE;
-	private float daigonalplayerSpeed = (float)(1.0f * Game.SCALE / Math.sqrt(2));
+	
 	private int[][] lvlData;
-	private float xDrawOffset = 21 * Game.SCALE;
-	private float yDrawOffset = 4 * Game.SCALE;
 	
 	//StatusBarUI
 	private BufferedImage statusBarImg;
@@ -49,27 +39,44 @@ public class Player extends Entity {
 	private int healthBarHeight = (int) (4.5 * Game.SCALE);
 	private int healthBarXStart = (int) (37 * Game.SCALE);
 	private int healthBarYStart = (int) (22 * Game.SCALE);
-	
-	private int maxHealth = 100;
-	private int currentHealth = maxHealth;
 	private int healthWidth = healthBarWidth;
+	
+	private int powerBarWidth = (int) (100 * Game.SCALE);
+	private int powerBarHeight = (int) (2.5 * Game.SCALE);
+	private int powerBarXStart = (int) (47 * Game.SCALE);
+	private int powerBarYStart = (int) (42 * Game.SCALE);
+	private int powerWidth = powerBarWidth;
+	private int powerMaxValue = 200;
+	private int powerValue = powerMaxValue;
+	
 	private float originX;
 	private float originY;
 	
 	//AttackBox
-	private Rectangle2D.Float attackBox;
-	
+	private int attackBoxWidth = 19;
+	private int attackBoxHeight = 60;
 	private boolean attackChecked;
 	private Playing playing;
 	
+	// PowerAttack
+	private boolean powerAttackActive;
+	private int powerAttackTick;
+	private int powerGrowSpeed = 15;
+	private int powerGrowTick;
+	
 	// Object
-	private boolean hasKey = false;
+	public boolean hasKey = false;
 		
 	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
-		originX = x + 19;
-		originY = y + 12;
+		originX = x + 248;
+		originY = y + 238;
 		this.playing = playing;
+		this.state = IDLE_FRONT;
+		this.maxHealth = 100;
+		this.currentHealth = maxHealth;
+		this.walkSpeed = Game.SCALE * 1.0f;
+		this.daiwalkSpeed = (float) (Game.SCALE * 1.0f / Math.sqrt(2));
 		calcStartCameraValues();
 		loadAnimations();
 		initHitbox(originX, originY, width, height);
@@ -89,15 +96,28 @@ public class Player extends Entity {
 	}
 
 	private void initAttackBox() {
-		attackBox = new Rectangle2D.Float(hitbox.x + (hitbox.width/2) - 19, hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 19, (int) (19 * Game.SCALE), (int) (30 * Game.SCALE));
+		attackBox = new Rectangle2D.Float(hitbox.x + (hitbox.width/2) - 19, hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 32, (int) (attackBoxWidth * Game.SCALE), (int) (attackBoxHeight * Game.SCALE));
 		
 	}
 
 	public void update() {
 		updateHealthBar();
+		updatePowerBar();
 
 		if (currentHealth <= 0) {
-			playing.setGameOver(true);
+			if (state != DEAD) {
+				state = DEAD;
+				aniTick = 0;
+				aniIndex = 0;
+				playing.setPlayerDying(true);
+				playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
+			} else if (aniIndex == GetSpriteAmount(DEAD) - 1 && aniTick >= ANI_SPEED - 1) {
+				playing.setGameOver(true);
+				playing.getGame().getAudioPlayer().stopSong();
+				playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
+			} else
+				updateAnimationsTick();
+			
 			return;
 		}
 		
@@ -115,35 +135,39 @@ public class Player extends Entity {
 	
 
 	private void checkAttack() {
-		if (attackChecked || aniIndex != 1)
+
+		if (attackChecked || aniIndex != 1) {
 			return;
+		}
 		attackChecked = true;
 		playing.checkEnemyHit(attackBox);
-		
+		playing.checkObjectHit(attackBox);
+		if (!moving)
+			playing.getGame().getAudioPlayer().playAttackSound();
 	}
 
 	private void updateAttackBox() {
 		if (right) {
-			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 11) - 21;
-			attackBox.y = hitbox.y + (hitbox.height/2) - 19;
+			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 11);
+			attackBox.y = hitbox.y + (hitbox.height/2) - 30;
 		} else if (left) {
-			attackBox.x = hitbox.x - (int) (Game.SCALE * 12) - 37;
-			attackBox.y = hitbox.y + (hitbox.height/2) - 19;
+			attackBox.x = hitbox.x - (int) (Game.SCALE * 12) - 120;
+			attackBox.y = hitbox.y + (hitbox.height/2) - 30;
 		} else if (up) {
 			attackBox.x = hitbox.x + (hitbox.width/2) - 19;
-			attackBox.y = hitbox.y - (int) (Game.SCALE * 10) - 40;
+			attackBox.y = hitbox.y - (int) (Game.SCALE * 10) - 100;
 		} else if (down) {
 			attackBox.x = hitbox.x + (hitbox.width/2) - 19;
-			attackBox.y = hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 19;
+			attackBox.y = hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 32;
 		}
 		
 		if ((up || down) && (attackBox.width > attackBox.height)) {
-			attackBox.width = 19 * Game.SCALE;
-			attackBox.height = 30 * Game.SCALE;
+			attackBox.width = attackBoxWidth * Game.SCALE;
+			attackBox.height = attackBoxHeight * Game.SCALE;
 		}
 		else if ((left || right) && (attackBox.width < attackBox.height)) {
-			attackBox.width = 30 * Game.SCALE;
-			attackBox.height = 19 * Game.SCALE;
+			attackBox.width = attackBoxHeight * Game.SCALE;
+			attackBox.height = attackBoxWidth * Game.SCALE;
 		}
 			
 		
@@ -153,13 +177,23 @@ public class Player extends Entity {
 		healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
 		
 	}
+	
+	private void updatePowerBar() {
+		powerWidth = (int) ((powerValue / (float) powerMaxValue) * powerBarWidth);
+		
+		powerGrowTick++;
+		if (powerGrowTick >= powerGrowSpeed) {
+			powerGrowTick = 0;
+			changePower(1);
+		}
+	}
 
 	private void checkPotionTouched() {
 		playing.checkPotionTouched(hitbox);
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(animations[playerAction][aniIndex], (int) (x), (int) (y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
+		g.drawImage(animations[state][aniIndex], (int) (x), (int) (y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
 		drawhitbox(g);
 		drawAttackBox(g);
 		drawUI(g);
@@ -168,11 +202,13 @@ public class Player extends Entity {
 	private void drawAttackBox(Graphics g) {
 		g.setColor(Color.red);
 		g.drawRect((int) (attackBox.x), (int) (attackBox.y), (int) attackBox.width, (int) attackBox.height);
-		
 	}
 
 	private void drawUI(Graphics g) {
+		// Background UI
 		g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
+		
+		// Health UI
 		g.setColor(Color.red);
 		g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 	}
@@ -180,18 +216,11 @@ public class Player extends Entity {
 
 	
 	private void updateAnimationsTick() {
-		int speed;
-		// set speed base on action 
-		if (attacking)
-			speed = atkSpeed;
-		else
-			speed = aniSpeed;
-		
 		aniTick++;
-		if (aniTick >= speed) { // 8 animation per second, change pos overy 1/8 = 0.125 second.
+		if (aniTick >= ANI_SPEED) { // 8 animation per second, change pos overy 1/8 = 0.125 second.
 			aniTick = 0;
 			aniIndex++;
-			if (aniIndex >= GetSpriteAmount(playerAction)) {
+			if (aniIndex >= GetSpriteAmount(state)) {
 				aniIndex = 0;
 				attacking = false;
 				attackChecked = false;
@@ -200,37 +229,45 @@ public class Player extends Entity {
 	}
 
 	private void setAnimation() {
-		int startAni = playerAction;
+		int startAni = state;
 		
+
 		if (moving && playerDir == LEFT) {
-			playerAction = RUN_LEFT;
+			attacking = false;
+			state = RUN_LEFT;
 		} else if (moving && playerDir == DOWN) {
-			playerAction = RUN_FRONT;
+			attacking = false;
+			state = RUN_FRONT;
 		} else if (moving && playerDir == RIGHT) {
-			playerAction = RUN_RIGHT;
+			attacking = false;
+			state = RUN_RIGHT;
 		} else if (moving && playerDir == UP) {
-			playerAction = RUN_BACK;
+			attacking = false;
+			state = RUN_BACK;
 		} else if (!moving && playerDir == UP){
-			playerAction = IDLE_BACK;
+			state = IDLE_BACK;
 		} else if (!moving && playerDir == LEFT) {
-			playerAction = IDLE_LEFT;
+			state = IDLE_LEFT;
 		} else if (!moving && playerDir == RIGHT){
-			playerAction = IDLE_RIGHT;
+			state = IDLE_RIGHT;
 		} else if (!moving && playerDir == DOWN) {
-			playerAction = IDLE_FRONT;
+			state = IDLE_FRONT;
 		}
+	
+	
 		
 		if (attacking && playerDir == RIGHT) {
-			playerAction = ATK_RIGHT;
+			state = ATK_RIGHT;
 		} else if (attacking && playerDir == DOWN) {
-			playerAction = ATK_FRONT;
+			state = ATK_FRONT;
 		} else if (attacking && playerDir == UP) {
-			playerAction = ATK_BACK;
+			state = ATK_BACK;
 		} else if (attacking && playerDir == LEFT) {
-			playerAction = ATK_LEFT;
+			state = ATK_LEFT;
 		}
 		
-		if (startAni != playerAction)
+		
+		if (startAni != state)
 			resetAnitick();
 	}
 	
@@ -241,6 +278,8 @@ public class Player extends Entity {
 
 	private void updatePos() {
 		moving = false;
+		
+		
 		if (!left & !right & !down & !up & !down)
 			return;
 		
@@ -252,15 +291,15 @@ public class Player extends Entity {
 		if (left && !right) {
 			playerDir =0;
 			if (up || down)
-				xDelta -= daigonalplayerSpeed *-1;
+				xDelta -= daiwalkSpeed *-1;
 			else
-				xDelta -= normalplayerSpeed *-1;
+				xDelta -= walkSpeed *-1;
 		} else if (right && !left) {
 			playerDir = 2;
 			if (up || down)
-				xDelta += daigonalplayerSpeed *-1;
+				xDelta += daiwalkSpeed *-1;
 			else
-				xDelta += normalplayerSpeed *-1;
+				xDelta += walkSpeed *-1;
 		}
 		
 		if (up && !down) {
@@ -269,10 +308,10 @@ public class Player extends Entity {
 					playerDir = 0;
 				else if (right)
 					playerDir = 2;
-				yDelta -= daigonalplayerSpeed *-1;
+				yDelta -= daiwalkSpeed *-1;
 			} else {
 				playerDir = 3;
-				yDelta -= normalplayerSpeed *-1;
+				yDelta -= walkSpeed *-1;
 			}	
 		} else if (down && !up) {
 			if (left || right) {
@@ -280,17 +319,17 @@ public class Player extends Entity {
 					playerDir = 0;
 				else if (right)
 					playerDir = 2;
-				yDelta += daigonalplayerSpeed *-1;
+				yDelta += daiwalkSpeed *-1;
 			} else {	
 				playerDir = 1;
-				yDelta += normalplayerSpeed *-1;
+				yDelta += walkSpeed *-1;
 			}	
 		}
 		
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-			System.out.println(cameraX + " : " + cameraY);
+//			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}
@@ -305,14 +344,22 @@ public class Player extends Entity {
 			currentHealth = maxHealth;
 	}
 	
+	public void changePower(int value) {
+		powerValue += value;
+		if (powerValue >= powerMaxValue)
+			powerValue = powerMaxValue;
+		else if (powerValue <= 0);
+			powerValue = 0;
+	}
+	
 	private void loadAnimations() {
 		
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.FRIEREN);
 		
-		animations = new BufferedImage[12][8];
+		animations = new BufferedImage[17][8];
 		for (int j = 0; j < animations.length; j++) 
 			for (int i = 0; i < animations[j].length; i++) 
-					animations[j][i] = img.getSubimage(i*50, j*50, 50, 50);// (imgx, imgy, posx, posy)
+					animations[j][i] = img.getSubimage(i*350, j*350, 350, 350);// (imgx, imgy, posx, posy)
 		
 		statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
 
@@ -408,11 +455,15 @@ public class Player extends Entity {
 		attacking = false;
 		moving = false;
 		hasKey = false;
-		playerAction = IDLE_FRONT;
+		state = IDLE_FRONT;
 		currentHealth = maxHealth;
 		
-		cameraX = (float) (25 * Game.TILES_SIZE);
-		cameraY = (float) (25 * Game.TILES_SIZE);
+        playing.getTileManager().resetMap();
+		playing.getGame().getAudioPlayer().setTileSong(playing.getTileManager().getCurrentTile());
+
+		
+		cameraX = (float) (20 * Game.TILES_SIZE);
+		cameraY = (float) (20 * Game.TILES_SIZE);
 		
 	}
 }

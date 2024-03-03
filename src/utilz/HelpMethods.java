@@ -30,8 +30,8 @@ public class HelpMethods {
 	public static Rectangle2D.Float CreateHitboxForDoorWayFloat(Tile tileLocatedIn, int buildingIndex) { //added
 		Building building = tileLocatedIn.getBuildingArrayList().get(buildingIndex); 
 		
-		float x = building.getPos().x + ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2));
-		float y = building.getPos().y + ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2));
+		float x = building.getPos().x + ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2));
+		float y = building.getPos().y + ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2));
         Rectangle2D.Float hitbox = tileLocatedIn.getBuildingArrayList().get(buildingIndex).getBuildingType().getHitboxDoorway();
 
 		
@@ -39,7 +39,7 @@ public class HelpMethods {
 	}
 	
 	public static Rectangle2D.Float CreateHitboxForDoorway(int xTile, int yTile) { //added
-        float x = xTile * Game.TILES_SIZE + ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2));
+        float x = xTile * Game.TILES_SIZE + ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2));
 //        System.out.println(x);
         float y = yTile * Game.TILES_SIZE + ((Game.SCREEN_HEIGHT/2));
 

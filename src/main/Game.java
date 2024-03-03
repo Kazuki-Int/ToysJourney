@@ -2,9 +2,12 @@ package main;
 
 import java.awt.Graphics;
 
+import audio.AudioPlayer;
+import gamestates.GameOptions;
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
+import ui.AudioOptions;
 import utilz.LoadSave;
 
 public class Game implements Runnable {
@@ -17,6 +20,9 @@ public class Game implements Runnable {
 
 	private Playing playing;
 	private Menu menu;
+	private GameOptions gameOptions;
+	private AudioOptions audioOptions;
+	private AudioPlayer audioPlayer;
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static float SCALE = 2f;
@@ -30,11 +36,9 @@ public class Game implements Runnable {
 	public final static int MAP_WIDTH = 40;
 	public final static int MAP_HEIGHT = 40;
 	
-	public final static int PLAYER_SIZE = (int)(50 * 0.76);
+	public final static int PLAYER_SIZE = (int)(350 * 0.76);
 	public final static int PLAYER_WIDTH = (int)(31 * 0.76);
-	public final static int PLAYER_HEIGHT = (int)(42 * 0.76);
-	public final static int PLAYER_HITBOX_WIDTH = 0;
-	public final static int PLAYER_HITBOX_HEIGHT = 0;
+	public final static int PLAYER_HEIGHT = (int)(44 * 0.76);
 	
 
 	
@@ -49,9 +53,11 @@ public class Game implements Runnable {
 	}
 
 	private void initClasses() {
-		
+		audioOptions = new AudioOptions(this);
+		audioPlayer = new AudioPlayer();
 		menu = new Menu(this);
 		playing = new Playing(this);
+		gameOptions = new GameOptions(this); 
 		
 	}
 
@@ -69,6 +75,8 @@ public class Game implements Runnable {
 			playing.update();
 			break;
 		case OPTIONS:
+			gameOptions.update();
+			break;
 		case QUIT:
 		default:
 			System.exit(0);
@@ -84,6 +92,9 @@ public class Game implements Runnable {
 			break;
 		case PLAYING:
 			playing.draw(g);
+			break;
+		case OPTIONS:
+			gameOptions.draw(g);
 			break;
 		default:
 			break;
@@ -146,4 +157,17 @@ public class Game implements Runnable {
 	public Playing getPlaying() {
 		return playing;
 	}
+	
+	public GameOptions getGameOptions() {
+		return gameOptions;
+	}
+	
+	public AudioOptions getAudioOptions() {
+		return audioOptions;
+	}
+	
+	public AudioPlayer getAudioPlayer() {
+		return audioPlayer;
+	}
+	
  }

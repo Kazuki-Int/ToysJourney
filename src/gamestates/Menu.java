@@ -21,9 +21,11 @@ public class Menu extends State implements Statemethods {
 
 	public Menu(Game game) {
 		super(game);
+		loadButtons();
 		loadBackground();
 		initClasses();
-		loadButtons();
+
+
 	}
 	
 private void initClasses() {
@@ -84,6 +86,8 @@ private void initClasses() {
 			if (isIn(e, mb)) {
 				if (mb.isMousePressed())
 					mb.applyGamestate();
+				if (mb.getState() == Gamestate.PLAYING)
+					game.getAudioPlayer().setTileSong(game.getPlaying().getTileManager().getCurrentTile());
 				break;
 			}
 		}

@@ -12,7 +12,7 @@ public class Slime extends Enemy {
 	
 	//AttackBox
 //	private Rectangle2D.Float attackBox;
-	private int attackBoxOffsetX, attackBoxOffsetY;
+//	private int attackBoxOffsetX, attackBoxOffsetY;
 
 	public float velocityX = 0.75f;
 	public float velocityY = 0.75f;
@@ -25,7 +25,7 @@ public class Slime extends Enemy {
 		super(x, y, SLIME_WIDTH, SLIME_HEIGHT, SLIME);
 		this.originX = x;
 		this.originY = y;
-		initHitbox(x, y, (int) (25 * Game.SCALE), (int) (25 * Game.SCALE));
+		initHitbox(originX, originY, (int) (SLIME_WIDTH_DEFAULT * Game.SCALE), (int) (SLIME_HEIGHT_DEFAULT * Game.SCALE));
 		initAttackBox();
 		
 	}
@@ -51,7 +51,7 @@ public class Slime extends Enemy {
 	}
 
 	private void updateBehavior(Player player) {
-		switch (enemyState) {
+		switch (state) {
 		case IDLE:
 			newState(RUNNING);
 			break;

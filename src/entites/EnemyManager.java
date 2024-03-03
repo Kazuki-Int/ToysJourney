@@ -17,8 +17,8 @@ import static utilz.Constants.Directions.LEFT;
 import static utilz.Constants.Directions.RIGHT;
 import static utilz.Constants.Directions.UP;
 import static utilz.Constants.EnemyConstants.*;
-import static utilz.Constants.ObjectConstants.POTION_HEIGHT;
-import static utilz.Constants.ObjectConstants.POTION_WIDTH;
+import static utilz.Constants.ObjectConstants.*;
+
 
 public class EnemyManager {
 
@@ -48,8 +48,8 @@ public class EnemyManager {
 				s.update(player);
 	}
 	
-	public void draw(Graphics g) {
-		drawSlimes(g);
+	public void draw(Graphics g, Boolean paused, Boolean gameOver) {
+		drawSlimes(g, paused, gameOver);
 		
 	}
 	
@@ -102,19 +102,24 @@ public class EnemyManager {
 		}
 	}
 	
-	private void drawSlimes(Graphics g) {
+	private void drawSlimes(Graphics g, Boolean paused, Boolean gameOver) {
 		for (Slime s : slimies) 
 			if (s.isActive()) {
-				int screenX = (int) (s.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
-				int screenY = (int) (s.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_SIZE*Game.SCALE/2)));
+				int screenX = (int) (s.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(SLIME_WIDTH/2)));
+				int screenY = (int) (s.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(SLIME_HEIGHT/2)));
 				
-				g.drawImage(slimeArr[s.getEnemyState()][s.getAniIndex()], screenX, screenY, SLIME_WIDTH, SLIME_HEIGHT, null);
-				s.hitbox.x = screenX + SLIME_WIDTH/2 - s.hitbox.width/2;
-				s.hitbox.y = screenY + SLIME_HEIGHT/2 - s.hitbox.height/2;
-				updateSlimes(s);
+				g.drawImage(slimeArr[s.getEnemyState()][s.getAniIndex()], screenX, screenY, (int) ((50*Game.SCALE)), (int) (50*Game.SCALE), null);
+
+				screenX = (int) (s.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(50*Game.SCALE/3.5)));
+				screenY = (int) (s.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(50*Game.SCALE/8)));
+				s.hitbox.x = screenX + SLIME_WIDTH/2 + s.hitbox.width/2;
+				s.hitbox.y = screenY + SLIME_HEIGHT/2 + s.hitbox.height/2;
 				g.setColor(Color.pink);
 				g.drawRect((int) (s.hitbox.x), (int) (s.hitbox.y), (int) (s.hitbox.width), (int) (s.hitbox.height));
 				s.drawAttackBox(g);
+				if (!paused && !gameOver)
+					updateSlimes(s);
+
 			
 			}
 
@@ -134,7 +139,7 @@ public class EnemyManager {
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.SLIME_SPRITE);
 		for (int j = 0; j < slimeArr.length; j++)
 			for (int i = 0; i < slimeArr[j].length; i++)
-				slimeArr[j][i] = temp.getSubimage(i * SLIME_WIDTH_DEFAULT, j * SLIME_HEIGHT_DEFAULT, SLIME_WIDTH_DEFAULT, SLIME_HEIGHT_DEFAULT);
+				slimeArr[j][i] = temp.getSubimage(i * 50, j * 50, 50, 50);
 		
 	}
 	
