@@ -1,10 +1,11 @@
-package ui;
+package objects;
 
 
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import ui.PauseButton;
 import utilz.LoadSave;
 import static utilz.Constants.UI.VolumeButtons.*;
 

@@ -23,8 +23,8 @@ public class GamePanel extends JPanel {
 		mouseInputs = new MouseInputs(this);
 		this.game = game;	
 		setPanelSize();
-//		this.setBackground(new Color(78,129,99));
-		this.setBackground(Color.black);
+		this.setBackground(new Color(16,15,14));
+//		this.setBackground();
 		addKeyListener(new KeyboardInputs(this));
 		addMouseListener(mouseInputs);
 		addMouseMotionListener(mouseInputs);

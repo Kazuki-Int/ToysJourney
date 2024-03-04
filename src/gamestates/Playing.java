@@ -85,7 +85,7 @@ public class Playing extends State implements Statemethods {
 	private void checkForDoorway() { // added
         Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
 //        System.out.println(player.getHitbox().x);
-        if (doorwayPlayerIsOn != null && player.hasKey) {
+        if (doorwayPlayerIsOn != null && player.hasKey1) {
         	if (!doorwayJustPassed) {
             	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo );
 //            	System.out.println(getTileManager().getCurrentTile());
@@ -105,9 +105,11 @@ public class Playing extends State implements Statemethods {
 		if (getTileManager().getCurrentTile().getFloorType() == Floor.WORLD) {
 			BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
 			g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
-		} else
-			g.drawImage(null, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
-		
+		} else {
+//			g.setColor(new Color(38, 38, 38, 255));
+//			g.draw();
+		}
+//		
 		tileManager.draw(g);
 		enemyManager.draw(g, paused, gameOver);
 		objectManager.draw(g);

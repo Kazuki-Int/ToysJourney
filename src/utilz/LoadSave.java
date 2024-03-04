@@ -25,6 +25,9 @@ public class LoadSave {
 	public static final String TILE_ATLAS = "map.png";
 	public static final String TILE_DATA = "res/map.txt";
 	public static final String ENEMY_DATA = "res/map_enemy.txt";
+	public static final String HOUSE_TILE_DATA = "res/housemap.txt";
+	public static final String HOUSE_2_TILE_DATA = "res/housemap2.txt";
+	public static final String CAVE_TILE_DATA = "res/cave.txt";
 	
 	//BACKGROUND & UI
 	public static final String GAME_NAME = "background/game_name.png";
@@ -36,6 +39,7 @@ public class LoadSave {
 	public static final String FRIEREN_STATUS_BAR = "background/frieren_health.png";
 	public static final String DEATH_SCREEN = "background/death_menu.png";
 	public static final String OPTIONS_MENU = "background/options_background.png";
+	public static final String SELECT_BACKGROUND = "background/select_background.png";
 
 	
 	//BUTTON
@@ -48,10 +52,13 @@ public class LoadSave {
 	//OBJECT
 	public static final String HOUSE = "house.png";
 	public static final String HOUSE_TILE_ATLAS = "1stfloorTileset.png";
-	public static final String HOUSE_TILE_DATA = "res/housemap.txt";
+	public static final String HOUSE_2_TILE_ATLAS = "2ndHouseRoomTileset.png";
+	public static final String CAVE_ATLAS = "caveRoomtileset.png";
 	public static final String POTION_ATLAS = "objects/potions_sprites.png";
 	public static final String CONTAINER_ATLAS = "objects/objects_sprites.png";
-	public static final String KEYHOUSE1_ATLAS = "objects/KeyHouse1.png";
+	public static final String KEYHOUSE_ATLAS = "objects/key_sprites.png";
+	public static final String TREE_1_ATLAS = "objects/tree.png";
+
  	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

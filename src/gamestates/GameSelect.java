@@ -27,8 +27,8 @@ public class GameSelect extends State implements Statemethods {
 	}
 
 	private void loadButtons() {
-		buttons[0] = new SelectButton((int) (165 * Game.SCALE), Game.SCREEN_HEIGHT/2, 0, Gamestate.PLAYING, LoadSave.HIMMEL); //150
-		buttons[1] = new SelectButton((int) (330 * Game.SCALE), Game.SCREEN_HEIGHT/2, 1, Gamestate.PLAYING, LoadSave.FRIEREN); //220
+		buttons[0] = new SelectButton((int) (285 * Game.SCALE), Game.SCREEN_HEIGHT/2 + 45, 0, Gamestate.PLAYING, LoadSave.HIMMEL); //150
+		buttons[1] = new SelectButton((int) (400 * Game.SCALE), Game.SCREEN_HEIGHT/2 + 45, 1, Gamestate.PLAYING, LoadSave.FRIEREN); //220
 	}
 
 	private void loadImgs() {
@@ -54,6 +54,8 @@ public class GameSelect extends State implements Statemethods {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(backgroundImgs[0][background.getAniIndex()], 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
+		BufferedImage backgroundImage = LoadSave.GetSpriteAtlas(LoadSave.SELECT_BACKGROUND);
+		g.drawImage(backgroundImage, (Game.SCREEN_WIDTH/2 - 385), (Game.MAP_HEIGHT + 130), Game.SCREEN_WIDTH/2 - 50, Game.SCREEN_WIDTH/2 - 50, null);
 		for (SelectButton sb : buttons) {
 			sb.draw(g);
 		}

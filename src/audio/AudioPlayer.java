@@ -32,7 +32,6 @@ public class AudioPlayer {
 	private int currentSongId;
 	private float volume = 0.75f;
 	private boolean songMute, effectMute;
-	private Random rand = new Random();
 	
 	public AudioPlayer() {
 		loadSongs();

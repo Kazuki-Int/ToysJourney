@@ -8,7 +8,6 @@ public class Constants {
 	
 	public static class ObjectConstants {
 		public static final int RED_POTION = 0;
-		public static final int BLUE_POTION = 1;
 		public static final int RED_POTION_VALUE = 100;
 		public static final int BLUE_POTION_VALUE = 10;	
 		public static final int POTION_WIDTH_DEFAULT = 20;
@@ -16,7 +15,8 @@ public class Constants {
 		public static final int POTION_WIDTH = (int) (Game.SCALE * POTION_WIDTH_DEFAULT);
 		public static final int POTION_HEIGHT = (int) (Game.SCALE * POTION_HEIGHT_DEFAULT);
 		
-		public static final int BARREL = 2;
+		public static final int BARREL1 = 1;
+		public static final int BARREL2 = 2;
 		public static final int BOX = 3;
 		public static final int CONTAINER_WIDTH_DEFAULT = (int) (40*0.76);
 		public static final int CONTAINER_HEIGHT_DEFAULT = (int) (40*0.76);
@@ -24,16 +24,21 @@ public class Constants {
 		public static final int CONTAINER_HEIGHT = (int) (Game.SCALE * CONTAINER_HEIGHT_DEFAULT);
 		
 		public static final int KEY_1 = 4;
+		public static final int KEY_2 = 5;
 		public static final int KEY_WIDTH_DEFAULT = (int)(35 * 0.76);
 		public static final int KEY_HEIGHT_DEFAULT = (int)(35 * 0.76);
 		public static final int KEY_WIDTH = (int) (Game.SCALE * KEY_WIDTH_DEFAULT);
 		public static final int KEY_HEIGHT = (int) (Game.SCALE * KEY_HEIGHT_DEFAULT);
 		
+		public static final int TREE_1 = 6;
+		public static final int TREE_1_WIDTH = (int) (103*Game.SCALE);
+		public static final int TREE_1_HEIGHT = (int) (184*Game.SCALE);
+		
 		public static final int GetSpriteAmount(int object_type) {
 			switch (object_type) {
-			case RED_POTION, BLUE_POTION:
+			case RED_POTION:
 				return 6;
-			case BARREL, BOX, KEY_1:
+			case BARREL1, BARREL2, BOX, KEY_1:
 				return 8;
 			}
 			
@@ -164,11 +169,11 @@ public class Constants {
 		}
 		
 		public static class SelectButton {
-			public static final int SELECT_DEFAULT_WIDTH = 350;	
-			public static final int SELECT_DEFAULT_HEIGHT = 350;		
+			public static final int SELECT_DEFAULT_WIDTH = 100;	
+			public static final int SELECT_DEFAULT_HEIGHT = 100;		
 
-			public static final int SELECT_WIDTH = (int) (SELECT_DEFAULT_WIDTH * Game.SCALE);
-			public static final int SELECT_HEIGHT = (int) (SELECT_DEFAULT_HEIGHT * Game.SCALE);
+			public static final int SELECT_WIDTH = (int) ((SELECT_DEFAULT_WIDTH * Game.SCALE)*1.5);
+			public static final int SELECT_HEIGHT = (int) ((SELECT_DEFAULT_HEIGHT * Game.SCALE)*1.5);
 
 		}
 	}
@@ -189,7 +194,7 @@ public class Constants {
 		public static final int RUN_RIGHT = 5;
 		public static final int RUN_LEFT = 6;
 		public static final int RUN_BACK = 7;
-		public static final int ATK_FRONT = 8;
+		public static final int ATK_FRONT = 8; 
 		public static final int ATK_RIGHT = 9;
 		public static final int ATK_LEFT = 10;
 		public static final int ATK_BACK = 11;

@@ -1,5 +1,7 @@
 package utilz;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
@@ -42,7 +44,6 @@ public class HelpMethods {
         float x = xTile * Game.TILES_SIZE + ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2));
 //        System.out.println(x);
         float y = yTile * Game.TILES_SIZE + ((Game.SCREEN_HEIGHT/2));
-
         return new Rectangle2D.Float(x+32 , y, Game.TILES_SIZE, Game.TILES_SIZE);
     }
 
@@ -105,12 +106,18 @@ public class HelpMethods {
 	 
 	public static boolean isTileWalkable(int tileId, Tile currentTile) { //added
 		if (currentTile.getFloorType() == Floor.WORLD) 
-			return (tileId != 94 && tileId != 95 && (tileId < 51 || tileId > 53) && tileId != 108 && tileId != 85 && tileId != 74 && 
-					tileId != 62 && tileId != 42 && tileId != 44 && tileId != 45 && tileId != 58 && tileId != 70 && tileId != 82 && 
-					tileId != 83 && tileId != 72 && tileId != 60 && tileId != 34 && tileId != 46 && tileId != 55);
-		if (currentTile.getFloorType() == Floor.HOUSE)
+			return (tileId != 94 && tileId != 95 && tileId != 108 && tileId != 109 && tileId != 84 && tileId != 85 && tileId != 86 && tileId != 72 &&
+					tileId != 59 && tileId != 60 && tileId != 61 && tileId != 48 && tileId != 63 && tileId != 50 && tileId != 51 && tileId != 38 &&
+					tileId != 52 && tileId != 66 && tileId != 80 && tileId != 99 && tileId != 70 && tileId != 98 && tileId != 112 && tileId != 126 && tileId != 283 &&
+					(tileId < 145 || tileId > 150) && (tileId < 173 || tileId > 178) && (tileId < 187 || tileId > 192) && //bridge horizontal
+					tileId != 210 && tileId != 212 && tileId != 224 && tileId != 226 && tileId != 238 && tileId != 240 && tileId != 252 && tileId != 254 && tileId != 266 && tileId != 268); //bridge vertical
+					
+		else if (currentTile.getFloorType() == Floor.HOUSE)
 			return (tileId != 21 && tileId != 23 && (tileId < 0 || tileId > 2) && tileId != 9 && tileId != 16 && tileId != 15 && tileId != 14 && tileId != 17
 					&& tileId != 24 && tileId != 25 && tileId != 26 && tileId != 6 && tileId != 20 && tileId != 28 && tileId != 11 && tileId != 7);
+		
+		else if (currentTile.getFloorType() == Floor.HOUSE_2)
+			return ((tileId < 10 || tileId > 16) && tileId != 28 && tileId != 17 && tileId != 8 && tileId != 19 && tileId != 37 && tileId != 39);
 		return true;
 	}
 	

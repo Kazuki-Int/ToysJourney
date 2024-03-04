@@ -25,6 +25,8 @@ public class SelectButton {
 	private Rectangle bounds;
 	private String character;
 	
+	private int buttonAni = 0;
+	
 	public SelectButton(int xPos, int yPos, int rowIndex, Gamestate state, String character) {
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -41,7 +43,7 @@ public class SelectButton {
 	}
 
 	private void loadImgs() {
-		imgs = new BufferedImage[3];
+		imgs = new BufferedImage[7];
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.SELECT_BUTTONS);
 		for (int i = 0; i < imgs.length; i++) 
 			imgs[i] = temp.getSubimage(i * SELECT_DEFAULT_WIDTH, rowIndex * SELECT_DEFAULT_HEIGHT, SELECT_DEFAULT_WIDTH, SELECT_DEFAULT_HEIGHT);
@@ -52,11 +54,23 @@ public class SelectButton {
 	}
 	
 	public void update() {
-		index = 0;
-		if (mouseOver)
-			index = 1;
+		
 		if (mousePressed)
-			index = 2;
+			index = 6;
+		else if (mouseOver) {
+			if (index == 6)
+				index = 1;
+			buttonAni++;
+			if (buttonAni == 25) {
+				index++;
+				buttonAni = 0;
+			}
+			
+		}
+		
+		else
+			index = 0;
+		
 	}
 
 	public boolean isMouseOver() {

@@ -6,6 +6,7 @@ import static utilz.Constants.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.RenderingHints.Key;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -54,20 +55,21 @@ public class Player extends Entity {
 	private float originY;
 	
 	//AttackBox
-	private int attackBoxWidth = 19;
+	private int attackBoxWidth = 24;
 	private int attackBoxHeight = 42;
 	private boolean attackChecked;
 	private Playing playing;
 	
 	// PowerAttack
-	private int powerAttackBoxWidth = 19;
+	private int powerAttackBoxWidth = 24;
 	private int powerAttackBoxHeight = 68;
 	private int powerAttackTick;
 	private int powerGrowSpeed = 15;
 	private int powerGrowTick;
 	
 	// Object
-	public boolean hasKey = false;
+	public boolean hasKey1 = false;
+	public boolean hasKey2 = false;
 	
 	private String hp_bar;
 		
@@ -166,15 +168,15 @@ public class Player extends Entity {
 		
 		if (right) {
 			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 11);
-			attackBox.y = hitbox.y + (hitbox.height/2) - 30;
+			attackBox.y = hitbox.y + (hitbox.height/2) - 35;
 		} else if (left) {
 			attackBox.x = hitbox.x - (int) (Game.SCALE * 12) - 84;
-			attackBox.y = hitbox.y + (hitbox.height/2) - 30;
+			attackBox.y = hitbox.y + (hitbox.height/2) - 35;
 		} else if (up) {
-			attackBox.x = hitbox.x + (hitbox.width/2) - 19;
+			attackBox.x = hitbox.x + (hitbox.width/2) - 24;
 			attackBox.y = hitbox.y - (int) (Game.SCALE * 10) - 64;
 		} else if (down) {
-			attackBox.x = hitbox.x + (hitbox.width/2) - 19;
+			attackBox.x = hitbox.x + (hitbox.width/2) - 24;
 			attackBox.y = hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 48;
 		}
 		if ((up || down) && (attackBox.width > attackBox.height)) {
@@ -192,15 +194,15 @@ public class Player extends Entity {
 		
 		if (right) {
 			powerAttackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 11);
-			powerAttackBox.y = hitbox.y + (hitbox.height/2) - 30;
+			powerAttackBox.y = hitbox.y + (hitbox.height/2) - 35;
 		} else if (left) {
 			powerAttackBox.x = hitbox.x - (int) (Game.SCALE * 12) - 136;
-			powerAttackBox.y = hitbox.y + (hitbox.height/2) - 30;
+			powerAttackBox.y = hitbox.y + (hitbox.height/2) - 35;
 		} else if (up) {
-			powerAttackBox.x = hitbox.x + (hitbox.width/2) - 19;
+			powerAttackBox.x = hitbox.x + (hitbox.width/2) - 24;
 			powerAttackBox.y = hitbox.y - (int) (Game.SCALE * 10) - 116;
 		} else if (down) {
-			powerAttackBox.x = hitbox.x + (hitbox.width/2) - 19;
+			powerAttackBox.x = hitbox.x + (hitbox.width/2) - 24;
 			powerAttackBox.y = hitbox.y + hitbox.height + (int) (Game.SCALE * 10) - 48;
 		}
 		if ((up || down) && (powerAttackBox.width > powerAttackBox.height)) {
@@ -234,9 +236,9 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		g.drawImage(animations[state][aniIndex], (int) (x), (int) (y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
-		drawhitbox(g);
-		drawPowerAttackBox(g);
-		drawAttackBox(g);
+//		drawhitbox(g);
+//		drawPowerAttackBox(g);
+//		drawAttackBox(g);
 		drawUI(g);
 	}
 	
@@ -310,18 +312,43 @@ public class Player extends Entity {
 			state = IDLE_FRONT;
 		}
 	
-	
+		if (attacking && powerAttackActive)
+			return;
 		
-		if (attacking && playerDir == RIGHT) {
-			state = ATK_RIGHT;
-		} else if (attacking && playerDir == DOWN) {
-			state = ATK_FRONT;
-		} else if (attacking && playerDir == UP) {
-			state = ATK_BACK;
-		} else if (attacking && playerDir == LEFT) {
-			state = ATK_LEFT;
+		if (attacking) {
+			if (attacking && playerDir == RIGHT) {
+				state = ATK_RIGHT;
+				if (startAni != ATK_RIGHT) {
+					aniIndex = 1;
+					aniTick = 0;
+					return;
+				}
+			} else if (attacking && playerDir == DOWN) {
+				state = ATK_FRONT;
+				if (startAni != ATK_FRONT) {
+					aniIndex = 1;
+					aniTick = 0;
+					return;
+				}
+			} else if (attacking && playerDir == UP) {
+				state = ATK_BACK;
+				if (startAni != ATK_BACK) {
+					aniIndex = 1;
+					aniTick = 0;
+					return;
+				}
+			} else if (attacking && playerDir == LEFT) {
+				state = ATK_LEFT;
+				if (startAni != ATK_LEFT) {
+					aniIndex = 1;
+					aniTick = 0;
+					return;
+				}
+			}
+	
 		}
 		
+			
 		if (powerAttackActive && playerDir == RIGHT) {
 			state = POWERATK_RIGHT;
 		} else if (powerAttackActive && playerDir == DOWN) {
@@ -393,7 +420,7 @@ public class Player extends Entity {
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-			System.out.println(cameraX + " : " + cameraY);
+//			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}
@@ -509,16 +536,12 @@ public class Player extends Entity {
 		
 	}
 
-	public void pickKey() {
-		System.out.println("Pick a key!");
-		hasKey = true;
-	}
-
 	public void resetAll() {
 		resetDirBooleans();
 		attacking = false;
 		moving = false;
-		hasKey = false;
+		hasKey1 = false;
+		hasKey2 = false;
 		state = IDLE_FRONT;
 		currentHealth = maxHealth;
 		
@@ -534,7 +557,7 @@ public class Player extends Entity {
 	public void powerAttack() {
 		if (powerAttackActive)
 			return;
-		if (powerValue >= 50) {
+		if (powerValue >= 50 && !moving) {
 			powerAttackActive = true;
 			changePower(-50);
 		}

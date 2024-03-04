@@ -115,8 +115,8 @@ public class EnemyManager {
 				s.hitbox.x = screenX + SLIME_WIDTH/2 + s.hitbox.width/2;
 				s.hitbox.y = screenY + SLIME_HEIGHT/2 + s.hitbox.height/2;
 				g.setColor(Color.pink);
-				g.drawRect((int) (s.hitbox.x), (int) (s.hitbox.y), (int) (s.hitbox.width), (int) (s.hitbox.height));
-				s.drawAttackBox(g);
+//				g.drawRect((int) (s.hitbox.x), (int) (s.hitbox.y), (int) (s.hitbox.width), (int) (s.hitbox.height));
+//				s.drawAttackBox(g);
 				if (!paused && !gameOver)
 					updateSlimes(s);
 
