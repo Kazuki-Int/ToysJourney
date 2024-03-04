@@ -25,6 +25,8 @@ public class EnemyManager {
 	private Playing playing;
 	private BufferedImage[][] slimeArr;
 	private ArrayList<Slime> slimies = new ArrayList<>();
+	private BufferedImage[][] mimicArr;
+	private ArrayList<Mimic> mimics = new ArrayList<>();
 	private int[][] lvlData;
 
 	private float cameraX, cameraY;
@@ -37,7 +39,8 @@ public class EnemyManager {
 	}
 	
 	private void addEnemies() {
-		slimies = LoadSave.GetSlimes();
+		
+		slimies.add(new Slime(20 * Game.TILES_SIZE, 20*Game.TILES_SIZE));
 //		System.out.println("size of crab: " + crabbies.size());
 		
 	}
@@ -46,11 +49,15 @@ public class EnemyManager {
 		for (Slime s : slimies)
 			if (s.isActive())
 				s.update(player);
+		if (playing.getTileManager().getCurrentTile().getMimicArr() != null)
+			for (Mimic m : playing.getTileManager().getCurrentTile().getMimicArr())
+				if (m.isActive())
+					m.update(player);
 	}
 	
 	public void draw(Graphics g, Boolean paused, Boolean gameOver) {
 		drawSlimes(g, paused, gameOver);
-		
+		drawMimics(g);
 	}
 	
 	public void loadLvlData(int[][] lvlData) {
@@ -124,6 +131,26 @@ public class EnemyManager {
 			}
 
 	}
+	private void drawMimics(Graphics g) {
+		if (playing.getTileManager().getCurrentTile().getMimicArr() != null) 
+			for (Mimic m : playing.getTileManager().getCurrentTile().getMimicArr()) 
+				if (m.isActive()) {
+					int screenX = (int) (m.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(SLIME_WIDTH/2)));
+					int screenY = (int) (m.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(SLIME_HEIGHT/2)));
+					
+					g.drawImage(mimicArr[m.getEnemyState()][m.getAniIndex()], screenX, screenY, (int) ((50*Game.SCALE)), (int) (50*Game.SCALE), null);
+	
+					screenX = (int) (m.x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(50*Game.SCALE/3.5)));
+					screenY = (int) (m.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(50*Game.SCALE/8)));
+					m.hitbox.x = screenX + MIMIC_WIDTH/2 + m.hitbox.width/2 - 10;
+					m.hitbox.y = screenY + MIMIC_HEIGHT/2 + m.hitbox.height/2 - 10;
+					g.setColor(Color.pink);
+					g.drawRect((int) (m.hitbox.x), (int) (m.hitbox.y), (int) (m.hitbox.width), (int) (m.hitbox.height));
+					m.drawAttackBox(g);
+			
+			}
+
+	}
 	
 	public void checkEnemyHit(Rectangle2D.Float attackBox) {
 		for (Slime s : slimies) 
@@ -135,20 +162,37 @@ public class EnemyManager {
 						s.hurt(20);
 					return;
 				}
+		if (playing.getTileManager().getCurrentTile().getMimicArr() != null)
+			for (Mimic m : playing.getTileManager().getCurrentTile().getMimicArr()) 
+				if (m.isActive())
+					if (attackBox.intersects(m.getHitbox())) {
+						if (playing.getPlayer().attacking)
+							m.hurt(10);
+						else if (playing.getPlayer().powerAttackActive)
+							m.hurt(20);
+						return;
+					}
 	}
 
 	private void loadEnemyImgs() {
 		slimeArr = new BufferedImage[5][6];
-		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.SLIME_SPRITE);
+		BufferedImage slimeImgs = LoadSave.GetSpriteAtlas(LoadSave.SLIME_SPRITE);
 		for (int j = 0; j < slimeArr.length; j++)
 			for (int i = 0; i < slimeArr[j].length; i++)
-				slimeArr[j][i] = temp.getSubimage(i * 50, j * 50, 50, 50);
-		
+				slimeArr[j][i] = slimeImgs.getSubimage(i * 50, j * 50, 50, 50);
+		mimicArr = new BufferedImage[4][6];
+		BufferedImage mimicImgs = LoadSave.GetSpriteAtlas(LoadSave.MIMIC_SPRITE);
+		for (int j = 0; j < mimicArr.length; j++)
+			for (int i = 0; i < mimicArr[j].length; i++)
+				mimicArr[j][i] = mimicImgs.getSubimage(i * 100, j * 100, 100, 100);
 	}
 	
 	public void resetAllEnemies() {
 		for (Slime s : slimies)
 			s.resetEnemy();
+		if (playing.getTileManager().getCurrentTile().getMimicArr() != null)
+			for (Mimic m : playing.getTileManager().getCurrentTile().getMimicArr())
+				m.resetEnemy();
 	}
 	
 }

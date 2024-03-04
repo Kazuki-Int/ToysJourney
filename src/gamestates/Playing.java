@@ -85,7 +85,7 @@ public class Playing extends State implements Statemethods {
 	private void checkForDoorway() { // added
         Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
 //        System.out.println(player.getHitbox().x);
-        if (doorwayPlayerIsOn != null && player.hasKey1) {
+        if (doorwayPlayerIsOn != null) {
         	if (!doorwayJustPassed) {
             	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo );
 //            	System.out.println(getTileManager().getCurrentTile());

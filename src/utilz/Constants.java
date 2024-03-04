@@ -38,7 +38,7 @@ public class Constants {
 			switch (object_type) {
 			case RED_POTION:
 				return 6;
-			case BARREL1, BARREL2, BOX, KEY_1:
+			case BARREL1, BARREL2, BOX, KEY_1, KEY_2:
 				return 8;
 			}
 			
@@ -54,17 +54,22 @@ public class Constants {
 		public static final int HIT = 3;
 		public static final int DEAD = 4;
 		
-		//CRABBY
-		public static final int CRABBY = 1;
 		
-		public static final int CRABBY_WIDTH_DEFAULT = 72;
-		public static final int CRABBY_HEIGHT_DEFAULT = 32;
+		//MIMIC
+		public static final int MIMIC = 1;
+		public static final int M_IDLE = 0;
+		public static final int M_ATTACK = 1;
+		public static final int M_HIT = 2;
+		public static final int M_DEAD = 3;
 		
-		public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
-		public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
+		public static final int MIMIC_WIDTH_DEFAULT = 22;
+		public static final int MIMIC_HEIGHT_DEFAULT = 18;
 		
-		public static final int CRABBY_DRAWOFFSET_X = (int) (26 * Game.SCALE);
-		public static final int CRABBY_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
+		public static final int MIMIC_WIDTH = (int) (MIMIC_WIDTH_DEFAULT * Game.SCALE);
+		public static final int MIMIC_HEIGHT = (int) (MIMIC_HEIGHT_DEFAULT * Game.SCALE);
+		
+		public static final int MIMIC_DRAWOFFSET_X = (int) (26 * Game.SCALE);
+		public static final int MIMIC_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
 		
 		//STRAWBERRY SLIME
 		public static final int SLIME = 2;
@@ -82,18 +87,16 @@ public class Constants {
 		public static int getSpriteAmount(int enemy_type, int enemy_state) {
 			
 			switch (enemy_type) {
-			case CRABBY:
+			case MIMIC:
 				switch (enemy_state) {
-				case IDLE: 
-					return 9;
-				case RUNNING:
+				case M_IDLE: 
 					return 6;
-				case ATTACK:
-					return 7;
-				case HIT:
-					return 4;
-				case DEAD:
-					return 5;
+				case M_ATTACK:
+					return 6;
+				case M_DEAD:
+					return 6;
+				case M_HIT:
+					return 6;
 				}
 			case SLIME:
 				switch (enemy_state) {
@@ -116,8 +119,8 @@ public class Constants {
 		
 		public static int GetMaxHealth(int enemy_type) {
 			switch (enemy_type) {
-			case CRABBY:
-				return 10;
+			case MIMIC:
+				return 50;
 			case SLIME:
 				return 20;
 			default:
@@ -127,10 +130,10 @@ public class Constants {
 		
 		public static int GetEnemyDmg(int enemy_type) {
 			switch (enemy_type) {
-			case CRABBY:
-				return 15;
-			case SLIME:
+			case MIMIC:
 				return 20;
+			case SLIME:
+				return 15;
 			default:
 				return 0;
 			}

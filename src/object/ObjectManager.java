@@ -149,7 +149,7 @@ public class ObjectManager {
 	public void draw(Graphics g) {
 		drawPotions(g);
 		drawContainers(g);
-		drawKeys1(g);
+		drawKeys(g);
 		drawTree(g);
 
 	}
@@ -224,7 +224,7 @@ public class ObjectManager {
 			}
 	}
 	
-	private void drawKeys1(Graphics g) {
+	private void drawKeys(Graphics g) {
 		for (Key k: keys) 
 			if (k.isActive()) {
 				int type = 0;

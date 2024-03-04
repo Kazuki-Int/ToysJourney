@@ -1,8 +1,11 @@
 package tiles;
 
+import java.awt.Container;
 import java.util.ArrayList;
 
 import entites.Building;
+import entites.Mimic;
+import entites.Slime;
 
 public class Tile {
 	
@@ -10,12 +13,32 @@ public class Tile {
 	private Floor floorType;
 	private ArrayList<Building> buildingarrArrayList;
 	private ArrayList<Doorway> doorwayArrayList; //added
+	private ArrayList<Mimic> mimicArrayList;
+	private ArrayList<Container> containerArrayList;
 
 	public Tile(int[][] tileData, Floor floortype, ArrayList<Building> buildingarrArrayList) {
 		this.tileData = tileData;
 		this.floorType = floortype;
 		this.buildingarrArrayList = buildingarrArrayList;
 		this.doorwayArrayList = new ArrayList<>(); //added
+		this.mimicArrayList = new ArrayList<>();
+		this.containerArrayList = new ArrayList<>();
+	}
+	
+	public void addMimic(Mimic mimic) {
+		this.mimicArrayList.add(mimic);
+	}
+	
+	public ArrayList<Mimic> getMimicArr(){
+		return mimicArrayList;
+	}
+	
+	public void addContainer(Container container) {
+		this.containerArrayList.add(container);
+	}
+	
+	public ArrayList<Container> getContainerArr(){
+		return containerArrayList;
 	}
 	
 	public void addDoorway(Doorway doorway) { //added

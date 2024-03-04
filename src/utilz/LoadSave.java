@@ -10,24 +10,36 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import entites.Mimic;
 import entites.Slime;
 import main.Game;
-import static utilz.Constants.EnemyConstants.SLIME;
+import static utilz.Constants.EnemyConstants.*;
 
 public class LoadSave {
 	
 	public static final String FRIEREN = "Frieren_Animation.png";
 	public static final String HIMMEL = "Himmel_Animation.png";
-	public static final String CRABBY_SPRITE = "crabby_sprite.png";
+	public static final String MIMIC_SPRITE = "mimic_sprite.png";
 	public static final String SLIME_SPRITE = "slime_sprite.png";
 	
 	//MAPDATA & ENEMY
 	public static final String TILE_ATLAS = "map.png";
 	public static final String TILE_DATA = "res/map.txt";
 	public static final String ENEMY_DATA = "res/map_enemy.txt";
+	
+	public static final String HOUSE = "house.png";
 	public static final String HOUSE_TILE_DATA = "res/housemap.txt";
+	public static final String HOUSE_TILE_ATLAS = "1stfloorTileset.png";
 	public static final String HOUSE_2_TILE_DATA = "res/housemap2.txt";
+	public static final String HOUSE_2_TILE_ATLAS = "2ndHouseRoomTileset.png";
+	
 	public static final String CAVE_TILE_DATA = "res/cave.txt";
+	public static final String CAVE_TILE_ATLAS = "caveRoomtileset.png";
+	
+	public static final String BOSS_ROOM = "Cemetarydraw.png";
+	public static final String BOSS_ROOM_TILE_DATA = "res/bossroom.txt";
+	public static final String BOSS_ROOM_TILE_ATLAS = "bossRoomTileset.png";
+	
 	
 	//BACKGROUND & UI
 	public static final String GAME_NAME = "background/game_name.png";
@@ -50,10 +62,6 @@ public class LoadSave {
 	public static final String SELECT_BUTTONS = "buttons/select_button.png";
 	
 	//OBJECT
-	public static final String HOUSE = "house.png";
-	public static final String HOUSE_TILE_ATLAS = "1stfloorTileset.png";
-	public static final String HOUSE_2_TILE_ATLAS = "2ndHouseRoomTileset.png";
-	public static final String CAVE_ATLAS = "caveRoomtileset.png";
 	public static final String POTION_ATLAS = "objects/potions_sprites.png";
 	public static final String CONTAINER_ATLAS = "objects/objects_sprites.png";
 	public static final String KEYHOUSE_ATLAS = "objects/key_sprites.png";
@@ -112,7 +120,38 @@ public class LoadSave {
 		
 		return list;
 	}
-	
+	public static ArrayList<Mimic> GetMimics() {
+		ArrayList<Mimic> list = new ArrayList<>();
+		try {
+			
+			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
+            File file = new File(ENEMY_DATA);
+            
+            Scanner scanner = new Scanner(file);
+            int col = 0, row = 0;
+            // Loop through each line in the file
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+
+                String[] numbers = line.split(" ");
+
+                for (String number : numbers) {
+                	int index = Integer.parseInt(number);
+                    if (index == MIMIC) 
+                    	list.add(new Mimic(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
+                    col++;
+                }
+                col = 0;
+                row++;
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+		
+		return list;
+	}
 	
 	public static int[][] GetTileData(String fileName, int width, int height) {
 		int[][] tileData = new int[height][width];

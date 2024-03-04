@@ -420,7 +420,7 @@ public class Player extends Entity {
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-//			System.out.println(cameraX + " : " + cameraY);
+			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}

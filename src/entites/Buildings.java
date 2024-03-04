@@ -8,8 +8,8 @@ import utilz.LoadSave;
 
 public enum Buildings {
 	
-	HOUSE("house.png", 82, 175, 37, 49),// building pic and doorway pos
-	PICKPUCK_ONE("pickpuck1.png", 0, 0, 0, 0);
+	HOUSE(LoadSave.HOUSE, 82, 175, 37, 49),// building pic and doorway pos
+	BOSSROOM(LoadSave.BOSS_ROOM , 145, 178, 56, 64);	
 	
 	BufferedImage houseImg;
 	Rectangle2D.Float hitboxDoorway;

@@ -48,10 +48,20 @@ public abstract class Enemy extends Entity {
 	
 	public void hurt(int amount) {
 		currentHealth -= amount;
-		if (currentHealth <= 0)
-			newState(DEAD);
-		else
-			newState(HIT);
+		if (currentHealth <= 0) {
+			if (enemyType == MIMIC) {
+				newState(M_DEAD);
+				System.out.println("deaddd");
+			}
+			else
+				newState(DEAD);
+		} else {
+			if (enemyType == MIMIC)
+				newState(M_HIT);
+			else
+				newState(HIT);
+		}
+
 	}
 	
 	protected void checkPlayerHit(Rectangle2D.Float attackBox, Player player) {
@@ -63,14 +73,23 @@ public abstract class Enemy extends Entity {
 	
 	protected void updateAnimationTick() {
 		aniTick++;
+		
+			
 		if (aniTick >= ANI_SPEED) {
 			aniTick = 0;
 			aniIndex++;
 			if (aniIndex >= getSpriteAmount(enemyType, state)) {
 				aniIndex = 0;
-				switch (state) {
-				case ATTACK, HIT -> state = IDLE;
-				case DEAD -> active = false;
+				if (enemyType == MIMIC) {
+					switch (state) {
+					case M_ATTACK, M_HIT -> state = M_IDLE;
+					case M_DEAD -> active = false;
+					}
+				}else {
+					switch (state) {
+					case ATTACK, HIT -> state = IDLE;
+					case DEAD -> active = false;
+					}
 				}
 			}
 		}

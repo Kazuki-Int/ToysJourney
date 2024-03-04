@@ -9,7 +9,8 @@ public enum Floor {
 	WORLD(LoadSave.TILE_ATLAS, 14, 22), // pic
 	HOUSE(LoadSave.HOUSE_TILE_ATLAS, 7, 5), // pic
 	HOUSE_2(LoadSave.HOUSE_2_TILE_ATLAS, 10, 4),
-	CAVE(LoadSave.CAVE_ATLAS, 6, 5);
+	CAVE(LoadSave.CAVE_TILE_ATLAS, 6, 5),
+	BOSSROOM(LoadSave.BOSS_ROOM_TILE_ATLAS, 21, 14);
 	
 	private BufferedImage[] tileSprite;
 

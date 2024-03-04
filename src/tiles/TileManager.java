@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import entites.Building;
 import entites.Buildings;
+import entites.Mimic;
 import gamestates.Playing;
 import main.Game;
 import utilz.HelpMethods;
@@ -15,7 +16,7 @@ import utilz.LoadSave;
 
 public class TileManager {
 
-	private Tile currentTile, worldMap, houseMap, house2Map, caveMap;
+	private Tile currentTile, worldMap, houseMap, house2Map, caveMap, bossMap;
 	private float cameraX, cameraY;
 	private Playing playing;
 
@@ -119,18 +120,35 @@ public class TileManager {
 	
 	private void initTestMap() { //added
 
+		//add building
 		ArrayList<Building> buildingArrayList = new ArrayList<>();
 		buildingArrayList.add(new Building(new Point(1980,1370), Buildings.HOUSE, 168, 224));
 		buildingArrayList.add(new Building(new Point(1230,2000), Buildings.HOUSE, 168, 224));
-
-//		buildingArrayList.add(new Building(new Point(350,1325), Buildings.PICKPUCK_ONE, 50, 50));
-        worldMap = new Tile(LoadSave.GetTileData(LoadSave.TILE_DATA, 40 , 40), Floor.WORLD, buildingArrayList);
+		buildingArrayList.add(new Building(new Point(1600,0), Buildings.BOSSROOM, 321, 256));
+		
+		//add map
+		worldMap = new Tile(LoadSave.GetTileData(LoadSave.TILE_DATA, 40 , 40), Floor.WORLD, buildingArrayList);
         houseMap = new Tile(LoadSave.GetTileData(LoadSave.HOUSE_TILE_DATA, 10, 10), Floor.HOUSE , null);
         house2Map = new Tile(LoadSave.GetTileData(LoadSave.HOUSE_2_TILE_DATA, 10, 10), Floor.HOUSE_2, null);
         caveMap = new Tile(LoadSave.GetTileData(LoadSave.CAVE_TILE_DATA, 40, 30), Floor.CAVE, null);
+        bossMap = new Tile(LoadSave.GetTileData(LoadSave.BOSS_ROOM_TILE_DATA, 21, 14), Floor.BOSSROOM, null);
 
+        //add enemies
+        caveMap.addMimic(new Mimic(16*Game.TILES_SIZE, 20*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(18*Game.TILES_SIZE, 5*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(11*Game.TILES_SIZE, 5*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(5*Game.TILES_SIZE, 16*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(18*Game.TILES_SIZE, 14*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(16*Game.TILES_SIZE, 26*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(28*Game.TILES_SIZE, 24*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(39*Game.TILES_SIZE, 13*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(39*Game.TILES_SIZE, 4*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(25*Game.TILES_SIZE, 14*Game.TILES_SIZE));
         
-////        HelpMethods.AddDoorwayToTile(worldMap, houseMap, 0);
+        //add containers
+     
+        
+        //add doorway
         HelpMethods.ConnectTwoDoorways(
         		worldMap, 
         		HelpMethods.CreateHitboxForDoorWayFloat(worldMap, 0), 
@@ -149,7 +167,13 @@ public class TileManager {
         		caveMap, 
         		HelpMethods.CreateHitboxForDoorway(7, 29));
         
-        																							
+        HelpMethods.ConnectTwoDoorways(
+        		worldMap, 
+        		HelpMethods.CreateHitboxForDoorWayFloat(worldMap, 2), 
+        		bossMap, 
+        		HelpMethods.CreateHitboxForDoorway(10, 12));
+        	
+        
         currentTile = worldMap;
     }
 

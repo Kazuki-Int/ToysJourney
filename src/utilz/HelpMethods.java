@@ -118,6 +118,11 @@ public class HelpMethods {
 		
 		else if (currentTile.getFloorType() == Floor.HOUSE_2)
 			return ((tileId < 10 || tileId > 16) && tileId != 28 && tileId != 17 && tileId != 8 && tileId != 19 && tileId != 37 && tileId != 39);
+		
+		else if (currentTile.getFloorType() == Floor.CAVE)
+			return (tileId != 11 && (tileId < 12 || tileId > 15) && (tileId < 18 || tileId > 20) && (tileId < 24 || tileId > 26));
+		
+		
 		return true;
 	}
 	
