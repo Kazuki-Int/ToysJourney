@@ -17,6 +17,7 @@ import static utilz.Constants.EnemyConstants.SLIME;
 public class LoadSave {
 	
 	public static final String FRIEREN = "Frieren_Animation.png";
+	public static final String HIMMEL = "Himmel_Animation.png";
 	public static final String CRABBY_SPRITE = "crabby_sprite.png";
 	public static final String SLIME_SPRITE = "slime_sprite.png";
 	
@@ -31,7 +32,8 @@ public class LoadSave {
 	public static final String MENU_BACKGROUND_IMG = "background/animation_background2.png";
 	public static final String FRIEND_BACKGROUND = "background/friend_background.png";
 	public static final String GAME_BACKGROUND = "background/masterpiece_background.png";
-	public static final String STATUS_BAR = "background/health_power_bar.png";
+	public static final String HIMMEL_STATUS_BAR = "background/himmel_health.png";
+	public static final String FRIEREN_STATUS_BAR = "background/frieren_health.png";
 	public static final String DEATH_SCREEN = "background/death_menu.png";
 	public static final String OPTIONS_MENU = "background/options_background.png";
 
@@ -41,6 +43,7 @@ public class LoadSave {
 	public static final String SOUND_BUTTONS = "buttons/sound_button.png";
 	public static final String URM_BUTTONS = "buttons/urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "buttons/volume_button.png";
+	public static final String SELECT_BUTTONS = "buttons/select_button.png";
 	
 	//OBJECT
 	public static final String HOUSE = "house.png";

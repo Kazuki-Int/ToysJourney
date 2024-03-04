@@ -2,12 +2,12 @@ package ui;
 
 public class GameBackground {
 	
-	protected boolean doAnimation, active = true;
-	protected int aniTick, aniIndex;
+	public boolean doAnimation, active = true;
+	public int aniTick, aniIndex;
 	
-	protected void updateAnimationTick() {
+	public void updateAnimationTick(int speed) {
 		aniTick++;
-		if (aniTick >= 200) {
+		if (aniTick >= speed) {
 			aniTick = 0;
 			aniIndex++;
 			if (aniIndex >= 7) {

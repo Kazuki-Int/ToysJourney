@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import audio.AudioPlayer;
 import gamestates.GameOptions;
+import gamestates.GameSelect;
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
@@ -20,6 +21,7 @@ public class Game implements Runnable {
 
 	private Playing playing;
 	private Menu menu;
+	private GameSelect gameSelect;
 	private GameOptions gameOptions;
 	private AudioOptions audioOptions;
 	private AudioPlayer audioPlayer;
@@ -38,8 +40,7 @@ public class Game implements Runnable {
 	
 	public final static int PLAYER_SIZE = (int)(350 * 0.76);
 	public final static int PLAYER_WIDTH = (int)(31 * 0.76);
-	public final static int PLAYER_HEIGHT = (int)(44 * 0.76);
-	
+	public final static int PLAYER_HEIGHT = (int)(44 * 0.76);	
 
 	
 	public Game() {
@@ -56,6 +57,7 @@ public class Game implements Runnable {
 		audioOptions = new AudioOptions(this);
 		audioPlayer = new AudioPlayer();
 		menu = new Menu(this);
+		gameSelect = new GameSelect(this);
 		playing = new Playing(this);
 		gameOptions = new GameOptions(this); 
 		
@@ -70,6 +72,9 @@ public class Game implements Runnable {
 		switch (Gamestate.state) {
 		case MENU:
 			menu.update();
+			break;
+		case SELECT:
+			gameSelect.update();
 			break;
 		case PLAYING:
 			playing.update();
@@ -89,6 +94,9 @@ public class Game implements Runnable {
 		switch (Gamestate.state) {
 		case MENU:
 			menu.draw(g);
+			break;
+		case SELECT:
+			gameSelect.draw(g);
 			break;
 		case PLAYING:
 			playing.draw(g);
@@ -170,4 +178,8 @@ public class Game implements Runnable {
 		return audioPlayer;
 	}
 	
+	public GameSelect getGameSelect() {
+		return gameSelect;
+	}
+
  }

@@ -1,6 +1,8 @@
 package gamestates;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -14,6 +16,7 @@ import entites.Player;
 import main.Game;
 import object.ObjectManager;
 import tiles.Doorway;
+import tiles.Floor;
 import tiles.TileManager;
 import ui.GameOverOverlay;
 import ui.PauseOverlay;
@@ -85,7 +88,7 @@ public class Playing extends State implements Statemethods {
         if (doorwayPlayerIsOn != null && player.hasKey) {
         	if (!doorwayJustPassed) {
             	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo );
-            	System.out.println(getTileManager().getCurrentTile());
+//            	System.out.println(getTileManager().getCurrentTile());
         		getGame().getAudioPlayer().setTileSong(getTileManager().getCurrentTile());
         	}
         } else {
@@ -99,8 +102,12 @@ public class Playing extends State implements Statemethods {
 
 	@Override
 	public void draw(Graphics g) {
-		BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
-		g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
+		if (getTileManager().getCurrentTile().getFloorType() == Floor.WORLD) {
+			BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
+			g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
+		} else
+			g.drawImage(null, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
+		
 		tileManager.draw(g);
 		enemyManager.draw(g, paused, gameOver);
 		objectManager.draw(g);
@@ -150,8 +157,9 @@ public class Playing extends State implements Statemethods {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (gameOver)
+		if (gameOver) {
 			gameOverOverlay.keyPressed(e);
+		}
 		else
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:

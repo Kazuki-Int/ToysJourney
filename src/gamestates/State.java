@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import audio.AudioPlayer;
 import main.Game;
 import ui.MenuButton;
+import ui.SelectButton;
 
 public class State {
 
@@ -16,6 +17,10 @@ public class State {
 	
 	public boolean isIn(MouseEvent e, MenuButton mb) {
 		return mb.getBounds().contains(e.getX(), e.getY());
+	}
+	
+	public boolean isIn(MouseEvent e, SelectButton sb) {
+		return sb.getBounds().contains(e.getX(), e.getY());
 	}
 	
 	public Game getGame() {

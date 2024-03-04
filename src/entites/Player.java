@@ -18,8 +18,8 @@ import utilz.HelpMethods;
 
 public class Player extends Entity {
 	private BufferedImage[][] animations;
-	private float cameraX;
-	private float cameraY;
+	public float cameraX;
+	public float cameraY;
 	private int playerDir = -1; // default at -1 (IDLE)
 	private boolean moving = false;
 	public boolean attacking = false;
@@ -68,6 +68,8 @@ public class Player extends Entity {
 	
 	// Object
 	public boolean hasKey = false;
+	
+	private String hp_bar;
 		
 	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
@@ -80,7 +82,6 @@ public class Player extends Entity {
 		this.walkSpeed = Game.SCALE * 1.0f;
 		this.daiwalkSpeed = (float) (Game.SCALE * 1.0f / Math.sqrt(2));
 		calcStartCameraValues();
-		loadAnimations();
 		initHitbox(originX, originY, width, height);
 		initAttackBox();
 		initPowerAttackBox();
@@ -415,16 +416,21 @@ public class Player extends Entity {
 			powerValue = 0;
 	}
 	
-	private void loadAnimations() {
+	public void loadAnimations(String character) {
 		
-		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.FRIEREN);
+		BufferedImage img = LoadSave.GetSpriteAtlas(character);
 		
 		animations = new BufferedImage[21][8];
 		for (int j = 0; j < animations.length; j++) 
 			for (int i = 0; i < animations[j].length; i++) 
 					animations[j][i] = img.getSubimage(i*350, j*350, 350, 350);// (imgx, imgy, posx, posy)
 		
-		statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.STATUS_BAR);
+		if (character.equals(LoadSave.HIMMEL))
+			hp_bar = LoadSave.HIMMEL_STATUS_BAR;
+		if (character.equals(LoadSave.FRIEREN))
+			hp_bar = LoadSave.FRIEREN_STATUS_BAR;
+		
+		statusBarImg = LoadSave.GetSpriteAtlas(hp_bar);
 
 	}
 	

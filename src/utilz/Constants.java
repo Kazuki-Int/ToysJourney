@@ -32,7 +32,7 @@ public class Constants {
 		public static final int GetSpriteAmount(int object_type) {
 			switch (object_type) {
 			case RED_POTION, BLUE_POTION:
-				return 7;
+				return 6;
 			case BARREL, BOX, KEY_1:
 				return 8;
 			}
@@ -162,6 +162,15 @@ public class Constants {
 			public static final int SLIDER_WIDTH = (int) (SLIDER_DEFAULT_WIDTH * Game.SCALE);
 
 		}
+		
+		public static class SelectButton {
+			public static final int SELECT_DEFAULT_WIDTH = 350;	
+			public static final int SELECT_DEFAULT_HEIGHT = 350;		
+
+			public static final int SELECT_WIDTH = (int) (SELECT_DEFAULT_WIDTH * Game.SCALE);
+			public static final int SELECT_HEIGHT = (int) (SELECT_DEFAULT_HEIGHT * Game.SCALE);
+
+		}
 	}
 	
 	public static class Directions {
@@ -180,19 +189,20 @@ public class Constants {
 		public static final int RUN_RIGHT = 5;
 		public static final int RUN_LEFT = 6;
 		public static final int RUN_BACK = 7;
-		public static final int POWERATK_FRONT = 8;
-		public static final int POWERATK_RIGHT = 9;
-		public static final int POWERATK_LEFT = 10;
-		public static final int POWERATK_BACK = 11;
-		public static final int HIT_FRONT = 12;
-		public static final int HIT_RIGHT = 13;
-		public static final int HIT_LEFT = 14;
-		public static final int HIT_BACK = 15;
-		public static final int DEAD = 16;
-		public static final int ATK_FRONT = 17;
-		public static final int ATK_RIGHT = 18;
-		public static final int ATK_LEFT = 19;
-		public static final int ATK_BACK = 20;
+		public static final int ATK_FRONT = 8;
+		public static final int ATK_RIGHT = 9;
+		public static final int ATK_LEFT = 10;
+		public static final int ATK_BACK = 11;
+		public static final int POWERATK_FRONT = 12;
+		public static final int POWERATK_RIGHT = 13;
+		public static final int POWERATK_LEFT = 14;
+		public static final int POWERATK_BACK = 15;
+		public static final int HIT_FRONT = 16;
+		public static final int HIT_RIGHT = 17;
+		public static final int HIT_LEFT = 18;
+		public static final int HIT_BACK = 19;
+		public static final int DEAD = 20;
+
 		
 		
 		public static int GetSpriteAmount(int player_action) {
@@ -215,13 +225,13 @@ public class Constants {
 			case RUN_BACK:
 				return 6;
 			case ATK_FRONT, POWERATK_FRONT:
-				return 5;
+				return 4;
 			case ATK_RIGHT, POWERATK_RIGHT:
-				return 5;
+				return 4;
 			case ATK_LEFT, POWERATK_LEFT:
-				return 5;
+				return 4;
 			case ATK_BACK, POWERATK_BACK:
-				return 5;
+				return 4;
 			case HIT_FRONT:
 				return 6;
 			case HIT_RIGHT:

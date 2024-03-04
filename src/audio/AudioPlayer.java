@@ -88,7 +88,7 @@ public class AudioPlayer {
 	}
 	
 	public void setTileSong(Tile currentTile) {
-		System.out.println(currentTile.getFloorType());
+//		System.out.println(currentTile.getFloorType());
 
 		if (currentTile.getFloorType() == Floor.WORLD) 
 			playSong(WORLD);

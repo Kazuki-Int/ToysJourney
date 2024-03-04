@@ -1,6 +1,5 @@
 package gamestates;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -16,7 +15,7 @@ public class Menu extends State implements Statemethods {
 	private BackgroundManager backgroundManager;
 	
 	private MenuButton[] buttons = new MenuButton[3];
-	private BufferedImage backgroundImg, backgroundImgPic;
+	private BufferedImage backgroundImg;
 	private int menuX, menuY, menuWidth, menuHeight;
 
 	public Menu(Game game) {
@@ -43,7 +42,7 @@ private void initClasses() {
 	}
 
 	private void loadButtons() {
-		buttons[0] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (175 * Game.SCALE), 0, Gamestate.PLAYING); //150
+		buttons[0] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (175 * Game.SCALE), 0, Gamestate.SELECT); //150
 		buttons[1] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (245 * Game.SCALE), 1, Gamestate.OPTIONS); //220
 		buttons[2] = new MenuButton(Game.SCREEN_WIDTH/2, (int) (315 * Game.SCALE), 2, Gamestate.QUIT); //290
 	}
@@ -86,9 +85,6 @@ private void initClasses() {
 			if (isIn(e, mb)) {
 				if (mb.isMousePressed())
 					mb.applyGamestate();
-				if (mb.getState() == Gamestate.PLAYING)
-					game.getAudioPlayer().setTileSong(game.getPlaying().getTileManager().getCurrentTile());
-				break;
 			}
 		}
 		
@@ -115,7 +111,7 @@ private void initClasses() {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			Gamestate.state = Gamestate.PLAYING;
+			Gamestate.state = Gamestate.SELECT;
 	}
 
 	@Override
