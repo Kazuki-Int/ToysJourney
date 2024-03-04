@@ -14,7 +14,7 @@ import entites.EnemyManager;
 import entites.BuildingManager;
 import entites.Player;
 import main.Game;
-import object.ObjectManager;
+import objectz.ObjectManager;
 import tiles.Doorway;
 import tiles.Floor;
 import tiles.TileManager;
@@ -31,7 +31,6 @@ public class Playing extends State implements Statemethods {
 	
 	private BuildingManager house;
 	private ObjectManager objectManager;
-	
 	private boolean doorwayJustPassed;
 	
 	public boolean paused = false;
@@ -85,9 +84,10 @@ public class Playing extends State implements Statemethods {
 	private void checkForDoorway() { // added
         Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
 //        System.out.println(player.getHitbox().x);
-        if (doorwayPlayerIsOn != null) {
+        if (doorwayPlayerIsOn != null && player.hasKey1 > 0) {
         	if (!doorwayJustPassed) {
-            	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo );
+            	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo);
+            	player.hasKey1 -= 1;
 //            	System.out.println(getTileManager().getCurrentTile());
         		getGame().getAudioPlayer().setTileSong(getTileManager().getCurrentTile());
         	}

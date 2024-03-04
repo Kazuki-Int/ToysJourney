@@ -19,8 +19,8 @@ import utilz.HelpMethods;
 
 public class Player extends Entity {
 	private BufferedImage[][] animations;
-	public float cameraX;
-	public float cameraY;
+	public float cameraX = 2195;
+	public float cameraY = 2236;
 	private int playerDir = -1; // default at -1 (IDLE)
 	private boolean moving = false;
 	public boolean attacking = false;
@@ -68,8 +68,7 @@ public class Player extends Entity {
 	private int powerGrowTick;
 	
 	// Object
-	public boolean hasKey1 = false;
-	public boolean hasKey2 = false;
+	public int hasKey1 = 0;
 	
 	private String hp_bar;
 		
@@ -83,7 +82,7 @@ public class Player extends Entity {
 		this.currentHealth = maxHealth;
 		this.walkSpeed = Game.SCALE * 1.0f;
 		this.daiwalkSpeed = (float) (Game.SCALE * 1.0f / Math.sqrt(2));
-		calcStartCameraValues();
+//		calcStartCameraValues();
 		initHitbox(originX, originY, width, height);
 		initAttackBox();
 		initPowerAttackBox();
@@ -420,7 +419,7 @@ public class Player extends Entity {
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-			System.out.println(cameraX + " : " + cameraY);
+//			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}
@@ -540,8 +539,7 @@ public class Player extends Entity {
 		resetDirBooleans();
 		attacking = false;
 		moving = false;
-		hasKey1 = false;
-		hasKey2 = false;
+		hasKey1 = 0;
 		state = IDLE_FRONT;
 		currentHealth = maxHealth;
 		

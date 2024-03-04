@@ -93,6 +93,10 @@ public class AudioPlayer {
 			playSong(WORLD);
 		if (currentTile.getFloorType() == Floor.HOUSE) 
 			playSong(HOUSE);
+		if (currentTile.getFloorType() == Floor.CAVE) 
+			playSong(CAVE);
+		if (currentTile.getFloorType() == Floor.BOSSROOM) 
+			playSong(BOSSROOM);
 
 	}
 	

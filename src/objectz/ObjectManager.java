@@ -1,4 +1,4 @@
-package object;
+package objectz;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import gamestates.Playing;
 import main.Game;
+import tiles.Floor;
 import utilz.LoadSave;
 
 import static utilz.Constants.ObjectConstants.*;
@@ -21,7 +22,7 @@ public class ObjectManager {
 	private BufferedImage[][] potionImgs, containerImgs, key_Imgs;
 	private BufferedImage tree_Imgs;
 	private ArrayList<Potion> potions;
-	private ArrayList<Container> container;
+	private ArrayList<Containerz> container;
 	private ArrayList<Key> keys;
 	private ArrayList<Tree> trees;
 	
@@ -36,13 +37,10 @@ public class ObjectManager {
 		keys = new ArrayList<>();
 		
 		trees = new ArrayList<>();
-//		trees.add(new Tree(15*Game.TILES_SIZE,30*Game.TILES_SIZE, TREE_1));
+		trees.add(new Tree(15*Game.TILES_SIZE,30*Game.TILES_SIZE, TREE_1));
 //		potions.add(new Potion(30*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2, RED_POTION)); // RED
 //		potions.add(new Potion(31*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2 - (int) (2 * Game.SCALE), BLUE_POTION)); // BLUE
 		
-		container.add(new Container(30*Game.TILES_SIZE, 20*Game.TILES_SIZE, BARREL1));
-		container.add(new Container(30*Game.TILES_SIZE, 23*Game.TILES_SIZE, BARREL2));
-		container.add(new Container(32*Game.TILES_SIZE, 20*Game.TILES_SIZE, BOX));
 		
 //		keys.add(new Key(20*Game.TILES_SIZE + KEY_WIDTH/2, 25*Game.TILES_SIZE + KEY_HEIGHT/2, KEY_1));
 	}
@@ -69,19 +67,21 @@ public class ObjectManager {
 	}
 	
 	public void checkObjectHit(Rectangle2D.Float attackbox) {
-		for (Container c: container)
-			if (c.isActive()) {
-				if (attackbox.intersects(c.getHitbox())) {
-					c.setAnimation(true);
-					if (c.objType == BOX)
-						potions.add(new Potion((int) (c.worldX + CONTAINER_WIDTH/3), (int) (c.worldY + CONTAINER_HEIGHT/3), RED_POTION));
-					else if (c.objType == BARREL1)
-						keys.add(new Key(c.worldX, c.worldY, KEY_1));
-					else if (c.objType == BARREL2)
-						keys.add(new Key(c.worldX, c.worldY, KEY_2));
-					return;
+		if (playing.getTileManager().getCurrentTile().getContainerArr() != null) {
+			for (Containerz c: playing.getTileManager().getCurrentTile().getContainerArr())
+				if (c.isActive()) {
+					if (attackbox.intersects(c.getHitbox())) {
+						c.setAnimation(true);
+						if (c.objType == BOX)
+							potions.add(new Potion((int) (c.worldX + CONTAINER_WIDTH/3), (int) (c.worldY + CONTAINER_HEIGHT/3), RED_POTION));
+						else if (c.objType == BARREL1)
+							keys.add(new Key(c.worldX, c.worldY, KEY_1));
+						else if (c.objType == BARREL2)
+							keys.add(new Key(c.worldX, c.worldY, KEY_2));
+						return;
+					}
 				}
-			}
+		}
 	}
 	
 	public void applyPotionToPlayer(Potion p) {
@@ -92,9 +92,7 @@ public class ObjectManager {
 	
 	public void applyKeyToPlayer(Key k) {
 		if (k.getObjType() == KEY_1)
-			playing.getPlayer().hasKey1 = true;
-		else if (k.getObjType() == KEY_2)
-			playing.getPlayer().hasKey2 = true;
+			playing.getPlayer().hasKey1 += 2;
 	}
 	
 	private void loadImgs() {
@@ -122,6 +120,7 @@ public class ObjectManager {
 			}
 		}
 		tree_Imgs = LoadSave.GetSpriteAtlas(LoadSave.TREE_1_ATLAS);
+		
 			
 		
 	}
@@ -131,9 +130,10 @@ public class ObjectManager {
 			if (p.isActive())
 				p.update();
 		
-		for (Container c: container)
-			if (c.isActive())
-				c.update();
+		if (playing.getTileManager().getCurrentTile().getContainerArr() != null) 
+			for (Containerz c: playing.getTileManager().getCurrentTile().getContainerArr())
+				if (c.isActive())
+					c.update();
 		
 		for (Key k: keys)
 			if (k.isActive())
@@ -148,14 +148,14 @@ public class ObjectManager {
 	
 	public void draw(Graphics g) {
 		drawPotions(g);
-		drawContainers(g);
 		drawKeys(g);
+		drawContainers(g);
 		drawTree(g);
 
 	}
 
 	public void drawTree(Graphics g) {
-		if (trees.size() != 0) {
+		if (trees.size() != 0 && playing.getTileManager().getCurrentTile().getFloorType() == Floor.WORLD) {
 			for (Tree t: trees)
 				if (t.isActive()) {
 					int type = 0;
@@ -164,40 +164,40 @@ public class ObjectManager {
 					int screenY = (int) (t.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
 		//				p.hitbox.x = screenX - 10;
 		//				p.hitbox.y = screenY;
-					if (t.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
-						t.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
-						t.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
-						t.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-						g.drawImage(tree_Imgs, screenX-10, screenY, TREE_1_WIDTH, TREE_1_HEIGHT, null);
+//					if (t.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
+//						t.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
+//						t.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
+//						t.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
+					g.drawImage(tree_Imgs, screenX-10, screenY, TREE_1_WIDTH, TREE_1_HEIGHT, null);
 		
 		//					g.setColor(Color.pink);
 		//					g.drawRect((int) (t.hitbox.x), (int) (t.hitbox.y), (int) t.hitbox.width, (int) t.hitbox.height);
 					}
 				}
 		}
-	}
+	
 	
 	private void drawContainers(Graphics g) {
-		for (Container c: container)
-			if (c.isActive()) {
-				int type = 0;
-				if (c.getObjType() == BARREL1 || c.getObjType() == BARREL2) {
-					type = 1;
+		if (playing.getTileManager().getCurrentTile().getContainerArr() != null) 
+			for (Containerz c: playing.getTileManager().getCurrentTile().getContainerArr())
+				if (c.isActive()) {
+					int type = 0;
+					if (c.getObjType() == BARREL1 || c.getObjType() == BARREL2) {
+						type = 1;
+					}
+					
+					int screenX = (int) (c.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(CONTAINER_WIDTH/2)));
+					int screenY = (int) (c.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(CONTAINER_HEIGHT/2)));
+					c.hitbox.x = screenX + 8 + 32;
+					c.hitbox.y = screenY + 12 + 32;
+					if (c.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
+						c.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
+						c.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
+						c.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
+						g.drawImage(containerImgs[type][c.getAniIndex()], screenX + 32, screenY+32, CONTAINER_WIDTH, CONTAINER_HEIGHT, null);
+						
+					}
 				}
-				
-				int screenX = (int) (c.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(CONTAINER_WIDTH/2)));
-				int screenY = (int) (c.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(CONTAINER_HEIGHT/2)));
-				c.hitbox.x = screenX + 8;
-				c.hitbox.y = screenY + 12;
-				if (c.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
-					c.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
-					c.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
-					c.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(containerImgs[type][c.getAniIndex()], screenX, screenY, CONTAINER_WIDTH, CONTAINER_HEIGHT, null);
-					g.setColor(Color.pink);
-					g.drawRect((int) (c.hitbox.x), (int) (c.hitbox.y), (int) c.hitbox.width, (int) c.hitbox.height);
-				}
-			}
 		
 	}
 
@@ -218,8 +218,7 @@ public class ObjectManager {
 					p.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
 					g.drawImage(potionImgs[type][p.getAniIndex()], screenX-10, screenY, POTION_WIDTH, POTION_HEIGHT, null);
 
-					g.setColor(Color.pink);
-					g.drawRect((int) (p.hitbox.x), (int) (p.hitbox.y), (int) p.hitbox.width, (int) p.hitbox.height);
+					
 				}
 			}
 	}
@@ -235,16 +234,15 @@ public class ObjectManager {
 				int screenY = (int) (k.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
 //				System.out.println(cameraX);
 									
-				k.hitbox.x = screenX + 6;
-				k.hitbox.y = screenY + 6;
+				k.hitbox.x = screenX + 6 + 32;
+				k.hitbox.y = screenY + 6 + 32 ;
 				if (k.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					k.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					k.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					k.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(key_Imgs[type][k.getAniIndex()], screenX, screenY + 8, KEY_WIDTH, KEY_HEIGHT, null);
+					g.drawImage(key_Imgs[type][k.getAniIndex()], screenX+32, screenY + 8 + 32, KEY_WIDTH, KEY_HEIGHT, null);
 
-					g.setColor(Color.pink);
-					g.drawRect((int) (k.hitbox.x), (int) (k.hitbox.y), (int) k.hitbox.width, (int) k.hitbox.height);
+					
 				}
 			}
 			else {
@@ -263,8 +261,10 @@ public class ObjectManager {
 		for (Potion p: potions) 
 			p.reset();
 		
-		for (Container c: container)
-			c.reset();
+		
+		if (playing.getTileManager().getCurrentTile().getContainerArr() != null) 
+			for (Containerz c: playing.getTileManager().getCurrentTile().getContainerArr())
+				c.reset();
 		
 		for (Key k: keys)
 			k.reset();

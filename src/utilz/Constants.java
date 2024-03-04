@@ -34,6 +34,10 @@ public class Constants {
 		public static final int TREE_1_WIDTH = (int) (103*Game.SCALE);
 		public static final int TREE_1_HEIGHT = (int) (184*Game.SCALE);
 		
+		public static final int TREE_2 = 7;
+		public static final int TREE_2_WIDTH = (int) (103*Game.SCALE);
+		public static final int TREE_2_HEIGHT = (int) (184*Game.SCALE);
+		
 		public static final int GetSpriteAmount(int object_type) {
 			switch (object_type) {
 			case RED_POTION:
@@ -68,9 +72,6 @@ public class Constants {
 		public static final int MIMIC_WIDTH = (int) (MIMIC_WIDTH_DEFAULT * Game.SCALE);
 		public static final int MIMIC_HEIGHT = (int) (MIMIC_HEIGHT_DEFAULT * Game.SCALE);
 		
-		public static final int MIMIC_DRAWOFFSET_X = (int) (26 * Game.SCALE);
-		public static final int MIMIC_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
-		
 		//STRAWBERRY SLIME
 		public static final int SLIME = 2;
 		
@@ -80,9 +81,21 @@ public class Constants {
 		public static final int SLIME_WIDTH = (int) (SLIME_WIDTH_DEFAULT * Game.SCALE);
 		public static final int SLIME_HEIGHT = (int) (SLIME_HEIGHT_DEFAULT * Game.SCALE);
 		
-		public static final int SLIME_DRAWOFFSET_X = (int) (12 * Game.SCALE);
-		public static final int SLIME_DRAWOFFSET_Y = (int) (13.5 * Game.SCALE);
+		// BOSS
+		public static final int BOSS = 3;
+		
+		public static final int B_IDLE = 0;
+		public static final int B_ATTACK = 1;
+		public static final int B_HIT = 2;
+		public static final int B_DEAD = 3;
+		
+		public static final int BOSS_WIDTH_DEFAULT = 121;
+		public static final int BOSS_HEIGHT_DEFAULT = 183;
+		
+		public static final int BOSS_WIDTH = (int) (BOSS_WIDTH_DEFAULT * Game.SCALE);
+		public static final int BOSS_HEIGHT = (int) (BOSS_HEIGHT_DEFAULT * Game.SCALE);
 
+		
 		
 		public static int getSpriteAmount(int enemy_type, int enemy_state) {
 			
@@ -111,8 +124,18 @@ public class Constants {
 				case DEAD:
 					return 6;
 				}
+			case BOSS:
+				switch (enemy_state) {
+				case B_IDLE: 
+					return 8;
+				case B_ATTACK:
+					return 50;
+				case B_DEAD:
+					return 20;
+				case B_HIT:
+					return 8;
+				}
 			}
-			
 			return 0;
 			
 		}
@@ -124,7 +147,7 @@ public class Constants {
 			case SLIME:
 				return 20;
 			default:
-				return 1;
+				return 200;
 			}
 		}
 		
@@ -135,7 +158,7 @@ public class Constants {
 			case SLIME:
 				return 15;
 			default:
-				return 0;
+				return 30;
 			}
 		
 		}

@@ -1,11 +1,12 @@
-package object;
+package objectz;
+
 import static utilz.Constants.ObjectConstants.*;
 
 import main.Game;
 
-public class Container extends GameObject {
+public class Containerz extends GameObject {
 
-	public Container(int x, int y, int objType) {
+	public Containerz(int x, int y, int objType) {
 		super(x, y, objType);
 		createHitbox();
 	}

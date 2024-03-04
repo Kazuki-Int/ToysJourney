@@ -1,4 +1,4 @@
-package object;
+package objectz;
 
 import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.ObjectConstants.*;

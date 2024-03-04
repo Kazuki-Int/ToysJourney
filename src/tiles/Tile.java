@@ -3,9 +3,11 @@ package tiles;
 import java.awt.Container;
 import java.util.ArrayList;
 
+import entites.Boss;
 import entites.Building;
 import entites.Mimic;
 import entites.Slime;
+import objectz.*;
 
 public class Tile {
 	
@@ -14,7 +16,9 @@ public class Tile {
 	private ArrayList<Building> buildingarrArrayList;
 	private ArrayList<Doorway> doorwayArrayList; //added
 	private ArrayList<Mimic> mimicArrayList;
-	private ArrayList<Container> containerArrayList;
+	private ArrayList<Containerz> containerArrayList;
+	private ArrayList<Boss> bossArrayList;
+	private ArrayList<Slime> slimeArrayList;
 
 	public Tile(int[][] tileData, Floor floortype, ArrayList<Building> buildingarrArrayList) {
 		this.tileData = tileData;
@@ -23,6 +27,24 @@ public class Tile {
 		this.doorwayArrayList = new ArrayList<>(); //added
 		this.mimicArrayList = new ArrayList<>();
 		this.containerArrayList = new ArrayList<>();
+		this.bossArrayList = new ArrayList<Boss>();
+		this.slimeArrayList = new ArrayList<Slime>();
+	}
+	
+	public void addSlime(Slime slime) {
+		this.slimeArrayList.add(slime);
+	}
+	
+	public ArrayList<Slime> getslimeArr(){
+		return slimeArrayList;
+	}
+	
+	public void addBoss(Boss boss) {
+		this.bossArrayList.add(boss);
+	}
+	
+	public ArrayList<Boss> getBossArrayList(){
+		return bossArrayList;
 	}
 	
 	public void addMimic(Mimic mimic) {
@@ -33,11 +55,11 @@ public class Tile {
 		return mimicArrayList;
 	}
 	
-	public void addContainer(Container container) {
+	public void addContainerz(Containerz container) {
 		this.containerArrayList.add(container);
 	}
 	
-	public ArrayList<Container> getContainerArr(){
+	public ArrayList<Containerz> getContainerArr(){
 		return containerArrayList;
 	}
 	
@@ -72,5 +94,6 @@ public class Tile {
     public int getArrayHeight() {
         return tileData.length;
     }
+
 
 }

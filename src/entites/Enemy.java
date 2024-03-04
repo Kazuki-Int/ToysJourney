@@ -51,15 +51,19 @@ public abstract class Enemy extends Entity {
 		if (currentHealth <= 0) {
 			if (enemyType == MIMIC) {
 				newState(M_DEAD);
-				System.out.println("deaddd");
 			}
+			else if (enemyType == BOSS)
+				newState(B_DEAD);
 			else
 				newState(DEAD);
 		} else {
 			if (enemyType == MIMIC)
 				newState(M_HIT);
+//			else if (enemyType == BOSS)
+////				newState(IDLE);
 			else
-				newState(HIT);
+				if (enemyType == SLIME)
+					newState(HIT);
 		}
 
 	}
@@ -85,10 +89,16 @@ public abstract class Enemy extends Entity {
 					case M_ATTACK, M_HIT -> state = M_IDLE;
 					case M_DEAD -> active = false;
 					}
-				}else {
+				}else if (enemyType == SLIME){
 					switch (state) {
 					case ATTACK, HIT -> state = IDLE;
 					case DEAD -> active = false;
+					}
+				
+				}else {
+					switch (state) {
+					case B_ATTACK, B_HIT -> state = B_IDLE;
+					case B_DEAD -> active = false;
 					}
 				}
 			}

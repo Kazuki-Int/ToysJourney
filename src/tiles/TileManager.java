@@ -1,18 +1,24 @@
 package tiles;
 
+import static utilz.Constants.ObjectConstants.BARREL1;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import entites.Boss;
 import entites.Building;
 import entites.Buildings;
 import entites.Mimic;
+import entites.Slime;
 import gamestates.Playing;
 import main.Game;
+import objectz.Containerz;
 import utilz.HelpMethods;
 import utilz.LoadSave;
+import objectz.*;
 
 public class TileManager {
 
@@ -144,9 +150,18 @@ public class TileManager {
         caveMap.addMimic(new Mimic(39*Game.TILES_SIZE, 13*Game.TILES_SIZE));
         caveMap.addMimic(new Mimic(39*Game.TILES_SIZE, 4*Game.TILES_SIZE));
         caveMap.addMimic(new Mimic(25*Game.TILES_SIZE, 14*Game.TILES_SIZE));
+        caveMap.addMimic(new Mimic(37*Game.TILES_SIZE, 3*Game.TILES_SIZE));
+        bossMap.addBoss(new Boss(7*Game.TILES_SIZE, 2 *Game.TILES_SIZE));
+        worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 25 *Game.TILES_SIZE));
+        worldMap.addSlime(new Slime(9*Game.TILES_SIZE, 20 *Game.TILES_SIZE));
+        worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 17 *Game.TILES_SIZE));
+
         
         //add containers
-     
+        caveMap.addContainerz(new Containerz(38*Game.TILES_SIZE, 3*Game.TILES_SIZE, BARREL1));
+        worldMap.addContainerz(new Containerz(3*Game.TILES_SIZE, 20*Game.TILES_SIZE, BARREL1));
+        houseMap.addContainerz(new Containerz(3*Game.TILES_SIZE, 4*Game.TILES_SIZE, BARREL1));
+        house2Map.addContainerz(new Containerz(3*Game.TILES_SIZE, 4*Game.TILES_SIZE, BARREL1));
         
         //add doorway
         HelpMethods.ConnectTwoDoorways(
@@ -171,7 +186,7 @@ public class TileManager {
         		worldMap, 
         		HelpMethods.CreateHitboxForDoorWayFloat(worldMap, 2), 
         		bossMap, 
-        		HelpMethods.CreateHitboxForDoorway(10, 12));
+        		HelpMethods.CreateHitboxForDoorway(2, 12));
         	
         
         currentTile = worldMap;

@@ -1,4 +1,4 @@
-package object;
+package objectz;
 
 import main.Game;
 import static utilz.Constants.ObjectConstants.*;
