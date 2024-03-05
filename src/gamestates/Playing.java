@@ -9,9 +9,13 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import entites.EnemyManager;
+import entites.Entity;
+import entites.Building;
 import entites.BuildingManager;
+import entites.Decoration;
 import entites.Player;
 import main.Game;
 import objectz.ObjectManager;
@@ -38,7 +42,8 @@ public class Playing extends State implements Statemethods {
 	private boolean gameOver;
 	private boolean playerDying;
 	 
-	
+    private Entity[] listOfDrawables;
+    private boolean listOfEntitiesMade;
 	
 	public Playing(Game game) {
 		super(game);
@@ -70,6 +75,7 @@ public class Playing extends State implements Statemethods {
 		} else if (playerDying) {
 			player.update();
 		} else {
+	        buildEntityList();
 			tileManager.update();
 			player.update();
 			enemyManager.update(player);
@@ -79,15 +85,29 @@ public class Playing extends State implements Statemethods {
 			objectManager.setCameraValues(player.getCameraX(), player.getCameraY());
 			enemyManager.setCameraValues(player.getCameraX(), player.getCameraY());
 		}
+		sortArray();
 	}
+	
+	private void buildEntityList() {
+        //TODO: will add check for this next episode
+		if (tileManager.getCurrentTile().getBuildingArrayList() != null)
+	        listOfDrawables = tileManager.getCurrentTile().getDrawableList();
+	        listOfDrawables[listOfDrawables.length - 1] = player;
+	        listOfEntitiesMade = true;
+    }
+
+    private void sortArray() {
+        player.setLastCameraYValue(player.getCameraY());
+        Arrays.sort(listOfDrawables);
+    }
 	
 	private void checkForDoorway() { // added
         Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
 //        System.out.println(player.getHitbox().x);
-        if (doorwayPlayerIsOn != null && player.hasKey1 > 0) {
+        if (doorwayPlayerIsOn != null) {
         	if (!doorwayJustPassed) {
             	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo);
-            	player.hasKey1 -= 1;
+//            	player.hasKey1;
 //            	System.out.println(getTileManager().getCurrentTile());
         		getGame().getAudioPlayer().setTileSong(getTileManager().getCurrentTile());
         	}
@@ -105,21 +125,40 @@ public class Playing extends State implements Statemethods {
 		if (getTileManager().getCurrentTile().getFloorType() == Floor.WORLD) {
 			BufferedImage backgroundSprite = LoadSave.GetSpriteAtlas(LoadSave.GAME_BACKGROUND);
 			g.drawImage(backgroundSprite, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT, null);
-		} else {
-//			g.setColor(new Color(38, 38, 38, 255));
-//			g.draw();
 		}
+			
 //		
-		tileManager.draw(g);
+		tileManager.drawTiles(g);
+		if (tileManager.getCurrentTile().getBuildingArrayList() != null)
+			for (Building b : tileManager.getCurrentTile().getBuildingArrayList())
+				tileManager.drawBuilding(g, b);
+		if (listOfEntitiesMade) {
+            drawSortedEntities(g);
+//            System.out.println("drawwwwwww");
+		}
 		enemyManager.draw(g, paused, gameOver);
 		objectManager.draw(g);
-		player.render(g);
+//		player.render(g);
 		
 		if (paused)
 			pauseOverlay.draw(g);
 		else if (gameOver) 
 			gameOverOverlay.draw(g);
 	}
+	
+	private void drawSortedEntities(Graphics g) {
+        for (Entity e : listOfDrawables) {
+            
+            if (e instanceof Decoration decoration) {
+                tileManager.drawDecor(g, decoration);
+//                System.out.println("decoo");
+//            } else if (e instanceof Building building) {
+//                tileManager.drawBuilding(g,building);
+            } else if (e instanceof Player) {
+        		player.render(g);
+            }
+        }
+    }
 	
 	public void resetAll() {
 		//TODO: reset playing, enemy, tile etc.

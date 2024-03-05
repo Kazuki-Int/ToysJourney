@@ -33,9 +33,27 @@ public class EnemyManager {
 
 	private float cameraX, cameraY;
 	
+	private BufferedImage statusBarImg;
+
+
+	private int statusBarWidth = (int) (300 * Game.SCALE);
+	private int statusBarHeight = (int) (95 * Game.SCALE);
+	private int statusBarX = (int) (265 * Game.SCALE);
+	private int statusBarY = (int) (350 * Game.SCALE);
+	
+	private int healthBarWidth = (int) (214 * Game.SCALE);
+	private int healthBarHeight = (int) (5.8 * Game.SCALE);
+	private int healthBarXStart = (int) (43 * Game.SCALE);
+	private int healthBarYStart = (int) (58.5 * Game.SCALE);
+	private int healthWidth = healthBarWidth;
+	
+	protected int maxHealth;
+	protected int currentHealth;
 
 	public EnemyManager(Playing playing) {
 		this.playing = playing;
+		maxHealth = GetMaxHealth(BOSS);
+		currentHealth = maxHealth;
 		loadEnemyImgs();
 		addEnemies();
 	}
@@ -44,6 +62,15 @@ public class EnemyManager {
 		
 //		slimies.add(new Slime(20 * Game.TILES_SIZE, 20*Game.TILES_SIZE));
 //		System.out.println("size of crab: " + crabbies.size());
+		
+	}
+	
+	public void hurt(int amount) {
+		currentHealth -= amount;
+	}
+	
+	private void updateHealthBar() {
+		healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
 		
 	}
 
@@ -58,8 +85,10 @@ public class EnemyManager {
 					m.update(player);
 		if (playing.getTileManager().getCurrentTile().getBossArrayList() != null)
 			for (Boss b : playing.getTileManager().getCurrentTile().getBossArrayList())
-				if (b.isActive())
+				if (b.isActive()) {
 					b.update(player);
+					updateHealthBar();
+				}
 	}
 	
 	public void draw(Graphics g, Boolean paused, Boolean gameOver) {
@@ -175,10 +204,13 @@ public class EnemyManager {
 					screenY = (int) (b.y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(351*Game.SCALE/8)));
 					b.hitbox.x = screenX + BOSS_WIDTH/2 + b.hitbox.width/2 - 10;
 					b.hitbox.y = screenY + BOSS_HEIGHT/2 + b.hitbox.height/2 - 10;
+					
 //					g.setColor(Color.pink);
 //					g.drawRect((int) (b.hitbox.x), (int) (b.hitbox.y), (int) (b.hitbox.width), (int) (b.hitbox.height));
 //					b.drawAttackBox(g);
-//			
+					g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
+					g.setColor(Color.red);
+					g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 			}
 
 	}
@@ -208,10 +240,14 @@ public class EnemyManager {
 			for (Boss b : playing.getTileManager().getCurrentTile().getBossArrayList())
 				if (b.isActive())
 					if (attackBox.intersects(b.getHitbox())) {
-						if (playing.getPlayer().attacking)
+						if (playing.getPlayer().attacking) {
 							b.hurt(10);
-						else if (playing.getPlayer().powerAttackActive)
+							hurt(10); 
+						}
+						else if (playing.getPlayer().powerAttackActive) {
 							b.hurt(20);
+							hurt(20); 
+						}
 						return;
 					}
 	}
@@ -232,6 +268,8 @@ public class EnemyManager {
 		for (int j = 0; j < bossArr.length; j++)
 			for (int i = 0; i < bossArr[j].length; i++)
 				bossArr[j][i] = bossImgs.getSubimage(i * 288, j * 351, 288, 351);
+		
+		statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.BOSS_STATUS_BAR);
 	}
 	
 	public void resetAllEnemies() {
@@ -242,8 +280,9 @@ public class EnemyManager {
 			for (Mimic m : playing.getTileManager().getCurrentTile().getMimicArr())
 				m.resetEnemy();
 		if (playing.getTileManager().getCurrentTile().getBossArrayList() != null)
-			for (Boss b : playing.getTileManager().getCurrentTile().getBossArrayList())
+			for (Boss b : playing.getTileManager().getCurrentTile().getBossArrayList()) 
 				b.resetEnemy();
+			currentHealth = maxHealth;
 	}
 	
 }

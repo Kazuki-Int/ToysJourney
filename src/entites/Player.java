@@ -235,11 +235,15 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		g.drawImage(animations[state][aniIndex], (int) (x), (int) (y), (int)(Game.PLAYER_SIZE*Game.SCALE), (int)(Game.PLAYER_SIZE*Game.SCALE), null); //size 64 == 16
+		
+		
 //		drawhitbox(g);
 //		drawPowerAttackBox(g);
 //		drawAttackBox(g);
+		
+		
 		drawUI(g);
-	}
+			}
 	
 	private void drawAttackBox(Graphics g) {
 		g.setColor(Color.red);
@@ -419,7 +423,7 @@ public class Player extends Entity {
 		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-//			System.out.println(cameraX + " : " + cameraY);
+			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}

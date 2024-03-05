@@ -24,7 +24,7 @@ public class ObjectManager {
 	private ArrayList<Potion> potions;
 	private ArrayList<Containerz> container;
 	private ArrayList<Key> keys;
-	private ArrayList<Tree> trees;
+//	private ArrayList<Tree> trees;
 	
 	private float cameraX, cameraY;
 	
@@ -36,8 +36,7 @@ public class ObjectManager {
 		container = new ArrayList<>();
 		keys = new ArrayList<>();
 		
-		trees = new ArrayList<>();
-		trees.add(new Tree(15*Game.TILES_SIZE,30*Game.TILES_SIZE, TREE_1));
+
 //		potions.add(new Potion(30*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2, RED_POTION)); // RED
 //		potions.add(new Potion(31*Game.TILES_SIZE + POTION_WIDTH/2 + (int) (3 * Game.SCALE), 17*Game.TILES_SIZE + POTION_HEIGHT/2 - (int) (2 * Game.SCALE), BLUE_POTION)); // BLUE
 		
@@ -92,7 +91,7 @@ public class ObjectManager {
 	
 	public void applyKeyToPlayer(Key k) {
 		if (k.getObjType() == KEY_1)
-			playing.getPlayer().hasKey1 += 2;
+			playing.getPlayer().hasKey1 += 1;
 	}
 	
 	private void loadImgs() {
@@ -119,8 +118,7 @@ public class ObjectManager {
 				key_Imgs[j][i] = key_Sprite.getSubimage(50*i, 50*j, 50, 50);
 			}
 		}
-		tree_Imgs = LoadSave.GetSpriteAtlas(LoadSave.TREE_1_ATLAS);
-		
+//		tree_Imgs = LoadSave.GetSpriteAtlas(LoadSave.TREE_1_ATLAS);
 			
 		
 	}
@@ -150,31 +148,31 @@ public class ObjectManager {
 		drawPotions(g);
 		drawKeys(g);
 		drawContainers(g);
-		drawTree(g);
+//		drawTree(g);
 
 	}
 
-	public void drawTree(Graphics g) {
-		if (trees.size() != 0 && playing.getTileManager().getCurrentTile().getFloorType() == Floor.WORLD) {
-			for (Tree t: trees)
-				if (t.isActive()) {
-					int type = 0;
-					
-					int screenX = (int) (t.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
-					int screenY = (int) (t.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
-		//				p.hitbox.x = screenX - 10;
-		//				p.hitbox.y = screenY;
-//					if (t.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
-//						t.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
-//						t.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
-//						t.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(tree_Imgs, screenX-10, screenY, TREE_1_WIDTH, TREE_1_HEIGHT, null);
-		
-		//					g.setColor(Color.pink);
-		//					g.drawRect((int) (t.hitbox.x), (int) (t.hitbox.y), (int) t.hitbox.width, (int) t.hitbox.height);
-					}
-				}
-		}
+//	public void drawTree(Graphics g) {
+//		if (trees.size() != 0 && playing.getTileManager().getCurrentTile().getFloorType() == Floor.WORLD) {
+//			for (Tree t: trees)
+//				if (t.isActive()) {
+//					int type = 0;
+//					
+//					int screenX = (int) (t.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
+//					int screenY = (int) (t.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
+//		//				p.hitbox.x = screenX - 10;
+//		//				p.hitbox.y = screenY;
+////					if (t.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
+////						t.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
+////						t.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
+////						t.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
+//					g.drawImage(tree_Imgs, screenX-10, screenY, TREE_1_WIDTH, TREE_1_HEIGHT, null);
+//		
+//		//					g.setColor(Color.pink);
+//		//					g.drawRect((int) (t.hitbox.x), (int) (t.hitbox.y), (int) t.hitbox.width, (int) t.hitbox.height);
+//					}
+//				}
+//		}
 	
 	
 	private void drawContainers(Graphics g) {
@@ -210,13 +208,13 @@ public class ObjectManager {
 				
 				int screenX = (int) (p.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
 				int screenY = (int) (p.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
-				p.hitbox.x = screenX - 10;
+				p.hitbox.x = screenX - 10+16;
 				p.hitbox.y = screenY;
 				if (p.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					p.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					p.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					p.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(potionImgs[type][p.getAniIndex()], screenX-10, screenY, POTION_WIDTH, POTION_HEIGHT, null);
+					g.drawImage(potionImgs[type][p.getAniIndex()], screenX-10+16, screenY, POTION_WIDTH, POTION_HEIGHT, null);
 
 					
 				}

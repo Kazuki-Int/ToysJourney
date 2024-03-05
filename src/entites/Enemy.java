@@ -63,7 +63,7 @@ public abstract class Enemy extends Entity {
 ////				newState(IDLE);
 			else
 				if (enemyType == SLIME)
-					newState(HIT);
+				newState(HIT);
 		}
 
 	}

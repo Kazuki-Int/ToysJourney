@@ -17,8 +17,7 @@ public class Boss extends Enemy {
 	public final float originY;
 	public int walkDir = -1;
 	public int actionCounter = 0;
-	public boolean attackTick = true;
-	public int currentIndex = -1;
+	public boolean attackTick;
 	public int counter = 0;
 
 	public Boss(float x, float y) {
@@ -55,34 +54,31 @@ public class Boss extends Enemy {
 		case B_IDLE:
 			if (isPlayerCloseForAttack(player))
 				newState(B_ATTACK);
-			
+			counter = 0;
 			break;			
 		case B_ATTACK:
-			System.out.println(counter+ " "+aniIndex);
-			counter++;
-			if (aniIndex != currentIndex)
-				attackTick = true;
-
-			if (aniIndex == 26 && !attackChecked ) {
-				checkPlayerHit(attackBox, player);
-			}
+			counter ++;
+			System.out.println(aniIndex + " " + counter);
 		
-			else if (aniIndex == 28 && !attackChecked ) {
-				checkPlayerHit(attackBox, player);
+			if (aniIndex == 29 && counter == 725) {
+ 				checkPlayerHit(attackBox, player);
 			}
-			else if (aniIndex == 31 && !attackChecked ) {
-				checkPlayerHit(attackBox, player);
+			if (aniIndex == 30 &&  counter == 750) {
+ 				checkPlayerHit(attackBox, player);
 			}
-
-			else if (aniIndex == 36 && !attackChecked ) {
-				checkPlayerHit(attackBox, player);
+			if (aniIndex == 31 && counter == 775) {
+ 				checkPlayerHit(attackBox, player);
 			}
-			else if (aniIndex == 43 && !attackChecked ) {
-				checkPlayerHit(attackBox, player);
+			if (aniIndex == 36 && counter == 900) {
+ 				checkPlayerHit(attackBox, player);
 			}
-			else if (aniIndex != 43 && attackChecked) {
-				counter = 0;
+			if (aniIndex == 39 && counter == 975 ) {
+ 				checkPlayerHit(attackBox, player);
 			}
+			if (aniIndex == 44 && counter == 1100 ) {
+ 				checkPlayerHit(attackBox, player);
+			}
+			
 			
 			break;
 		case B_HIT:

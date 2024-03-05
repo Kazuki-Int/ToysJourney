@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import entites.Boss;
 import entites.Building;
 import entites.Buildings;
+import entites.Decoration;
+import entites.Decorations;
 import entites.Mimic;
 import entites.Slime;
 import gamestates.Playing;
 import main.Game;
 import objectz.Containerz;
+import utilz.Constants;
 import utilz.HelpMethods;
 import utilz.LoadSave;
 import objectz.*;
@@ -37,14 +40,25 @@ public class TileManager {
 		this.cameraY = y;
 	}
 	
+	public void drawDecor(Graphics g, Decoration d) {
+		if (currentTile.getDecoArr() != null) {
+//			for (Decoration d : currentTile.getDecoArr()) {
+			int screenX = (int) (d.getPos().x * Game.TILES_SIZE - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
+			int screenY = (int) (d.getPos().y * Game.TILES_SIZE - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
+//			System.out.println(screenX + " ;1");
+			g.drawImage(d.getDecoType().getDecoImg(), screenX, screenY, (int)(d.getDecoType().getWidth() * Game.SCALE) , (int)(d.getDecoType().getHeight() * Game.SCALE) ,null);
+		}
+			
+	}
 
-	public void drawBuilding(Graphics g) {
-		if (currentTile.getBuildingArrayList() != null)
-			for (Building b : currentTile.getBuildingArrayList()) {
-				int screenX = (int) (b.getPos().x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
-				int screenY = (int) (b.getPos().y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
-				g.drawImage(b.getBuildingType().getHouseImg(), screenX, screenY, (int)(b.getWidth() * Game.SCALE) , (int)(b.getHeight() * Game.SCALE) ,null);
-			}	
+	public void drawBuilding(Graphics g, Building b) {
+	
+			int screenX = (int) (b.getPos().x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
+			int screenY = (int) (b.getPos().y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
+//			System.out.println(screenX + " ;2");
+
+			g.drawImage(b.getBuildingType().getHouseImg(), screenX, screenY, (int)(b.getWidth() * Game.SCALE) , (int)(b.getHeight() * Game.SCALE) ,null);
+			
     }
 
 	public void drawTiles(Graphics g) {
@@ -84,8 +98,8 @@ public class TileManager {
 	}
 	
 	public void draw(Graphics g) {
-		drawTiles(g);
-		drawBuilding(g); //added
+//		drawTiles(g);
+//		drawBuilding(g); //added
 	}
 	
 	public Doorway isPlayerOnDoorway(Rectangle2D.Float playerHitbox) { //added
@@ -132,12 +146,22 @@ public class TileManager {
 		buildingArrayList.add(new Building(new Point(1230,2000), Buildings.HOUSE, 168, 224));
 		buildingArrayList.add(new Building(new Point(1600,0), Buildings.BOSSROOM, 321, 256));
 		
+		//add deco
+		ArrayList<Decoration> decoArrayList = new ArrayList<Decoration>();
+		decoArrayList.add(new Decoration(new Point(21, 16), Decorations.TREE_2));
+		decoArrayList.add(new Decoration(new Point(23, 17), Decorations.TREE_1));
+		decoArrayList.add(new Decoration(new Point(23, 22), Decorations.BUSH));
+		decoArrayList.add(new Decoration(new Point(28, 25), Decorations.BUSH));
+		decoArrayList.add(new Decoration(new Point(28, 26), Decorations.SMALL_ROCK_1));
+		decoArrayList.add(new Decoration(new Point(25, 29), Decorations.SMALL_TREE_1));
+
+		
 		//add map
-		worldMap = new Tile(LoadSave.GetTileData(LoadSave.TILE_DATA, 40 , 40), Floor.WORLD, buildingArrayList);
-        houseMap = new Tile(LoadSave.GetTileData(LoadSave.HOUSE_TILE_DATA, 10, 10), Floor.HOUSE , null);
-        house2Map = new Tile(LoadSave.GetTileData(LoadSave.HOUSE_2_TILE_DATA, 10, 10), Floor.HOUSE_2, null);
-        caveMap = new Tile(LoadSave.GetTileData(LoadSave.CAVE_TILE_DATA, 40, 30), Floor.CAVE, null);
-        bossMap = new Tile(LoadSave.GetTileData(LoadSave.BOSS_ROOM_TILE_DATA, 21, 14), Floor.BOSSROOM, null);
+		worldMap = new Tile(LoadSave.GetTileData(LoadSave.TILE_DATA, 40 , 40), Floor.WORLD, buildingArrayList, decoArrayList);
+        houseMap = new Tile(LoadSave.GetTileData(LoadSave.HOUSE_TILE_DATA, 10, 10), Floor.HOUSE , null, null);
+        house2Map = new Tile(LoadSave.GetTileData(LoadSave.HOUSE_2_TILE_DATA, 10, 10), Floor.HOUSE_2, null, null);
+        caveMap = new Tile(LoadSave.GetTileData(LoadSave.CAVE_TILE_DATA, 40, 30), Floor.CAVE, null, null);
+        bossMap = new Tile(LoadSave.GetTileData(LoadSave.BOSS_ROOM_TILE_DATA, 21, 14), Floor.BOSSROOM, null, null);
 
         //add enemies
         caveMap.addMimic(new Mimic(16*Game.TILES_SIZE, 20*Game.TILES_SIZE));
@@ -151,13 +175,14 @@ public class TileManager {
         caveMap.addMimic(new Mimic(39*Game.TILES_SIZE, 4*Game.TILES_SIZE));
         caveMap.addMimic(new Mimic(25*Game.TILES_SIZE, 14*Game.TILES_SIZE));
         caveMap.addMimic(new Mimic(37*Game.TILES_SIZE, 3*Game.TILES_SIZE));
-        bossMap.addBoss(new Boss(7*Game.TILES_SIZE, 2 *Game.TILES_SIZE));
+        bossMap.addBoss(new Boss(7*Game.TILES_SIZE, 3 *Game.TILES_SIZE));
         worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 25 *Game.TILES_SIZE));
         worldMap.addSlime(new Slime(9*Game.TILES_SIZE, 20 *Game.TILES_SIZE));
         worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 17 *Game.TILES_SIZE));
 
         
         //add containers
+        caveMap.addContainerz(new Containerz(25*Game.TILES_SIZE,  13 * Game.TILES_SIZE, Constants.ObjectConstants.BOX));
         caveMap.addContainerz(new Containerz(38*Game.TILES_SIZE, 3*Game.TILES_SIZE, BARREL1));
         worldMap.addContainerz(new Containerz(3*Game.TILES_SIZE, 20*Game.TILES_SIZE, BARREL1));
         houseMap.addContainerz(new Containerz(3*Game.TILES_SIZE, 4*Game.TILES_SIZE, BARREL1));
@@ -186,7 +211,7 @@ public class TileManager {
         		worldMap, 
         		HelpMethods.CreateHitboxForDoorWayFloat(worldMap, 2), 
         		bossMap, 
-        		HelpMethods.CreateHitboxForDoorway(2, 12));
+        		HelpMethods.CreateHitboxForDoorway(0, 12));
         	
         
         currentTile = worldMap;

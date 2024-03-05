@@ -44,7 +44,7 @@ public class HelpMethods {
         float x = xTile * Game.TILES_SIZE + ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2));
 //        System.out.println(x);
         float y = yTile * Game.TILES_SIZE + ((Game.SCREEN_HEIGHT/2));
-        return new Rectangle2D.Float(x+32 , y, Game.TILES_SIZE, Game.TILES_SIZE);
+        return new Rectangle2D.Float(x+32 , y, Game.TILES_SIZE-10, Game.TILES_SIZE-10);
     }
 
 	

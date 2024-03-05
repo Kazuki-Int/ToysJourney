@@ -148,6 +148,7 @@ public class LoadSave {
 	public static final String GAME_BACKGROUND = "background/masterpiece_background.png";
 	public static final String HIMMEL_STATUS_BAR = "background/himmel_health.png";
 	public static final String FRIEREN_STATUS_BAR = "background/frieren_health.png";
+	public static final String BOSS_STATUS_BAR = "background/boss_health.png";
 	public static final String DEATH_SCREEN = "background/death_menu.png";
 	public static final String OPTIONS_MENU = "background/options_background.png";
 	public static final String SELECT_BACKGROUND = "background/select_background.png";
@@ -164,8 +165,16 @@ public class LoadSave {
 	public static final String POTION_ATLAS = "objects/potions_sprites.png";
 	public static final String CONTAINER_ATLAS = "objects/objects_sprites.png";
 	public static final String KEYHOUSE_ATLAS = "objects/key_sprites.png";
-	public static final String TREE_1_ATLAS = "objects/tree.png";
-
+	
+	//DECO
+	public static final String TREE_1 = "tree.png";
+	public static final String TREE_2 = "tree2.png";
+	public static final String S_TREE_1 = "smalltree.png";
+	public static final String S_TREE_2 = "smalltree2.png";
+	public static final String ROCK_1 = "rock1.png";
+	public static final String ROCK_2 = "rock2.png";
+	public static final String S_ROCK_1 = "smallrock.png";
+	public static final String BUSH_1 = "bush.png";
  	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -187,70 +196,6 @@ public class LoadSave {
 		return img;
 	}
 	
-//	public static ArrayList<Slime> GetSlimes() {
-//		ArrayList<Slime> list = new ArrayList<>();
-//		try {
-//			
-//			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
-//            File file = new File(ENEMY_DATA);
-//            
-//            Scanner scanner = new Scanner(file);
-//            int col = 0, row = 0;
-//            // Loop through each line in the file
-//            while (scanner.hasNextLine()) {
-//                String line = scanner.nextLine();
-//
-//                String[] numbers = line.split(" ");
-//
-//                for (String number : numbers) {
-//                	int index = Integer.parseInt(number);
-//                    if (index == SLIME) 
-//                    	list.add(new Slime(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
-//                    col++;
-//                }
-//                col = 0;
-//                row++;
-//            }
-//
-//            scanner.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//		
-//		return list;
-	
-//	public static ArrayList<Mimic> GetMimics() {
-//		ArrayList<Mimic> list = new ArrayList<>();
-//		try {
-//			
-//			InputStream is = LoadSave.class.getResourceAsStream(TILE_DATA);
-//            File file = new File(ENEMY_DATA);
-//            
-//            Scanner scanner = new Scanner(file);
-//            int col = 0, row = 0;
-//            // Loop through each line in the file
-//            while (scanner.hasNextLine()) {
-//                String line = scanner.nextLine();
-//
-//                String[] numbers = line.split(" ");
-//
-//                for (String number : numbers) {
-//                	int index = Integer.parseInt(number);
-//                    if (index == MIMIC) 
-//                    	list.add(new Mimic(col * Game.TILES_SIZE, row * Game.TILES_SIZE));
-//                    col++;
-//                }
-//                col = 0;
-//                row++;
-//            }
-//
-//            scanner.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//		
-//		return list;
-//	}
 	
 	public static int[][] GetTileData(String fileName, int width, int height) {
 		String[] rows = fileName.split("\n");

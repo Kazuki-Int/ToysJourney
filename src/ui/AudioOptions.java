@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 
 import gamestates.Gamestate;
 import main.Game;
-import objects.VolumeButton;
 
 public class AudioOptions {
 	

@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
-public abstract class Entity {
+public abstract class Entity implements Comparable<Entity>{
 	
 	protected float originX, originY;
 	protected float x, y;
@@ -20,6 +20,7 @@ public abstract class Entity {
 	protected Rectangle2D.Float powerAttackBox;
 	protected float walkSpeed = 1.0f * Game.SCALE;
 	protected float daiwalkSpeed = (float)(1.0f * Game.SCALE / Math.sqrt(2));
+	private float lastCameraYValue = 0;
 
 	
 	public Entity(float x, float y, int width, int height) {
@@ -27,6 +28,7 @@ public abstract class Entity {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		initHitbox(x, y, width, height);
 	}
 	
 //	public void drawAttackBox(Graphics g) {
@@ -40,7 +42,7 @@ public abstract class Entity {
 	}
 	
 	protected void initHitbox(float x, float y, int width, int height) {
-		hitbox = new Rectangle2D.Float(x, y, width, height);
+		this.hitbox = new Rectangle2D.Float(x, y, width, height);
 	}
 	
 //	protected void updateHitbox() {
@@ -59,5 +61,13 @@ public abstract class Entity {
 	public int getAniIndex() {
 		return aniIndex;
 	}
+	
+	public void setLastCameraYValue(float lastCameraYValue) {
+        this.lastCameraYValue  = lastCameraYValue;
+    }
+	
+	public int compareTo(Entity other) {
+        return Float.compare(hitbox.x - lastCameraYValue, other.hitbox.x - other.lastCameraYValue);
+    }
 
 }

@@ -9,7 +9,7 @@ import utilz.LoadSave;
 public enum Buildings {
 	
 	HOUSE(LoadSave.HOUSE, 82, 175, 37, 49),// building pic and doorway pos
-	BOSSROOM(LoadSave.BOSS_ROOM , 145, 178, 56, 64);	
+	BOSSROOM(LoadSave.BOSS_ROOM , 132, 195, 46, 60);	
 	
 	BufferedImage houseImg;
 	Rectangle2D.Float hitboxDoorway;

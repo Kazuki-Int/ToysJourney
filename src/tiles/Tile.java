@@ -1,10 +1,11 @@
 package tiles;
 
-import java.awt.Container;
 import java.util.ArrayList;
 
 import entites.Boss;
 import entites.Building;
+import entites.Decoration;
+import entites.Entity;
 import entites.Mimic;
 import entites.Slime;
 import objectz.*;
@@ -19,16 +20,47 @@ public class Tile {
 	private ArrayList<Containerz> containerArrayList;
 	private ArrayList<Boss> bossArrayList;
 	private ArrayList<Slime> slimeArrayList;
+	private ArrayList<Decoration> decoArrayList;
 
-	public Tile(int[][] tileData, Floor floortype, ArrayList<Building> buildingarrArrayList) {
+	public Tile(int[][] tileData, Floor floortype, ArrayList<Building> buildingarrArrayList, ArrayList<Decoration> decoArrayList) {
 		this.tileData = tileData;
 		this.floorType = floortype;
-		this.buildingarrArrayList = buildingarrArrayList;
+		
 		this.doorwayArrayList = new ArrayList<>(); //added
 		this.mimicArrayList = new ArrayList<>();
 		this.containerArrayList = new ArrayList<>();
 		this.bossArrayList = new ArrayList<Boss>();
 		this.slimeArrayList = new ArrayList<Slime>();
+		
+		this.buildingarrArrayList = buildingarrArrayList;
+		this.decoArrayList = decoArrayList;
+	}
+	
+	public Entity[] getDrawableList() {
+//		if (decoArrayList != null && buildingarrArrayList!= null) {
+	        Entity[] list = new Entity[getDrawableAmount()];
+	        int i = 0;
+	
+//	        for (Building b : buildingarrArrayList)
+//	            list[i++] = b;
+	        for (Decoration d : decoArrayList)
+	            list[i++] = d;
+	        return list;
+//		}
+//		return null;
+    }
+	
+	private int getDrawableAmount() {
+        int amount = 0;
+//        amount += buildingarrArrayList.size();
+        amount += decoArrayList.size();
+        amount++; //Player
+//        System.out.println(amount);
+        return amount;
+    }
+	
+	public ArrayList<Decoration> getDecoArr() {
+		return decoArrayList;
 	}
 	
 	public void addSlime(Slime slime) {
