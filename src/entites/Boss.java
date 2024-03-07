@@ -58,7 +58,7 @@ public class Boss extends Enemy {
 			break;			
 		case B_ATTACK:
 			counter ++;
-			System.out.println(aniIndex + " " + counter);
+//			System.out.println(aniIndex + " " + counter);
 		
 			if (aniIndex == 29 && counter == 725) {
  				checkPlayerHit(attackBox, player);

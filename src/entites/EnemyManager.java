@@ -88,6 +88,8 @@ public class EnemyManager {
 				if (b.isActive()) {
 					b.update(player);
 					updateHealthBar();
+				} else {
+					player.hasKey1 = 1000;
 				}
 	}
 	

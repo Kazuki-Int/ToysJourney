@@ -13,7 +13,8 @@ public enum Decorations {
 	BUSH(LoadSave.BUSH_1, 52, 31),
 	ROCK_1(LoadSave.ROCK_1, 49, 27),
 	ROCK_2(LoadSave.ROCK_2, 43, 22),
-	SMALL_ROCK_1(LoadSave.S_ROCK_1, 20, 14);
+	SMALL_ROCK_1(LoadSave.S_ROCK_1, 20, 14),
+	ELEPHANT(LoadSave.ELEPHANT, 91, 80);
 	
 	BufferedImage decoImg;
 	int width, height;

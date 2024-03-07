@@ -154,6 +154,7 @@ public class TileManager {
 		decoArrayList.add(new Decoration(new Point(28, 25), Decorations.BUSH));
 		decoArrayList.add(new Decoration(new Point(28, 26), Decorations.SMALL_ROCK_1));
 		decoArrayList.add(new Decoration(new Point(25, 29), Decorations.SMALL_TREE_1));
+		decoArrayList.add(new Decoration(new Point(34, 36), Decorations.ELEPHANT));
 
 		
 		//add map
@@ -176,7 +177,8 @@ public class TileManager {
         caveMap.addMimic(new Mimic(25*Game.TILES_SIZE, 14*Game.TILES_SIZE));
         caveMap.addMimic(new Mimic(37*Game.TILES_SIZE, 3*Game.TILES_SIZE));
         bossMap.addBoss(new Boss(7*Game.TILES_SIZE, 3 *Game.TILES_SIZE));
-        worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 25 *Game.TILES_SIZE));
+        worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 23 *Game.TILES_SIZE));
+        caveMap.addSlime(new Slime(12 * Game.TILES_SIZE, 14 * Game.TILES_SIZE));
         worldMap.addSlime(new Slime(9*Game.TILES_SIZE, 20 *Game.TILES_SIZE));
         worldMap.addSlime(new Slime(7*Game.TILES_SIZE, 17 *Game.TILES_SIZE));
 
@@ -185,8 +187,9 @@ public class TileManager {
         caveMap.addContainerz(new Containerz(25*Game.TILES_SIZE,  13 * Game.TILES_SIZE, Constants.ObjectConstants.BOX));
         caveMap.addContainerz(new Containerz(38*Game.TILES_SIZE, 3*Game.TILES_SIZE, BARREL1));
         worldMap.addContainerz(new Containerz(3*Game.TILES_SIZE, 20*Game.TILES_SIZE, BARREL1));
+        bossMap.addContainerz(new Containerz(20*Game.TILES_SIZE,  8 * Game.TILES_SIZE, Constants.ObjectConstants.BOX));
         houseMap.addContainerz(new Containerz(3*Game.TILES_SIZE, 4*Game.TILES_SIZE, BARREL1));
-        house2Map.addContainerz(new Containerz(3*Game.TILES_SIZE, 4*Game.TILES_SIZE, BARREL1));
+        house2Map.addContainerz(new Containerz(7*Game.TILES_SIZE, 3*Game.TILES_SIZE, BARREL1));
         
         //add doorway
         HelpMethods.ConnectTwoDoorways(

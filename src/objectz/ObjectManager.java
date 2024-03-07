@@ -91,7 +91,7 @@ public class ObjectManager {
 	
 	public void applyKeyToPlayer(Key k) {
 		if (k.getObjType() == KEY_1)
-			playing.getPlayer().hasKey1 += 1;
+			playing.getPlayer().hasKey1 += 2;
 	}
 	
 	private void loadImgs() {
@@ -208,13 +208,13 @@ public class ObjectManager {
 				
 				int screenX = (int) (p.worldX - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
 				int screenY = (int) (p.worldY - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
-				p.hitbox.x = screenX - 10+16;
-				p.hitbox.y = screenY;
+				p.hitbox.x = screenX - 10+16+16;
+				p.hitbox.y = screenY+16+16;
 				if (p.worldX + Game.TILES_SIZE > cameraX - ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) && 
 					p.worldX - Game.TILES_SIZE < cameraX + ((Game.SCREEN_WIDTH/2)-(Game.TILES_SIZE/2)) &&
 					p.worldY + Game.TILES_SIZE > cameraY - ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2)) && 
 					p.worldY - Game.TILES_SIZE < cameraY + ((Game.SCREEN_HEIGHT/2)-(Game.TILES_SIZE/2))) {
-					g.drawImage(potionImgs[type][p.getAniIndex()], screenX-10+16, screenY, POTION_WIDTH, POTION_HEIGHT, null);
+					g.drawImage(potionImgs[type][p.getAniIndex()], screenX-10+16+16, screenY+16+16, POTION_WIDTH, POTION_HEIGHT, null);
 
 					
 				}
@@ -253,19 +253,16 @@ public class ObjectManager {
 	
 	
 	public void resetAllObject() {
-		potions.clear();
-		keys.clear();
-
-		for (Potion p: potions) 
-			p.reset();
-		
-		
-		if (playing.getTileManager().getCurrentTile().getContainerArr() != null) 
+//		potions.clear();
+//		keys.clear();		
+		if (playing.getTileManager().getCurrentTile().getContainerArr() != null) {
 			for (Containerz c: playing.getTileManager().getCurrentTile().getContainerArr())
 				c.reset();
-		
-		for (Key k: keys)
-			k.reset();
+
+			potions.clear();
+			keys.clear();
+			
+		}
 	}
 
 }

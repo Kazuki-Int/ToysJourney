@@ -104,9 +104,11 @@ public class Playing extends State implements Statemethods {
 	private void checkForDoorway() { // added
         Doorway doorwayPlayerIsOn = tileManager.isPlayerOnDoorway(player.getHitbox());
 //        System.out.println(player.getHitbox().x);
-        if (doorwayPlayerIsOn != null) {
+        if (doorwayPlayerIsOn != null && player.hasKey1 >= 1) {
         	if (!doorwayJustPassed) {
             	tileManager.changeMap(doorwayPlayerIsOn.doorwayConnectedTo);
+            	player.hasKey1-=1;
+            	System.out.println(player.hasKey1);
 //            	player.hasKey1;
 //            	System.out.println(getTileManager().getCurrentTile());
         		getGame().getAudioPlayer().setTileSong(getTileManager().getCurrentTile());
@@ -129,6 +131,8 @@ public class Playing extends State implements Statemethods {
 			
 //		
 		tileManager.drawTiles(g);
+		enemyManager.draw(g, paused, gameOver);
+		objectManager.draw(g);
 		if (tileManager.getCurrentTile().getBuildingArrayList() != null)
 			for (Building b : tileManager.getCurrentTile().getBuildingArrayList())
 				tileManager.drawBuilding(g, b);
@@ -136,8 +140,6 @@ public class Playing extends State implements Statemethods {
             drawSortedEntities(g);
 //            System.out.println("drawwwwwww");
 		}
-		enemyManager.draw(g, paused, gameOver);
-		objectManager.draw(g);
 //		player.render(g);
 		
 		if (paused)
