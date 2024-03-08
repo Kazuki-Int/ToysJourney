@@ -153,11 +153,13 @@ public class Playing extends State implements Statemethods {
             
             if (e instanceof Decoration decoration) {
                 tileManager.drawDecor(g, decoration);
+//                System.out.println(decoration.getDecoType());
 //                System.out.println("decoo");
 //            } else if (e instanceof Building building) {
 //                tileManager.drawBuilding(g,building);
             } else if (e instanceof Player) {
         		player.render(g);
+//        		System.out.println("PLAYER");
             }
         }
     }

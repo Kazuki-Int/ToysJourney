@@ -6,12 +6,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
-public abstract class Entity implements Comparable<Entity>{
+public class Entity implements Comparable<Entity>{
 	
 	protected float originX, originY;
 	protected float x, y;
 	protected int width, height;
-	protected Rectangle2D.Float hitbox;
+	public Rectangle2D.Float hitbox;
 	protected int aniTick, aniIndex; // 15
 	protected int state;
 	protected int maxHealth;
@@ -67,7 +67,7 @@ public abstract class Entity implements Comparable<Entity>{
     }
 	
 	public int compareTo(Entity other) {
-        return Float.compare(hitbox.x - lastCameraYValue, other.hitbox.x - other.lastCameraYValue);
+        return Float.compare(hitbox.y, other.hitbox.y);
     }
 
 }

@@ -243,7 +243,7 @@ public class ObjectManager {
 					
 				}
 			}
-			else {
+			else if (playing.getPlayer().hasKey1 != 0){
 				int type = 0;
 				if (k.getObjType() == KEY_2)
 					type = 1;

@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import entites.Building;
+import entites.Decoration;
 import main.Game;
 import tiles.Doorway;
 import tiles.Floor;
@@ -57,12 +58,28 @@ public class HelpMethods {
 		doorwayTwo.connectDoorway(doorwayOne);
 	}
 	
-	public static boolean CanWalkHere(Rectangle2D hitbox, Float x, Float y, Tile currentTile) { //added
+	public static boolean CanWalkHere(Rectangle2D hitbox, Float x, Float y, Tile currentTile, float dx, float dy) { //added
 		if (x - hitbox.getWidth()/2 < 0 || y - hitbox.getHeight()/2 < 0)
 			return false;
 		
 		if (x + hitbox.getWidth()/2  >= currentTile.getArrayWidth() * Game.TILES_SIZE || y + hitbox.getHeight()/2 >= currentTile.getArrayHeight() * Game.TILES_SIZE)
 			return false;
+		
+		Rectangle2D.Float temphitbox = new Rectangle2D.Float((int)hitbox.getX() - dx, (int)(hitbox.getY()) - dy, (int)(hitbox.getWidth()), (int)(hitbox.getHeight()));
+		if(currentTile.getDecoArr() != null) {
+			for(Decoration d: currentTile.getDecoArr()) {
+				if (d.getHitbox().intersects(temphitbox))
+					return false;
+				
+		if(currentTile.getBuildingArrayList() != null) {
+			for(Building b: currentTile.getBuildingArrayList()) {
+				if (b.getHitbox().intersects(temphitbox))
+					return false;
+			}
+		}
+
+			}
+		}
 		
 		Point[] tileCords = GetTileCords(hitbox, x, y);
 		int[] tileIds = GetTileIds(tileCords, currentTile.getTileData());

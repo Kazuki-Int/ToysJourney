@@ -1,7 +1,10 @@
 package tiles;
 
+import static utilz.Constants.EnemyConstants.MIMIC_HEIGHT;
+import static utilz.Constants.EnemyConstants.MIMIC_WIDTH;
 import static utilz.Constants.ObjectConstants.BARREL1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
@@ -43,10 +46,15 @@ public class TileManager {
 	public void drawDecor(Graphics g, Decoration d) {
 		if (currentTile.getDecoArr() != null) {
 //			for (Decoration d : currentTile.getDecoArr()) {
-			int screenX = (int) (d.getPos().x * Game.TILES_SIZE - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
-			int screenY = (int) (d.getPos().y * Game.TILES_SIZE - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
+			int screenX = (int) (d.getPos().x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
+			int screenY = (int) (d.getPos().y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
+//			d.hitbox.y = d.getDecoType().getHitboxHeight();
+			d.hitbox.x = screenX + d.getDecoType().getXOffset() * Game.SCALE;
+			d.hitbox.y = screenY + d.getDecoType().hitboxRoof * Game.SCALE;
 //			System.out.println(screenX + " ;1");
 			g.drawImage(d.getDecoType().getDecoImg(), screenX, screenY, (int)(d.getDecoType().getWidth() * Game.SCALE) , (int)(d.getDecoType().getHeight() * Game.SCALE) ,null);
+//			g.setColor(Color.pink);
+//			g.drawRect((int) (d.hitbox.x), (int) (d.hitbox.y), (int) (d.hitbox.width), (int) (d.hitbox.height));
 		}
 			
 	}
@@ -56,8 +64,12 @@ public class TileManager {
 			int screenX = (int) (b.getPos().x - cameraX + (int) ((Game.SCREEN_WIDTH/2)-(Game.PLAYER_WIDTH*Game.SCALE/2)));
 			int screenY = (int) (b.getPos().y - cameraY + (int) ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT*Game.SCALE/2)));
 //			System.out.println(screenX + " ;2");
-
+			b.hitbox.x = screenX;
+			b.hitbox.y = screenY;
+			
 			g.drawImage(b.getBuildingType().getHouseImg(), screenX, screenY, (int)(b.getWidth() * Game.SCALE) , (int)(b.getHeight() * Game.SCALE) ,null);
+//			g.setColor(Color.pink);
+//			g.drawRect((int) (b.hitbox.x), (int) (b.hitbox.y), (int) (b.hitbox.width), (int) (b.hitbox.height));
 			
     }
 
@@ -117,6 +129,8 @@ public class TileManager {
 //		System.out.println(doorwayTarget.get);
 		float cy = doorwayTarget.getPosOfDoorway().y - ((Game.SCREEN_HEIGHT/2)-(Game.PLAYER_HEIGHT/2));
 //		System.out.println(cx + " : " + cy);
+		if (currentTile == worldMap)
+			cy += 100;
 		playing.getPlayer().setCameraValues(cx, cy);
 		cameraX = cx;
 		cameraY = cy;
@@ -148,13 +162,27 @@ public class TileManager {
 		
 		//add deco
 		ArrayList<Decoration> decoArrayList = new ArrayList<Decoration>();
-		decoArrayList.add(new Decoration(new Point(21, 16), Decorations.TREE_2));
-		decoArrayList.add(new Decoration(new Point(23, 17), Decorations.TREE_1));
-		decoArrayList.add(new Decoration(new Point(23, 22), Decorations.BUSH));
-		decoArrayList.add(new Decoration(new Point(28, 25), Decorations.BUSH));
-		decoArrayList.add(new Decoration(new Point(28, 26), Decorations.SMALL_ROCK_1));
-		decoArrayList.add(new Decoration(new Point(25, 29), Decorations.SMALL_TREE_1));
-		decoArrayList.add(new Decoration(new Point(34, 36), Decorations.ELEPHANT));
+//		decoArrayList.add(new Decoration(new Point(28, 25), Decorations.BUSH));
+		decoArrayList.add(new Decoration(new Point(23 * Game.TILES_SIZE, 22 * Game.TILES_SIZE), Decorations.BUSH));
+		decoArrayList.add(new Decoration(new Point(22* Game.TILES_SIZE, 22* Game.TILES_SIZE), Decorations.SMALL_ROCK_1));
+		decoArrayList.add(new Decoration(new Point(23* Game.TILES_SIZE, 17* Game.TILES_SIZE), Decorations.TREE_1));
+		decoArrayList.add(new Decoration(new Point(21* Game.TILES_SIZE, 16* Game.TILES_SIZE), Decorations.TREE_2));
+		
+		decoArrayList.add(new Decoration(new Point(22* Game.TILES_SIZE, 29* Game.TILES_SIZE), Decorations.ROCK_1));
+		
+		decoArrayList.add(new Decoration(new Point(37* Game.TILES_SIZE, 27* Game.TILES_SIZE), Decorations.ROCK_2));
+
+		decoArrayList.add(new Decoration(new Point(16* Game.TILES_SIZE, 33* Game.TILES_SIZE), Decorations.TREE_2));
+		decoArrayList.add(new Decoration(new Point(15* Game.TILES_SIZE, 31* Game.TILES_SIZE), Decorations.TREE_1));
+
+		
+		decoArrayList.add(new Decoration(new Point(28* Game.TILES_SIZE, 26* Game.TILES_SIZE), Decorations.SMALL_ROCK_1));
+		
+		decoArrayList.add(new Decoration(new Point(25* Game.TILES_SIZE, 29* Game.TILES_SIZE), Decorations.SMALL_TREE_1));
+		decoArrayList.add(new Decoration(new Point(26* Game.TILES_SIZE, 31* Game.TILES_SIZE), Decorations.SMALL_ROCK_1));
+		
+		decoArrayList.add(new Decoration(new Point(34* Game.TILES_SIZE, 37* Game.TILES_SIZE), Decorations.ELEPHANT));
+
 
 		
 		//add map

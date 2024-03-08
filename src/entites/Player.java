@@ -84,6 +84,7 @@ public class Player extends Entity {
 		this.daiwalkSpeed = (float) (Game.SCALE * 1.0f / Math.sqrt(2));
 //		calcStartCameraValues();
 		initHitbox(originX, originY, width, height);
+//		System.out.println(hitbox.x);
 		initAttackBox();
 		initPowerAttackBox();
 
@@ -420,10 +421,11 @@ public class Player extends Entity {
 			}	
 		}
 		
-		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile())) { //added
+		if (HelpMethods.CanWalkHere(hitbox ,cameraX - xDelta, cameraY - yDelta, playing.getTileManager().getCurrentTile(), xDelta, yDelta)) { //added
 			cameraX += -xDelta;
 			cameraY += -yDelta;
-			System.out.println(cameraX + " : " + cameraY);
+//			System.out.println(hitbox.x);
+//			System.out.println(cameraX + " : " + cameraY);
 			moving = true;
 		}
 	}
@@ -551,8 +553,8 @@ public class Player extends Entity {
 		playing.getGame().getAudioPlayer().setTileSong(playing.getTileManager().getCurrentTile());
 
 		
-		cameraX = (float) (20 * Game.TILES_SIZE);
-		cameraY = (float) (20 * Game.TILES_SIZE);
+		cameraX = 2195;
+		cameraY = 2236;
 		
 	}
 

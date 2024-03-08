@@ -2,6 +2,8 @@ package entites;
 
 import java.awt.Point;
 
+import main.Game;
+
 
 
 public class Building extends Entity{
@@ -11,7 +13,7 @@ public class Building extends Entity{
 	private int width, height;
 	
 	public Building(Point pos, Buildings buildingType, int width, int height) {
-		super(pos.x, pos.y, width, height);
+		super(pos.x, pos.y, width * (int)Game.SCALE, (int) (buildingType.getHitboxFloor()*Game.SCALE));
         this.pos = pos;
         this.buildingType = buildingType;
         this.width = width;
